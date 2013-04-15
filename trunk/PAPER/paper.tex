@@ -49,18 +49,22 @@
 
 %------------------------------------------------------------------------------
 
-\title{A distribuited segment-based routing for bla bla...} 
+\title{A Distribuited Segment-based Approach for Topology-agnostic Nano Networks Routing} 
 
-\author{\IEEEauthorblockN{Maurizio Palesi} \IEEEauthorblockA{Affiliation1\\ email1} \and
-  \IEEEauthorblockN{Davide Patti} \IEEEauthorblockA{Affiliation2\\ email2} \and
-  \IEEEauthorblockN{Christof Teuscher} \IEEEauthorblockA{Affiliation3\\ email3}}
+\author{
+  \IEEEauthorblockN{Vincenzo Catania} \IEEEauthorblockA{Affiliation3\\ email3}} \and
+  \IEEEauthorblockN{Davide Patti} \IEEEauthorblockA{Affiliation2\\ email2} 
 
 \maketitle
 
 %------------------------------------------------------------------------------
 
 \begin{abstract}
-  ...
+In this paper we present a first effort for a distributed
+segment-based approach to routing which exploits the already-proven
+qualities of segment-based routing without requiring as graph
+topology as input, and also without requiring a centralized setup
+phase.
 \end{abstract}
 
 %------------------------------------------------------------------------------
@@ -70,7 +74,48 @@
 %------------------------------------------------------------------------------
 
 \section{Introduction}
-% intro to the potential of Self-assembled nano architectures
+Exploring long term alternatives to the CMOS technology is gaining
+more and more revelance as the scaling trend of such devices continue
+to introduce new challenges. Power density, defect tolerance, testing
+costs and many other issues are only partially mitigated by multicore
+approaches~\ref{TODO}, but growing computing requirements will eventually need
+even more radical architectural modifications and new paradigms in
+future computer design.
+
+DNA-self assembled nanoscale architectures~\ref{TOOD} are emerging as promising
+technology due its tera/peta scale of integration, defect tolerance
+tolerance and potential computing capabilities~\ref{TODO}. This
+technologies is certainly still at its early stage of development,
+however different laboratory demos and prof-of-concepts architectures
+have been presented~\ref{TODO}.
+
+The main idea beyond this approach is to exploit the regularity and
+stabiliy of DNA sequences in orders to create grids onto which
+nano-devices (e.g. nanowires and CNFET~\ref{TODO}) can be attached by
+designing approapriate DNA tags. A detailed description of the
+chemical properties involved is beyond the scope of this paper, since
+we focus of the main challenges that this new fabrication process
+introduces in Computer Design. These are:
+\begin{itemize}
+\item small scale control of placement and connectivity
+\item large scal randomness
+\item high defect rates
+\end{itemize}
+
+
+This aspects of a DNA-self assembled process leads some architectural implications
+when approaching to the Computer Design. Architecture must consist of
+a distributed network of small computing and storage nodes, randomly
+connected. Data will be travelling on packets that must be routed
+using a topology-agnostic strategy, since no particular regularity can
+be assumed in such network. 
+
+In this paper we present a first effort for a distributed
+segment-based approach to routing which exploits the already-proven
+qualities of segment-based routing without requiring as graph
+topology as input, and also without requiring a centralized algorithm
+which perform a \"segment setup\" phase.
+
 % irregular topology -> how to route ?
 
 
@@ -85,6 +130,10 @@
 %   complex irregular topologies where a graph could never be
 %   available.
 ...
+Different architectures using nano-scale devices have been presented.A
+general purpose architecture for Self-Assembled Nano-Electronics has
+been presented to demostrate the potential of
+DNA-selfassembly~\ref{TODO}
 
 %------------------------------------------------------------------------------
 
