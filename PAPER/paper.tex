@@ -143,11 +143,312 @@ DNA-selfassembly~\ref{TODO}
 ...
 %------------------------------------------------------------------------------
 
-\section{DiSR execution model}
-% - what is executed at each node, which information is required
-...
+\section{Detailed DiSR model}
+We distinct among two different kind of data stored at each node:
+local environment data (LED) and dynamic behaviour status (DBS).
 
+\subsection{Local Environment Data (LED)}
+
+The LED is like a snapshot of the DiSR algorithm on each node,
+consisting in the following variables:
+
+segID:a value used to specify a segment id for the node. Depending on
+the values of visited/tvisited variables below, the node can be
+assigned to or candidate for a specific segment id.  
+
+visited : a boolean value corresponding to the visited status. If visited is true
+and segID is different from NULL, then segID specifies the segment id
+the node belongs to. Note that a value different from NULL does not
+necessarily mean the node has been assigned to some segment (e.g. when
+searching starting segment is set visited by default even if not yet
+assigned to any segment). When false, the node is not yet visited.
+
+tvisited: a boolean value corresponding to the tvisited status. If
+true, the node is being considered as candidate for a segment, and the
+segID specifies the segment id for which the node it's candidate. When
+false, the node is not currently tvisited.  
+
+link_visited[]: an array
+of values representing information about attached links, that is, the
+ID of the segment owning each link. When NULL, a link has not yet been
+marked as visited. TDB: do we need to introduce some value for the
+“bridge” status ? (e.g. a node connecting the terminal node of a
+subnet with the starting one of another) 
+
+link_tvisited[]: an array of
+values representing information about attached links, e.g. the ID of
+the segment for which the link is candidate. When NULL, the link is
+currently not tvisited.  starting: boolean, true if the node it's a
+starting node for the subnet terminal:boolean, true if the node it's a
+terminal node for the subnet.  subnet:the subnet the node belongs to.
+If NULL, none.
+
+
+\subsection{Dynamic Behaviour Status (DBS)}
+In addition to the LED variables
+described above, further information should be stored in order to
+capture the current dynamic behaviour of the node. This is represented
+by the dynamic behaviour status (DBS) variable, which strictly depends
+on the LED data and the events occurring at the node. The DBS can have
+the following values:
+
+FREE: a node that has  not been yet considered  by the DiSR algorithm.
+The node is not marked as visited/tvisited/terminal/starting.
+
+BOOTSTRAP: a node which has been explicitly set as bootstrap node from
+an upper layer via. This is required because a
+
+STARTING_SEGMENT_REQUEST packet should be injected in order to start
+the whole process.
+
+ACTIVE_SEARCHING: a node from which a find process of new segments has
+been started and not yet cancelled or confirmed. This happens when all
+the following conditions are matched: the node is marked as visited,
+that is visited = TRUE 
+
+CHECK: segID is set to some value reflecting
+the segment request sent there is a link that is being investigated by
+the node, that is a tvisited_link marked with the same id of the node 
+
+CANDIDATE: a node currently candidate for belonging to some segment
+with id segid, not being itself the node from which the find process
+was started. The following conditions should be matched: tvisited =
+true, with segID=X different from node's id.  Two links set as
+link_tvisited with id X. Let’s refer them as  links 'i' and 'j'. Then
+link_tvisited[i] was set = X when the find process from an adjacent
+node reached the current node, while link_tvisited[j] has been set to
+X when the node itself started to investigate its free links for the
+segment request with id X. Note that while investigating its attached
+links, if the find process fails along path 'j', the current node can
+investigate another free node 'k' if suitable.  
+
+CANDIDATE_STARTING:
+same as above, but the node is currently being considered as candidate
+for starting segment. Two main differences: Can confirm
+STARTING_SEGMENT_CONFIRM with the same segID when receiving a normal
+SEGMENT_REQUEST: Overwrites its status setting it to CANDIDATE for the
+segID frees the links previously set as tvisited during flooding
+
+ASSIGNED: a node for which the segment has been determined.  The
+segment segID attribute value is set to some id X different from NULL.
+The visited value is true NOTE: an ASSIGNED state is a quick temporary
+state, since it becomes ACTIVE_SEARCHING if a not (visited/tvisited)
+link is suitable for searching new segments (see next_visited
+procedure on paper) 
+
+PROCESSED: a node which should take no other
+action, since all its links have been investigated. 
+
+\subsection{Packets types Required}
+TODO: a lot of description is already present elsewhere, make this
+section smaller...
+
+SEGMENT_REQUEST: used to search candidates for a segment (not the
+first of the subnet, managed separately as a starting segment).
+
+SEGMENT_CONFIRM: used to create a segment. When received, if the node
+status is tvisited with a segID corresponding to the one indicated in
+the packet, the node learns to belong to the segment associated to the
+id. Further, it should forward this packet to the link where the
+original SEGMENT_REQUEST packet came from, so that all candidate nodes
+can learn the segment id they belong to. The following LED shoud be
+updated: The state of the node changes from tvisited to visited.  the
+link_tvisited previously set with the segID should be invalidated the
+link_visited variable associated to the incoming confirm should be set
+as segID. Note that if the request was flooded across different links,
+the link_visited variable associated to the other paths shouldn’t be
+set.  the link_visited variable associated to the link from which the
+request was originated should be set segID
+
+STARTING_SEGMENT_REQUEST: the request for the first segment of a
+subnet should be differentiated since all nodes (except the starting
+one) must forward the packet using a flooding mechanism. This is
+necessary since the request packet must reach the starting node, which
+is the only node marked as visited. As stated elsewhere, it should
+remembered that the first segment of each subnet it's  a loop that
+beginning/ending on the starting node.
+
+
+SEGMENT_CANCEL: used when the process of searching a segment along a
+certain path fails. When a node discovers that the path that includes
+the node itself is no more suitable, a SEGMENT_CANCEL is sent back
+across the link from which the SEGMENT_REQUEST was received.  Possible
+reasons for that: The node it’s already candidate for another segment
+The node it’s free but can’t find a free link (according the
+cyclelinks timeout) The node it’s tvisited for the same request id,
+previously forwarded that request along some free direction, but now
+it’s receiving a a cancel request and has no more free links
+
+\section{DiSR Execution Phases}
+
+\subsection{Creating the starting segment}
+
+Injecting request: all nodes have status FREE, except for a
+“bootstrap node” with status BOOTSTRAP, set by some signal from an
+upper layer via. This bootstrap node sets itself as “visited” and
+changes its status to ACTIVE_SEARCHING, sending a
+STARTING_SEGMENT_REQUEST across one of its not (visited/tvisited)
+links and.  
+
+Flooding: Each node receiving a STARTING_SEGMENT_REQUEST,
+if not (visited/tvisited),  forwards  to the attached links that are
+not already marked as visited/tvisited using a flooding mechanism.
+Each of these links is then marked as tvisited with the segment id
+associated to the packet. Note that a node that has already received a
+STARTING_SEGMENT_REQUEST packet can simply ignore further packets
+associated to the same request, since has already contributed to the
+flooding. Note also that each of these packets has a max_segment_hops
+field to prevent packets from travelling undefinitively.  
+
+setup of the starting-segment: when this STARTING_SEGMENT_REQUEST packet reaches
+the starting node (from a different link, of course), the starting
+segment is found. Then the starting node sends back a SEGMENT_CONFIRM
+packet with the same id along the link from which it received the
+STARTING_SEGMENT_REQUEST. Each node do same by changing its own status
+from tvisited to visited. So the confirmation packet is sent back from
+node to node and the starting segment is created. 
+
+Note: A node knows to be tvisited due a  STARTING_SEGMENT_REQUEST.
+Then, when receiving a SEGMENT_REQUEST for other (not the starting)
+segment, simply knows to cancel the tvisited status of the node and
+its links, since if a segment arrived it means that a starting segment
+has already been found a there’s no need to keep the tvisited status
+for those broadcast status. What happens to nodes not receiving these
+segment request? they simply remain tvisited and after a timeout reset
+their state as free. But they could also remain tvisited for the
+starting segment, since this doesn’t affect their behaviour for future
+segment requests.  
+
+failure: [TODO] should we handle this case ? i.e.
+marking as terminal ?
+
+\subsection{Finding other segments}
+
+Injecting request: A node in the ASSIGNED state can initiate a search for a
+segment, by sending a SEGMENT_REQUEST with an across one of its free
+links. Note that, since this is not the starting segment, in this case
+the packet should not reach the initiator, but just another visited
+node
+
+setup of the segment: The find process is successfull when a visited
+node receives the SEGMENT_REQUEST packet. Then, a SEGMENT_CONFIRM is
+sent back along the path that originated the request.  Failing while
+searching a segment: a node received a SEGMENT_REQUEST packet but
+matched one of the following conditions: the node is free but has no
+more suitable free links (can’t forward the SEGMENT_REQUEST) the node
+is tvisited candidate for another find process the request packet
+exceeded the max_segment_hops limit.  In all these cases the node
+sends back a SEGMENT_CANCEL along the proper link modifying its state
+to free. Each of the subsequent nodes will forward this SEGMENT_CANCEL
+only if no more free links can be explored starting from them.
+
+
+\subsection{Intra-node vs Inter-node parallelism}
+In the processes described above, we assumed that each node in the
+READY_SEARCHING state can start a find segment process by injecting a
+SEGMENT_REQUEST. However, a more accurate decision when defining DiSR
+should be made in order to decide whether or not the node must
+actually perform this action. 
+The point above is is strictly related to the general question: which
+level of “parallelism” should we allow in DiSR ? The adopted approach
+is that, although the nature of DiSR itself is intrinsicly parallel,
+the use of parallelism makes things work in a more complex way. In
+other words, DiSR is parallel when needed, but it does not exploit
+parallelism as an “improving feature”. When not needed, things should
+be serialized. For example: when a node is “ready searching” could
+start several find segment process associated to the same segment, one
+for each free link. But serializing this by investigating the free
+links in order could be a simplest solution. We refer to this saying
+that we avoid intra-node parallelism.  Note that while intra-node
+parallelism can be avoided, trying to avoid inter-node parallelism
+could be more complex than allowing the parallelism itself. Imagine
+for example the effort of trying to coordinate nodes so that an unique
+finding node process is actually running in the whole subnet. Thus, in
+contrast to the intra-node parallelism, the inter-node parallelism is
+a structural property of the DiSR algorithm and should not be avoided.
 %------------------------------------------------------------------------------
+
+\section{Node behaviour Model}
+Assumption: when discussing of
+visited/tvisited nodes, we are assuming with an id corresponding to
+the same subnet. Nodes involved in other subnet processes can simply
+ignore these packets. (TBD: formalize more clearly in which cases
+inter-subnet packets must be ignored, probably this happens most of
+the times, but in some cases, e.g. when a terminal node is found, some
+kind of communication packets are needed in order to crearte the
+bridge between two subnets.) 
+
+\subsection{Receiving a STARTING_SEGMENT_REQUEST}
+
+When a node receives a STARTING_SEGMENT_REQUEST, with id = X,  there are the following cases:
+
+The node is visited with the same segID = x, that is it was the
+initiator of the request (set visited by definition): a first segment
+was found and should be confirmed sending back a SEGMENT_CONFIRM
+packet.  
+
+The node is tvisited, with the same segID of the packet: due
+the flooding mechanism, another starting segment packet reached a node
+which was previously marked as tvisited from the same starting segment
+search process. Since the node is tvisited with the same id, it means
+that it already accomplished in the task of propagating that kind
+packets, thus can simply ignore the event thrashing the packet.  If
+the node it's not visited/tvisited: it should set itself as tvisited
+and forward the packet along its free links, using flooding. TBD: how
+the status should be changed ? depend on the flooding mechanism. Note
+that these links don’t include the link from which the request was
+received.  
+
+The node it's visited, with different id in the packet.
+CHECK:  it is not the initiator of the starting segment request, but
+is already assigned to some segment!? assuming again we are discussing
+of nodes belonging to the same subnet, this should NOT happen, since
+the only visited node of the subnet should be the initial node from
+which the STARTING_SEGMENT_REQUEST originated. Note again that we are
+assuming that if the the node is visited or tvisited with the id of
+another subnet can simply ignore the request.  The node it's tvisited
+but it's not the initiator of the request (different id): same as
+above, if we are assuming nodes of the same subnet, this shouldn’t
+happen. If the node is of another subnet, can simply ignore the event.
+
+\subsection{Receiving a SEGMENT_REQUEST}
+When a node receives a SEGMENT_REQUEST, the are the following cases:
+
+The node is visited (and belongs to the same subnet): a segment was
+found and it should be confirmed sending back a SEGMENT_CONFIRM
+packet.  
+
+The node is tvisited: it should discard the packet sending
+back a SEGMENT_CANCEL 
+
+The node it's not visited/tvisited and has free
+links: it marks itself as tvisited and forwards the SEGMENT_REQUEST
+(one request at time) to each of its free links, according to some
+ordering
+
+CHECK: the difference between confirming a STARTING_SEGMENT_REQUEST
+and confirming a SEGMENT_REQUEST is that in the first case the node
+itself it's included in the segment , while in the second case the
+receiving node DOES NOT belong to the segment found. The motivation is
+that in the second case the node was already marked as visited because
+of being assigned to some segment found before, while in the
+starting-segment case, by definition, the first segment of a subnet
+begins with the starting node, which is marked as visited by the SR
+algorithm when searching for the first (starting) segment. Remember
+that the first segment of a subnet is a loop beginning with the
+starting node. 
+
+\subsection{Receiving a SEGMENT_CANCEL}
+When a node receives a SEGMENT_CANCEL packet it means that searching
+for a segment along that path was unsuccessful. But if the node still
+has other free links to try, it should forward a SEGMENT_REQUEST to
+the next link (next according to some internal ordering). So a node
+forwards back the SEGMENT_CANCEL packet along the link that originated
+the SEGMENT_REQUEST packet ONLY when there are no more free links to
+try. If this is the case, the node modifies its status from tvisited
+to free and fordwards the SEGMENT_CANCEL packet to the link from which
+the request was received. The process stops when the SEGMENT_CANCEL
+packet reach the starting node that originated the request.
 
 \section{Nanoxim and simulation environment}
 % - Architecture of the nanoxim simulator
