@@ -62,9 +62,11 @@
 \begin{abstract}
 In this paper we present a first effort for a distributed
 segment-based approach to routing which exploits the already-proven
-qualities of segment-based routing without requiring as graph
-topology as input, and also without requiring a centralized setup
-phase.
+qualities of segment-based routing without requiring as graph topology
+as input, and without the need for a centralized algorithm which
+perform a setup phase.  Our contribution is not find the
+best segment choice, but to show something that could really work in
+such complex, irregular and large sized topologies.
 \end{abstract}
 
 %------------------------------------------------------------------------------
@@ -110,40 +112,47 @@ connected. Data will be travelling on packets that must be routed
 using a topology-agnostic strategy, since no particular regularity can
 be assumed in such network. 
 
-In this paper we present a first effort for a distributed
-segment-based approach to routing which exploits the already-proven
-qualities of segment-based routing without requiring as graph
-topology as input, and also without requiring a centralized algorithm
-which perform a \"segment setup\" phase.
+Different works have been presented addressing the problem of topology
+agnostic routing, such as~\ref{}. Althougth they show interesting
+performances, the requirement for virtual channels resources makes
+them not suitable for the particular DNA self assembled we are
+focusing on. 
 
-% irregular topology -> how to route ?
+Other topology independent algorithms not using virtual channels are
+based on turn proibition. Up-Down~\ref{} exploits the creation of a
+spanning tree of the topology, then placing bidirectional restrictions
+by avoiding a packet to traverse the same link in both up and down
+directions. The hierarchical nature of this approach can lead to
+uneven traffic distribution, with many packets traversing upper links
+(near to the root). The~\ref{} mitigates this issue, making this
+approach acceptable in small networks, however the whole restriction
+placement is still fixed, depending on the particular root selected,
+making these approaches certainly not scalable for the thousands nodes
+scenario of DNA self assembled technology.
 
+In~\ref{} authors present SR, a new approach the solves this limitation by
+allowing turn restriction to be placed locally, independently from
+other restriction. The whole network is partitioned in segments, and a
+single bidirectional turn restrictions can be chosen for each
+segment in order to guarantee deadlock freedom and connected networks.
+This locality independence makes SR scalable for large-sized networks,
+but its topology independency still requires the knowledge of the
+topology graph in order to find the segments. The small scale control,
+random placement and connectivity features discussed in the previous
+section makes having such a topology graph impossible in DNA
+self assembly, together with any other similar centralized algorithm using
+graph description as input.
+
+The contribution presented in this paper is a first effort for a
+distribuited segment-based routing in DNA based networks (DiSR).  This
+paper is not intended to show discover the "optimal" segment choice, ideally
+reachable with a whole graph topology knowledge, but to demonstrate something could
+really fit such complex, irregular and large sized topologies.
 
 %------------------------------------------------------------------------------
-
-\section{Related Work}
-% - Up/Down etc..
-% - SR is ok (topology independent) but requires the knowledge of the
-% topology graph -> impossible in DNA self assembly
-% - Our contribution: a distribuited approach for a segment-based
-%   routing. Not the "optimal" SR, just a SR "that works" in such
-%   complex irregular topologies where a graph could never be
-%   available.
-...
-Different architectures using nano-scale devices have been presented.A
-general purpose architecture for Self-Assembled Nano-Electronics has
-been presented to demostrate the potential of
-DNA-selfassembly~\ref{TODO}
-
+\section{DiSR main elements}
 %------------------------------------------------------------------------------
 
-\section{Proposal}
-% - Draft of the DiSR idea
-% - how it should work
-...
-%------------------------------------------------------------------------------
-
-\section{Detailed DiSR model}
 We distinct among two different kind of data stored at each node:
 local environment data (LED) and dynamic behaviour status (DBS).
 
@@ -279,7 +288,7 @@ cyclelinks timeout) The node it’s tvisited for the same request id,
 previously forwarded that request along some free direction, but now
 it’s receiving a a cancel request and has no more free links
 
-\section{DiSR Execution Phases}
+\section{DiSR Execution Model}
 
 \subsection{Creating the starting segment}
 
@@ -368,19 +377,23 @@ contrast to the intra-node parallelism, the inter-node parallelism is
 a structural property of the DiSR algorithm and should not be avoided.
 %------------------------------------------------------------------------------
 
-\section{Node behaviour Model}
-Assumption: when discussing of
-visited/tvisited nodes, we are assuming with an id corresponding to
-the same subnet. Nodes involved in other subnet processes can simply
-ignore these packets. (TBD: formalize more clearly in which cases
-inter-subnet packets must be ignored, probably this happens most of
-the times, but in some cases, e.g. when a terminal node is found, some
-kind of communication packets are needed in order to crearte the
-bridge between two subnets.) 
+\section{Detailed Node behaviour Model}
+
+%TODO: add state machines
+
+% TODO: fix, move elsewhere or delete
+Assumption: when discussing of visited/tvisited nodes, we are assuming
+with an id corresponding to the same subnet. Nodes involved in other
+subnet processes can simply ignore these packets. (TBD: formalize more
+clearly in which cases inter-subnet packets must be ignored, probably
+this happens most of the times, but in some cases, e.g. when a
+terminal node is found, some kind of communication packets are needed
+in order to crearte the bridge between two subnets.) 
 
 \subsection{Receiving a STARTING\_SEGMENT\_REQUEST}
 
-When a node receives a STARTING\_SEGMENT\_REQUEST, with id = X,  there are the following cases:
+When a node receives a STARTING\_SEGMENT\_REQUEST, with id = X,  there
+are the following cases:
 
 The node is visited with the same segID = x, that is it was the
 initiator of the request (set visited by definition): a first segment
@@ -469,9 +482,9 @@ mechanism
 %------------------------------------------------------------------------------
 
 \section{Experiments}
-% - Graphs, tables
-% - comparison against other approaches
-...
+% Absolute results:
+% Comparison results:
+
 
 %------------------------------------------------------------------------------
 
