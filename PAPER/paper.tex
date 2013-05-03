@@ -1,5 +1,5 @@
-\documentclass[conference]{IEEEtran}
-\IEEEoverridecommandlockouts
+\documentclass[final,journal,letterpaper]{IEEEtran}
+%\IEEEoverridecommandlockouts
 
 %------------------------------------------------------------------------------
 
@@ -49,51 +49,61 @@
 
 %------------------------------------------------------------------------------
 
-\title{A Distribuited Segment-based Approach for Topology-agnostic Nano Networks Routing} 
+\title{A Distributed Segment-based Approach for Topology-agnostic Nano Networks Routing} 
 
 \author{
-  \IEEEauthorblockN{a} \IEEEauthorblockA{Affiliation3\\ email3} \and
-  \IEEEauthorblockN{b} \IEEEauthorblockA{Affiliation2\\ email2} }
+%  \IEEEauthorblockN{a} \IEEEauthorblockA{Affiliation3\\ email3} \and
+%  \IEEEauthorblockN{b} \IEEEauthorblockA{Affiliation2\\ email2} 
+  
+  }
 
 \maketitle
 
 %------------------------------------------------------------------------------
 
 \begin{abstract}
-In this paper we present a first effort for a distributed
-segment-based approach to routing which exploits the already-proven
-qualities of segment-based routing without requiring as graph topology
-as input, and without the need for a centralized algorithm which
-perform a setup phase.  Our contribution is not find the
-best segment choice, but to show something that could really work in
-such complex, irregular and large sized topologies.
+In this paper we present DiSR, a first effort for a distributed
+segment-based approach to routing in a nano-scale topology agnostic
+scenario. The aim is to exploit the already-proven
+qualities of segment-based routing without requiring a topology graph
+as input nor needing a centralized algorithm 
+performing a setup phase.  Our contribution is not find the
+best segment choice, but to show an approach that can actually work in
+such complex, irregular and large sized topologies. After describing
+all the conceptual elements required, we use the opensource Nanoxim tool to show
+some quantitive results that demonstrate how DiSR still preserve
+segment-based qualities while avoiding a centralized tree-based
+broadcasting and the usage of expensive virtual channels mechanisms.
 \end{abstract}
 
 %------------------------------------------------------------------------------
+%\IEEEkeywords{...}
 
-\IEEEkeywords{...}
-
+\begin{IEEEkeywords}
+Nanotechnology, DNA, Self-assembly, Routing
+\end{IEEEkeywords}
 %------------------------------------------------------------------------------
 
-\section{Introduction}
+\section{Introduction and Motivation}
 Exploring long term alternatives to the CMOS technology is gaining
 more and more revelance as the scaling trend of such devices continue
 to introduce new challenges. Power density, defect tolerance, testing
-costs and many other issues are only partially mitigated by multicore
-approaches~\ref{TODO}, but growing computing requirements will eventually need
-even more radical architectural modifications and new paradigms in
-future computer design.
+costs and wire delays are only few of the many critical aspects~\cite{}
+and multicore approaches~\cite{TODO} are only partially mitigating the
+impact of such constraints. Thus, the growing computing demand will
+eventually need even more radical architectural modifications and new
+paradigms in order to address computer design issues of the future.
 
-DNA-self assembled nanoscale architectures~\ref{TOOD} are emerging as promising
-technology due its tera/peta scale of integration, defect tolerance
-tolerance and potential computing capabilities~\ref{TODO}. This
-technologies is certainly still at its early stage of development,
-however different laboratory demos and prof-of-concepts architectures
-have been presented~\ref{TODO}.
+In the last years, Self-assembled nanoscale architectures~\cite{TOOD}
+are emerging as promising technology due its tera/peta scale of
+integration, defect tolerance tolerance and potential computing
+capabilities~\cite{TODO}. This technologies is certainly still at its
+early stage of development, however different laboratory demos and
+prof-of-concepts architectures have been presented~\cite{TODO}.
 
 The main idea beyond this approach is to exploit the regularity and
 stabiliy of DNA sequences in orders to create grids onto which
-nano-devices (e.g. nanowires and CNFET~\ref{TODO}) can be attached by
+nano-devices (e.g. nanowires and nanotubes~\cite{TODO}) can be attached by
 designing approapriate DNA tags. A detailed description of the
 chemical properties involved is beyond the scope of this paper, since
 we focus of the main challenges that this new fabrication process
@@ -105,34 +115,41 @@ introduces in Computer Design. These are:
 \end{itemize}
 
 
-This aspects of a DNA-self assembled process leads some architectural implications
-when approaching to the Computer Design. Architecture must consist of
-a distributed network of small computing and storage nodes, randomly
-connected. Data will be travelling on packets that must be routed
-using a topology-agnostic strategy, since no particular regularity can
-be assumed in such network. 
+This aspects of a DNA-self assembled process leads some architectural
+implications when approaching to the Computer Design. Architecture
+must consist of a distributed network of small computing and storage
+nodes, randomly placed and interconnected. Both instructions and
+data operands will be travelling on packets, routed using a
+topology-agnostic strategy that avoids deadlock, since
+no particular regularity can be assumed in such network.
+Proof-of-concept of such kind of computational model can be found
+in~\cite{}, and we will assume a similar scenario as background,
+althoght the proposed approach to defect tolerance is more general and not stricly related
+to any of these architectures.
 
 Different works have been presented addressing the problem of topology
-agnostic routing, such as~\ref{}. Althougth they show interesting
-performances, the requirement for virtual channels resources makes
-them not suitable for the particular DNA self assembled we are
-focusing on. 
+agnostic routing, such as~\cite{}. Althougth they show interesting
+performances, the requirement for virtual channels resources 
+to avoid deadlock makes them not suitable for the particular DNA self
+assembled networks we are focusing on. 
 
-Other topology independent algorithms not using virtual channels are
-based on turn proibition. Up-Down~\ref{} exploits the creation of a
-spanning tree of the topology, then placing bidirectional restrictions
-by avoiding a packet to traverse the same link in both up and down
-directions. The hierarchical nature of this approach can lead to
-uneven traffic distribution, with many packets traversing upper links
-(near to the root). The~\ref{} mitigates this issue, making this
-approach acceptable in small networks, however the whole restriction
-placement is still fixed, depending on the particular root selected,
-making these approaches certainly not scalable for the thousands nodes
-scenario of DNA self assembled technology.
+Other topology independent algorithms not using virtual channels
+achieve deadlock freedom with turn proibitions, such as~\cite{}.
+Up-Down~\cite{} exploits the creation of a spanning tree of the
+topology, then placing bidirectional restrictions by avoiding a packet
+to traverse the same link in both up and down directions. The
+hierarchical nature of this approach can lead to uneven traffic
+distribution, with many packets traversing upper links (near to the
+root), however still acceptable for classical wide area networks
+topologies with a limited number of nodes.  The~\cite{} mitigates this
+issue, however the whole restriction placement is still prefixed,
+striclty depending on the particular root selected, making these
+approaches not scalable for the TODO(thousands) nodes scenario of DNA
+self assembled technology.
 
-In~\ref{} authors present SR, a new approach the solves this limitation by
-allowing turn restriction to be placed locally, independently from
-other restriction. The whole network is partitioned in segments, and a
+In~\cite{} authors present SR, a new approach the solves this limitation by
+allowing turn restrictions to be placed locally, independently from
+other restrictions. The whole network is partitioned in segments, and a
 single bidirectional turn restrictions can be chosen for each
 segment in order to guarantee deadlock freedom and connected networks.
 This locality independence makes SR scalable for large-sized networks,
@@ -144,13 +161,14 @@ self assembly, together with any other similar centralized algorithm using
 graph description as input.
 
 The contribution presented in this paper is a first effort for a
-distribuited segment-based routing in DNA based networks (DiSR).  This
-paper is not intended to show discover the "optimal" segment choice, ideally
-reachable with a whole graph topology knowledge, but to demonstrate something could
-really fit such complex, irregular and large sized topologies.
+Distributed Segment-based routing in nanoscale DNA based networks
+(DiSR). The aim of this work is not intended to discover the "optimal"
+segment choice (ideally reachable with the knowledge of the whole
+topology graph) but just to demonstrate a concrete approach that can fit
+into such complex, irregular and large sized topologies.
 
 %------------------------------------------------------------------------------
-\section{DiSR main elements}
+\section{DiSR main concepts}
 %------------------------------------------------------------------------------
 
 We distinct among two different kind of data stored at each node:
@@ -161,65 +179,57 @@ local environment data (LED) and dynamic behaviour status (DBS).
 The LED is like a snapshot of the DiSR algorithm on each node,
 consisting in the following variables:
 
-segID:a value used to specify a segment id for the node. Depending on
+\begin{itemize}
+\item{segID}:a value used to specify a segment id for the node. Depending on
 the values of visited/tvisited variables below, the node can be
 assigned to or candidate for a specific segment id.  
-
-visited : a boolean value corresponding to the visited status. If visited is true
+\item{visited}: a boolean value corresponding to the visited status. If visited is true
 and segID is different from NULL, then segID specifies the segment id
 the node belongs to. Note that a value different from NULL does not
 necessarily mean the node has been assigned to some segment (e.g. when
 searching starting segment is set visited by default even if not yet
 assigned to any segment). When false, the node is not yet visited.
-
-tvisited: a boolean value corresponding to the tvisited status. If
+\item{tvisited}: a boolean value corresponding to the tvisited status. If
 true, the node is being considered as candidate for a segment, and the
 segID specifies the segment id for which the node it's candidate. When
 false, the node is not currently tvisited.  
-
-link\_visited[]: an array
+\item{link\_visited[]}: an array
 of values representing information about attached links, that is, the
 ID of the segment owning each link. When NULL, a link has not yet been
 marked as visited. TDB: do we need to introduce some value for the
 “bridge” status ? (e.g. a node connecting the terminal node of a
 subnet with the starting one of another) 
-
-link\_tvisited[]: an array of
+\item{link\_tvisited[]}: an array of
 values representing information about attached links, e.g. the ID of
 the segment for which the link is candidate. When NULL, the link is
 currently not tvisited.  starting: boolean, true if the node it's a
 starting node for the subnet terminal:boolean, true if the node it's a
 terminal node for the subnet.  subnet:the subnet the node belongs to.
 If NULL, none.
-
+\end{itemize}
 
 \subsection{Dynamic Behaviour Status (DBS)}
-In addition to the LED variables
-described above, further information should be stored in order to
-capture the current dynamic behaviour of the node. This is represented
-by the dynamic behaviour status (DBS) variable, which strictly depends
-on the LED data and the events occurring at the node. The DBS can have
-the following values:
+In addition to the LED variables described above, further information
+should be stored in order to capture the current dynamic behaviour of
+the node. This is represented by the dynamic behaviour status (DBS)
+variable, which strictly depends on the LED data and the events
+occurring at the node. The DBS can have the following values:
 
-FREE: a node that has  not been yet considered  by the DiSR algorithm.
+\begin{itemize}
+\item{FREE}: a node that has  not been yet considered  by the DiSR algorithm.
 The node is not marked as visited/tvisited/terminal/starting.
-
-BOOTSTRAP: a node which has been explicitly set as bootstrap node from
+\item{BOOTSTRAP}: a node which has been explicitly set as bootstrap node from
 an upper layer via. This is required because a
-
-STARTING\_SEGMENT\_REQUEST packet should be injected in order to start
+\item{STARTING\_SEGMENT\_REQUEST} packet should be injected in order to start
 the whole process.
-
-ACTIVE\_SEARCHING: a node from which a find process of new segments has
+\item{ACTIVE\_SEARCHING}: a node from which a find process of new segments has
 been started and not yet cancelled or confirmed. This happens when all
 the following conditions are matched: the node is marked as visited,
 that is visited = TRUE 
-
-CHECK: segID is set to some value reflecting
+TODO: segID is set to some value reflecting
 the segment request sent there is a link that is being investigated by
 the node, that is a tvisited\_link marked with the same id of the node 
-
-CANDIDATE: a node currently candidate for belonging to some segment
+\item{CANDIDATE}: a node currently candidate for belonging to some segment
 with id segid, not being itself the node from which the find process
 was started. The following conditions should be matched: tvisited =
 true, with segID=X different from node's id.  Two links set as
@@ -230,32 +240,30 @@ X when the node itself started to investigate its free links for the
 segment request with id X. Note that while investigating its attached
 links, if the find process fails along path 'j', the current node can
 investigate another free node 'k' if suitable.  
-
-CANDIDATE\_STARTING:
-same as above, but the node is currently being considered as candidate
+\item{CANDIDATE\_STARTING}: same as above, but the node is currently being considered as candidate
 for starting segment. Two main differences: Can confirm
 STARTING\_SEGMENT\_CONFIRM with the same segID when receiving a normal
 SEGMENT\_REQUEST: Overwrites its status setting it to CANDIDATE for the
 segID frees the links previously set as tvisited during flooding
-
-ASSIGNED: a node for which the segment has been determined.  The
+\item{ASSIGNED}: a node for which the segment has been determined.  The
 segment segID attribute value is set to some id X different from NULL.
 The visited value is true NOTE: an ASSIGNED state is a quick temporary
 state, since it becomes ACTIVE\_SEARCHING if a not (visited/tvisited)
 link is suitable for searching new segments (see next\_visited
 procedure on paper) 
-
-PROCESSED: a node which should take no other
+\item{PROCESSED}: a node which should take no other
 action, since all its links have been investigated. 
+\end{itemize}
 
 \subsection{Packets types Required}
 TODO: a lot of description is already present elsewhere, make this
 section smaller...
 
-SEGMENT\_REQUEST: used to search candidates for a segment (not the
+\begin{itemize}
+\item{SEGMENT\_REQUEST}: used to search candidates for a segment (not the
 first of the subnet, managed separately as a starting segment).
 
-SEGMENT\_CONFIRM: used to create a segment. When received, if the node
+\item{SEGMENT\_CONFIRM}: used to create a segment. When received, if the node
 status is tvisited with a segID corresponding to the one indicated in
 the packet, the node learns to belong to the segment associated to the
 id. Further, it should forward this packet to the link where the
@@ -269,7 +277,7 @@ the link\_visited variable associated to the other paths shouldn’t be
 set.  the link\_visited variable associated to the link from which the
 request was originated should be set segID
 
-STARTING\_SEGMENT\_REQUEST: the request for the first segment of a
+\item{STARTING\_SEGMENT\_REQUEST}: the request for the first segment of a
 subnet should be differentiated since all nodes (except the starting
 one) must forward the packet using a flooding mechanism. This is
 necessary since the request packet must reach the starting node, which
@@ -278,7 +286,7 @@ remembered that the first segment of each subnet it's  a loop that
 beginning/ending on the starting node.
 
 
-SEGMENT\_CANCEL: used when the process of searching a segment along a
+\item{SEGMENT\_CANCEL}: used when the process of searching a segment along a
 certain path fails. When a node discovers that the path that includes
 the node itself is no more suitable, a SEGMENT\_CANCEL is sent back
 across the link from which the SEGMENT\_REQUEST was received.  Possible
@@ -288,18 +296,22 @@ cyclelinks timeout) The node it’s tvisited for the same request id,
 previously forwarded that request along some free direction, but now
 it’s receiving a a cancel request and has no more free links
 
-\section{DiSR Execution Model}
+\end{itemize}
+
+\section{Draft of DiSR Execution Model}
 
 \subsection{Creating the starting segment}
 
-Injecting request: all nodes have status FREE, except for a
+\begin{itemize}
+
+\item{Injecting request}: all nodes have status FREE, except for a
 “bootstrap node” with status BOOTSTRAP, set by some signal from an
 upper layer via. This bootstrap node sets itself as “visited” and
 changes its status to ACTIVE\_SEARCHING, sending a
 STARTING\_SEGMENT\_REQUEST across one of its not (visited/tvisited)
 links and.  
 
-Flooding: Each node receiving a STARTING\_SEGMENT\_REQUEST,
+\item{Flooding}: Each node receiving a STARTING\_SEGMENT\_REQUEST,
 if not (visited/tvisited),  forwards  to the attached links that are
 not already marked as visited/tvisited using a flooding mechanism.
 Each of these links is then marked as tvisited with the segment id
@@ -309,7 +321,7 @@ associated to the same request, since has already contributed to the
 flooding. Note also that each of these packets has a max\_segment\_hops
 field to prevent packets from travelling undefinitively.  
 
-setup of the starting-segment: when this STARTING\_SEGMENT\_REQUEST packet reaches
+\item{setup of the starting-segment}: when this STARTING\_SEGMENT\_REQUEST packet reaches
 the starting node (from a different link, of course), the starting
 segment is found. Then the starting node sends back a SEGMENT\_CONFIRM
 packet with the same id along the link from which it received the
@@ -328,18 +340,21 @@ their state as free. But they could also remain tvisited for the
 starting segment, since this doesn’t affect their behaviour for future
 segment requests.  
 
-failure: [TODO] should we handle this case ? i.e.
+failure: TODO should we handle this case ? i.e.
 marking as terminal ?
+
+\end{itemize}
 
 \subsection{Finding other segments}
 
-Injecting request: A node in the ASSIGNED state can initiate a search for a
+\begin{itemize}
+\item{Injecting request}: A node in the ASSIGNED state can initiate a search for a
 segment, by sending a SEGMENT\_REQUEST with an across one of its free
 links. Note that, since this is not the starting segment, in this case
 the packet should not reach the initiator, but just another visited
 node
 
-setup of the segment: The find process is successfull when a visited
+\item{setup of the segment}: The find process is successfull when a visited
 node receives the SEGMENT\_REQUEST packet. Then, a SEGMENT\_CONFIRM is
 sent back along the path that originated the request.  Failing while
 searching a segment: a node received a SEGMENT\_REQUEST packet but
@@ -350,6 +365,7 @@ exceeded the max\_segment\_hops limit.  In all these cases the node
 sends back a SEGMENT\_CANCEL along the proper link modifying its state
 to free. Each of the subsequent nodes will forward this SEGMENT\_CANCEL
 only if no more free links can be explored starting from them.
+\end{itemize}
 
 
 \subsection{Intra-node vs Inter-node parallelism}
@@ -395,12 +411,13 @@ in order to crearte the bridge between two subnets.)
 When a node receives a STARTING\_SEGMENT\_REQUEST, with id = X,  there
 are the following cases:
 
-The node is visited with the same segID = x, that is it was the
+\begin{itemize}
+\item The node is visited with the same segID = x, that is it was the
 initiator of the request (set visited by definition): a first segment
 was found and should be confirmed sending back a SEGMENT\_CONFIRM
 packet.  
 
-The node is tvisited, with the same segID of the packet: due
+\item The node is tvisited, with the same segID of the packet: due
 the flooding mechanism, another starting segment packet reached a node
 which was previously marked as tvisited from the same starting segment
 search process. Since the node is tvisited with the same id, it means
@@ -412,7 +429,7 @@ the status should be changed ? depend on the flooding mechanism. Note
 that these links don’t include the link from which the request was
 received.  
 
-The node it's visited, with different id in the packet.
+\item The node it's visited, with different id in the packet.
 CHECK:  it is not the initiator of the starting segment request, but
 is already assigned to some segment!? assuming again we are discussing
 of nodes belonging to the same subnet, this should NOT happen, since
@@ -424,22 +441,25 @@ but it's not the initiator of the request (different id): same as
 above, if we are assuming nodes of the same subnet, this shouldn’t
 happen. If the node is of another subnet, can simply ignore the event.
 
+\end{itemize}
+
 \subsection{Receiving a SEGMENT\_REQUEST}
 When a node receives a SEGMENT\_REQUEST, the are the following cases:
 
-The node is visited (and belongs to the same subnet): a segment was
+\begin{itemize}
+\item The node is visited (and belongs to the same subnet): a segment was
 found and it should be confirmed sending back a SEGMENT\_CONFIRM
 packet.  
 
-The node is tvisited: it should discard the packet sending
+\item The node is tvisited: it should discard the packet sending
 back a SEGMENT\_CANCEL 
 
-The node it's not visited/tvisited and has free
+\item The node it's not visited/tvisited and has free
 links: it marks itself as tvisited and forwards the SEGMENT\_REQUEST
 (one request at time) to each of its free links, according to some
 ordering
 
-CHECK: the difference between confirming a STARTING\_SEGMENT\_REQUEST
+\item NOTD: the difference between confirming a STARTING\_SEGMENT\_REQUEST
 and confirming a SEGMENT\_REQUEST is that in the first case the node
 itself it's included in the segment , while in the second case the
 receiving node DOES NOT belong to the segment found. The motivation is
@@ -450,6 +470,7 @@ begins with the starting node, which is marked as visited by the SR
 algorithm when searching for the first (starting) segment. Remember
 that the first segment of a subnet is a loop beginning with the
 starting node. 
+\end{itemize}
 
 \subsection{Receiving a SEGMENT\_CANCEL}
 When a node receives a SEGMENT\_CANCEL packet it means that searching
@@ -463,27 +484,130 @@ to free and fordwards the SEGMENT\_CANCEL packet to the link from which
 the request was received. The process stops when the SEGMENT\_CANCEL
 packet reach the starting node that originated the request.
 
-\section{Nanoxim and simulation environment}
+\section{Simulation environment and Results}
 
-The simulator Nanoxim is a SystemC tool based on a minimal version of
-the Noxim Network-on-Chip simulator. It's not a "faster noxim", but a
-drastically reduced noxim the will be able to simulate a random
-network on nodes. Current differences from noxim:
+In this section we will test the proposed DiSR approach to demonstrate
+its effectiveness from two different perspectives:
+\begin{itemize}
+\item Against the serial segment based approach SR, to evaluate if 
+its qualities are still preserved in the new nano-scale distributed scenario
+\item Against other topology agnostic approaches based on spanning
+trees and broadcasting, to measure how DiSR performs in discovering
+the network structure 
+\end{itemize}
 
-removed all routing algorithms that depend on a topology (only XY left
-to test meshes) removed flit management, nodes only exchange packets
-(e.g. no wormhole)
+\subsection{Nanoxim tool}
 
-Future features:
-
-topology agnostic able to test different nano-oriented communication
-mechanism
+In order to quantitatively and qualitatively the proposed approach a
+specific simulation environment has been developed, resulting in
+the open source and freely available project called Nanoxim~\cite{}.
+Nanoxim is a SystemC tool based on a almost rewritten
+version of the Noxim Network-on-Chip simulator~\cite{}. While some
+complex features have been removed (e.g. wormhole, congestion/topology
+aware routing and selection strategies) new features specifically
+taylored for nanoscale scenario were introduced, like the ability to simulate a random
+network, the implementation of the DiSR to obtain the segment topology
+and the support for defective links simulation.
 
 %------------------------------------------------------------------------------
+\subsection{Experimental setup}
+The following setup parameters have been taken into account when
+performing the DiSR simulation:
+\begin{itemize}
+\item {S}: Size of the network, intended as number of nodes (from X to Y)
+\item {P}: probabily of failure, that is the probability that each
+link is disconnected or not present 
+\item {B}: bootstrap node, the node used from upper (e.g. microscale)
+layer to inject the DiSR process
 
-\section{Experiments}
-% Absolute results:
-% Comparison results:
+Other optimisation parameters which demostrated to improve the DiSR
+results have been fixed to some good values, but are not subject to
+further investigation in this initial work, where the focus is not the
+optimal set of segments, but just demostrating the working mechaninsm
+of the approach. These are:
+\begin{itemize}
+\item{cycle\_links}: 
+\item{bootstrap\_immunity}:
+\item{bootstrap\_timeout}:
+\end{itemize}
+
+\subsection{Evaluation Metrics and Results}
+\label{sec:results}
+
+The following metrics have been adopted:
+\begin{itemize}
+\item{Node coverage}: this is the fraction of non-defective node elements that
+are assigned to a segment. In the ideal case, all the non defective
+nodes should be assigned, so this metric is useful to show how some
+disconnected node regions can negativaly impact on the whole DiSR
+effectiveness.
+\item{Broadcast latency}: this measures how the time required to complete the
+segment assignment scale for increasing network sizes and defect rates
+\item{Connectivity}:
+\item{Bootstrap node effect}: this evaluates the impact of the chosen
+bootstrap node on the node coverage.
+\end{itemize}
+
+Further, to evaluate how DiSR compares against the centralized segment
+based algorithm, the following metrics have been adopted:
+\begin{itemize}
+\item {Average Path Lenght}:
+\item {Average Link Weight}:
+\item {Number of Segments}:
+\end{itemize}
+
+Node (Broadcast) Coverage(vs \%defective links) with different sizes:
+30x30, 50x50, 80x80, 100x100, ideal. Bigger networks show similar
+trends 
+
+Broadcast latency (vs sqrt(N), with different \% defectived
+links. TODO: calcolare ordine di grandezza atteso O(N), rete NxN
+Effect of bootstrap node 
+
+Qualcosa tipo Broadcast Tree properties (sez.  5.4)
+
+
+\section{Implementation Issues}
+\label{sec:implementation}
+Althought a completed and detailed floorplan of the node is not the
+focus of this work, in this section we want to give a basic idea of
+which are the main elements required to support this kind of
+architecture and the DiSR approach. There are three main classes of
+node elements:
+\begin{itemize}
+\item Node-specific: components (such ALUs, memories) that are
+strictly related to the node functionality and role inside a given
+networks: e.g. is that a computation or storage node ?
+\item Node communication:  these are elements (such as transceivers,
+buffers) required to the node to communicate with its neighbors,
+indepentently from node functionality and DiSR implementation
+\item DiSR-specific: all the hardware, such as control logic and
+configuration, required to implement the proposed DiSR approach.
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.50\textwidth]{pictures/router_schematic.eps}
+  \caption{Schematic of the router. Top-level view (top). Block
+  implementing the routing algorithm (middle). Block implementing the
+  TODO
+  }
+  \label{fig:schematic}
+\end{figure}
+
+Figure~\ref{fig:schematic} shows the schematic of a router for
+a mesh based network topology implementing DiSR . As shown, the top level scheme of the router consists of a
+set of ...
+
+The content of a routing algorithm block is more accurately shown in
+the central part of Figure~\ref{fig:schematic}. Each routing algorithm
+block consists of ...
+
+Let us now look inside the \emph{DiSR} block. A formal description of
+DiSRalgorithm has already been given in Figure~\ref{alg:disr}, thus we
+will focus on the architectural elements to be implemented.
+	
+\end{itemize}
 
 
 %------------------------------------------------------------------------------
