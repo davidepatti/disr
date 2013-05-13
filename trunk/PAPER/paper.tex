@@ -49,7 +49,8 @@
 
 %------------------------------------------------------------------------------
 
-\title{A Distributed Segment-based Approach for Topology-agnostic Nano Networks Routing} 
+\title{A Distributed Segment-based Approach for Topology-agnostic
+Routing in Self-Assembled Nano Networks} 
 
 \author{
 %  \IEEEauthorblockN{a} \IEEEauthorblockA{Affiliation3\\ email3} \and
@@ -64,16 +65,17 @@
 \begin{abstract}
 In this paper we present DiSR, a first effort for a distributed
 segment-based approach to routing in a nano-scale topology agnostic
-scenario. The aim is to exploit the already-proven
-qualities of segment-based routing without requiring a topology graph
-as input nor needing a centralized algorithm 
-performing a setup phase.  Our contribution is not find the
-best segment choice, but to show an approach that can actually work in
-such complex, irregular and large sized topologies. After describing
-all the conceptual elements required, we use the opensource Nanoxim tool to show
-some quantitive results that demonstrate how DiSR still preserve
-segment-based qualities while avoiding a centralized tree-based
-broadcasting and the usage of expensive virtual channels mechanisms.
+scenario based on DNA self-assembly. The main aim is exploiting the
+already-proven qualities of segment-based routing without neither requiring a
+topology graph as input, nor needing a centralized algorithm to
+discover and configure network paths. Our contribution is not to find
+the optimal segments choice, but introducing an approach that can
+actually work in such complex, irregular and large sized topologies.
+After describing the conceptual elements and the execution model of DiSR,
+we use the opensource Nanoxim tool to show some quantitive
+comparisons to demonstrate how DiSR still maintains segment-based
+qualities while avoiding a centralized tree-based broadcasting and the
+usage of expensive virtual channels mechanisms.
 \end{abstract}
 
 %------------------------------------------------------------------------------
@@ -86,85 +88,104 @@ Nanotechnology, DNA, Self-assembly, Routing
 
 \section{Introduction and Motivation}
 Exploring long term alternatives to the CMOS technology is gaining
-more and more revelance as the scaling trend of such devices continue
-to introduce new challenges. Power density, defect tolerance, testing
-costs and wire delays are only few of the many critical aspects~\cite{}
-and multicore approaches~\cite{TODO} are only partially mitigating the
-impact of such constraints. Thus, the growing computing demand will
+more and more revelance as the scaling trend of such devices keeps
+introducing new challenges. Power density, defect tolerance, testing
+costs and wire delays are only a few of the many critical aspects
+involved~\cite{}. While software parallelism and multicore
+approaches~\cite{TODO} are partially mitigating the impact on
+performances, it is likely that the growing computing demand will
 eventually need even more radical architectural modifications and new
-paradigms in order to address computer design issues of the future.
+paradigms in order to address the computer design issues of the next
+decades.
 
 In the last years, Self-assembled nanoscale architectures~\cite{TOOD}
-are emerging as promising technology due its tera/peta scale of
-integration, defect tolerance tolerance and potential computing
-capabilities~\cite{TODO}. This technologies is certainly still at its
-early stage of development, however different laboratory demos and
+are emerging as a promising technology due their tera/peta scale of
+integration, defect tolerance tolerance and huge potential computing
+capabilities~\cite{TODO}. These technologies are certainly still at
+their early stage of development, however different laboratory demos and
 prof-of-concepts architectures have been presented~\cite{TODO}.
+The main idea behind this approach is to exploit the physical regularity and
+stabiliy of DNA sequences in order to create a scaffold onto which
+nano-devices (e.g. nanowires and nanotubes~\cite{TODO}) can be
+attached. This can be achieved by designing approapriate complementary DNA tags for
+each terminal to be placed, so that a nano device will be attached
+only where its own DNA tag matches a complementary tag on the DNA grid
+scaffold.
 
-The main idea beyond this approach is to exploit the regularity and
-stabiliy of DNA sequences in orders to create grids onto which
-nano-devices (e.g. nanowires and nanotubes~\cite{TODO}) can be attached by
-designing approapriate DNA tags. A detailed description of the
-chemical properties involved is beyond the scope of this paper, since
-we focus of the main challenges that this new fabrication process
-introduces in Computer Design. These are:
-\begin{itemize}
-\item small scale control of placement and connectivity
-\item large scal randomness
-\item high defect rates
-\end{itemize}
+A detailed description of the chemical properties involved is far beyond
+the scope of this paper (see also~\cite{}), so we will focus on the
+three main challenges that this new fabrication process introduces in Computer Design. These are:
+limited node resources, large scale randomness and high defect rates.
+The first aspect is directly related to the use of complementary DNA
+tags in order to place circuit components. In a traditional CMOS
+process the complexity is introduced using a photolithography mask, so that larger
+circuits require larger masks; instead in self-assembly this
+complexity is achieved increasing the number of unique DNA tags, since
+more tags means having more control on component placement. Ideally,
+by specifying a single different tag for each nano transistor terminal,
+we could exactly choose where each component would be placed. But the
+number of DNA symbols forming the DNA sequence is limited (sequence
+of 4 nucleobases G,A,T,C) and so creating many different tags (of a
+given lenght) would mean make them more similar to
+each other, increasing the probability of incorrect/partial matching. Then,
+limiting the need of many unique tags means putting a limited
+complexity in each node. Large scale randomness and defect rates are
+the other two fundaments conditions of self-assembled technology:
+if, as seen, some complexity can be introduced by designing tag sequences in the
+DNA grid of each node, we have no control of where each of these grids
+will be placed on the whole network. Further, as a consequence, we cannot guarantee other
+typical properties of regular networks, like nodes being connected to 4
+neighbors, having a determined orientation and so on.
 
-
-This aspects of a DNA-self assembled process leads some architectural
-implications when approaching to the Computer Design. Architecture
-must consist of a distributed network of small computing and storage
-nodes, randomly placed and interconnected. Both instructions and
-data operands will be travelling on packets, routed using a
-topology-agnostic strategy that avoids deadlock, since
-no particular regularity can be assumed in such network.
-Proof-of-concept of such kind of computational model can be found
-in~\cite{}, and we will assume a similar scenario as background,
-althoght the proposed approach to defect tolerance is more general and not stricly related
-to any of these architectures.
+These aspects of a DNA-self assembly process lead to some important
+architectural implications to be addressed when approaching to the
+Computer Design: computational model must be founded on a distributed
+network of small computing and storage nodes, randomly placed and
+interconnected.  Proof-of-concept of such kind of computational model
+can be found in~\cite{}, where instructions and data operands travel
+on packets and routed using a topology-agnostic strategy that avoids
+deadlock, since no particular regularity can be assumed in such
+network. Altought we will assume a similar scenario as background, it
+is important to underline that the proposed approach to defect
+tolerance is more general and not stricly dependent on any of these
+architectures.
 
 Different works have been presented addressing the problem of topology
-agnostic routing, such as~\cite{}. Althougth they show interesting
-performances, the requirement for virtual channels resources 
+agnostic routing, such as~\cite{}. They show interesting
+performances, but the requirement for virtual channels resources 
 to avoid deadlock makes them not suitable for the particular DNA self
 assembled networks we are focusing on. 
-
-Other topology independent algorithms not using virtual channels
-achieve deadlock freedom with turn proibitions, such as~\cite{}.
-Up-Down~\cite{} exploits the creation of a spanning tree of the
+Other topology independent algorithms don't use virtual channels to
+achieve deadlock freedom but turn proibitions, like~\cite{}.
+Up-Down~\cite{} which exploits the creation of a spanning tree of the
 topology, then placing bidirectional restrictions by avoiding a packet
-to traverse the same link in both up and down directions. The
-hierarchical nature of this approach can lead to uneven traffic
+to traverse the same link in both up and down directions. Should be
+noticed that the hierarchical nature of this approach can lead to uneven traffic
 distribution, with many packets traversing upper links (near to the
-root), however still acceptable for classical wide area networks
+root), however this is still acceptable for classical wide area networks
 topologies with a limited number of nodes.  The~\cite{} mitigates this
-issue, however the whole restriction placement is still prefixed,
-striclty depending on the particular root selected, making these
+issue, but the whole restriction placement is still prefixed,
+striclty depending on the particular root selected, thus making these
 approaches not scalable for the TODO(thousands) nodes scenario of DNA
 self assembled technology.
 
 In~\cite{} authors present SR, a new approach the solves this limitation by
 allowing turn restrictions to be placed locally, independently from
-other restrictions. The whole network is partitioned in segments, and a
+other restrictions. The whole network is partitioned into segments, and a
 single bidirectional turn restrictions can be chosen for each
 segment in order to guarantee deadlock freedom and connected networks.
-This locality independence makes SR scalable for large-sized networks,
+This \emph{locality independence} property makes SR scalable for large-sized networks,
 but its topology independency still requires the knowledge of the
-topology graph in order to find the segments. The small scale control,
-random placement and connectivity features discussed in the previous
-section makes having such a topology graph impossible in DNA
-self assembly, together with any other similar centralized algorithm using
-graph description as input.
+network topology graph in order to find the segments. The small scale control,
+random placement and connectivity features discussed above
+make it impossible having such topology graph knowledge, as well as
+trying to execute a centralized algorithm that uses the graph description as input.
 
 The contribution presented in this paper is a first effort for a
 Distributed Segment-based routing in nanoscale DNA based networks
-(DiSR). The aim of this work is not intended to discover the "optimal"
+(DiSR). The presented approach is not intended to discover the "optimal"
 segment choice (ideally reachable with the knowledge of the whole
-topology graph) but just to demonstrate a concrete approach that can fit
+topology graph) but just to demonstrate a concrete model that can fit
 into such complex, irregular and large sized topologies.
 
 %------------------------------------------------------------------------------
