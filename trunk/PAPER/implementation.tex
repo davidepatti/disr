@@ -1,0 +1,41 @@
+
+\section{Implementation Issues}
+\label{sec:implementation}
+Althought a completed and detailed floorplan of the node is not the
+focus of this work, in this section we want to give a basic idea of
+which are the main elements required to support this kind of
+architecture and the DiSR approach. There are three main classes of
+node elements:
+\begin{itemize}
+\item Node-specific: components (such ALUs, memories) that are
+strictly related to the node functionality and role inside a given
+networks: e.g. is that a computation or storage node ?
+\item Node communication:  these are elements (such as transceivers,
+buffers) required to the node to communicate with its neighbors,
+indepentently from node functionality and DiSR implementation
+\item DiSR-specific: all the hardware, such as control logic and
+configuration, required to implement the proposed DiSR approach.
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.50\textwidth]{pictures/router_schematic.eps}
+  \caption{Schematic of the router. Top-level view (top). Block
+  implementing the routing algorithm (middle). Block implementing the
+  TODO
+  }
+  \label{fig:schematic}
+\end{figure}
+
+Figure~\ref{fig:schematic} shows the schematic of a router for
+a mesh based network topology implementing DiSR . As shown, the top level scheme of the router consists of a
+set of ...
+
+The content of a routing algorithm block is more accurately shown in
+the central part of Figure~\ref{fig:schematic}. Each routing algorithm
+block consists of ...
+
+Let us now look inside the \emph{DiSR} block. A formal description of
+DiSRalgorithm has already been given in Figure~\ref{alg:disr}, thus we
+will focus on the architectural elements to be implemented.
+	
