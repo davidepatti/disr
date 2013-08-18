@@ -12,15 +12,15 @@ eventually need even more radical architectural modifications and new
 paradigms in order to address the Computer Design challenges of the next
 decades.
 
-In the last years, Self-assembled nanoscale architectures~\cite{TODO2}
+In the last years, Self-assembled nanoscale architectures~\cite{winfree1998, yan2003}
 are emerging as a promising technology due their tera/peta scale of
 integration, defect tolerance tolerance and huge potential computing
 capabilities. These technologies are certainly still at
 their early stage of development, however different laboratory demos and
-prof-of-concepts architectures have been presented~\cite{TODO3}.
+prof-of-concepts architectures have been presented~\cite{patwardhan2004, patwardhan2006, patwardhan2006_1, pistol2009}.
 The main idea behind this approach is to exploit the physical regularity and
 stabiliy of DNA structures in order to create a scaffold onto which
-nano-devices (e.g. nanowires and nanotubes~\cite{TODO4}) can be
+nano-devices (e.g. nanowires and nanotubes~\cite{bachtold2001, tans1998, cui2001}) can be
 attached. This can be achieved by designing approapriate complementary DNA tags for
 each terminal to be placed, so that a nano device will be attached
 only where its own DNA tag matches a complementary tag on the DNA grid
@@ -32,7 +32,7 @@ scaffold (see figure~\ref{fig:dna_tag}.
   \label{fig:dna_tag}
 \end{figure}
 A detailed description of the chemical properties involved is far
-beyond the scope of this paper (see also~\cite{TODO5}), so we will focus on
+beyond the scope of this paper (see also~\cite{braun1998, seeman1999}), so we will focus on
 the three main challenges that this new fabrication process introduces
 in Computer Design: (i)limited node complexity, (ii) large scale
 randomness and (iii) high defect rates.  
@@ -65,7 +65,7 @@ architectural implications to be addressed when approaching to the
 Computer Design: computational model must be founded on a distributed
 network of small computing and storage nodes, randomly placed and
 interconnected (see figure~\ref{fig:nana}).  Proof-of-concept of such kind of computational model
-can be found in~\cite{TODO6}, where instructions and data operands travel
+can be found in~\cite{patwardhan2006_1}, where instructions and data operands travel
 on packets and routed using a topology-agnostic strategy that avoids
 deadlock, since no particular regularity can be assumed in such
 network. 
@@ -92,12 +92,12 @@ architectures.
 
 \section{Related Works}
 
-Several works~\cite{TODO7} have been presented addressing the problem of topology
+Several works~\cite{sancho2002, skeie2002, skeie2004, koibuchi2003} have been presented addressing the problem of topology
 agnostic routing. While they show interesting
 performances, the requirement for virtual channels resources 
 to avoid deadlock makes them not suitable for the specific DNA self
 assembled networks we are assuming as background.
-Other topology independent algorithms~\cite{TODO8} don't use virtual channels to
+Other topology independent algorithms~\cite{schroeder1991, koibuchi2001, cherkasova1996} don't use virtual channels to
 achieve deadlock freedom, but turn proibitions. 
 In particular, up*/down* exploits the creation of a spanning tree of the
 topology, then placing bidirectional restrictions by avoiding a packet
@@ -106,16 +106,16 @@ While the hierarchical nature of this approach can lead to uneven traffic
 distribution, with many packets traversing upper links (near to the
 root), this is quite acceptable in classical wide area networks
 topologies with a limited number of nodes. Other approaches such as
-FX~\cite{TODO9} mitigate this
+FX~\cite{sancho2000} mitigate this
 issue, but the set of turn restrictions is still prefixed,
 striclty depending on the particular tree root selected. 
 Other solutions try to approach the issue of irregular
-topologies by limiting the number~\cite{TODO10} or the
-location~\cite{TODO11} of missing links. This
+topologies by limiting the number~\cite{dally1994, duato1997, gomez2004, koibuchi2008} or the
+location~\cite{zhang2008, sui2000, flich2008, liu2011} of missing links. This
 restriction is clearly unacceptable given the hight-defect rates of
 DNA self-assembled networks scenario. For the same reason, we also
 avoid considering solutions based on hardware-redundancy to
-dynamically recover defects as in~\cite{TODO12}. 
+dynamically recover defects as in~\cite{constantinides2006, kohler2010, kim2006, park2006}. 
 
 In~\cite{mejia_ipdps06} authors present SR, an approach the solves these
 limitations by allowing turn restrictions to be placed locally,
