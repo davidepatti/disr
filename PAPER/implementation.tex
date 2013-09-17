@@ -1,5 +1,6 @@
 
 \section{Implementation Issues}
+
 \label{sec:implementation}
 Although a completed and detailed floorplan of the node is not the
 focus of this work, in this section we want to give a basic idea of
@@ -18,44 +19,77 @@ configuration, required to implement the proposed DiSR approach.
 \end{itemize}
 
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.35\textwidth]{pictures/disr_imp.eps}
+  \caption{\emph{DiSR} block architecture.}
+ \label{fig:implementation}
+\end{figure}
+
+
+
 Let us now look inside the \emph{DiSR} block which implements the DiSR-specific
-operation. In Fig.~\ref{fig:implementation} we shown a possible sketch of this 
-last one, which mainly consist in the following building blocks:
+operation. In Fig.~\ref{fig:implementation} is shown a possible sketch of this 
+block, which mainly consist in the following building elements:
 
 \begin{itemize}
-\item \emph{DBS block}: This block take trace of the dynamic behaviour status (DBS). 
+\item \emph{DBS block}: It Takes trace of the dynamic behaviour status (DBS). 
       How discussed in the Sec.~\ref{ssec:disr_dstruct}, there are six possible status. 
       These status can be codified using only 3 bit implemented with a 3-bit register 
       and the required combinatory logic. This block is essentially designed as a state machine.
-\item \emph{LED register}: Is a set of register useful as storage for local environment data (LED)
-      described in Sec.~\ref{ssec:disr_dstruct}. In Fig.~\ref{fig:implementation} in their 
-      respective block, are highlighted two table that represents the link\_visited 
-      and link\_tvisited array. The implementation of this block is an array of register 
+\item \emph{LED register}: Is a set of register useful for storage the local environment data (LED)
+      described in Sec.~\ref{ssec:disr_dstruct}. In Fig.~\ref{fig:implementation}, in their 
+      respective block, are highlighted two table that represents the \emph{link\_visited[]} 
+      and \emph{link\_tvisited[]}. The implementation of this block is an array of register 
       (one for each direction) that can be implemented with an SRAM, in which are presents two 
-      specific fields  for representing the segID (nodeID+linkID). 
+      specific fields  for representing the \emph{segID} (nodeID+linkID). 
 \item \emph{Control circuitry}: This circuitry read the information from the incoming packet, 
       LED registers and the dynamic behaviour status (DBS block) and is able to write The LED
-      informations and change the dynamic behaviour status. The output (Ctrl out), drive 
+      informations and change the dynamic behaviour status. The output (Ctrl\_out), drive 
       the others communications resources (such as node transceivers) for actuating the DiSR 
       routing operation.
 \end{itemize}
 
-One of the main design challenge typical of DNA Self-Assembled systems is due to the
-reduced available resource (such as the number of CNFET per node) for implementing both 
-computations and routing decisions for each node. Considering the budget of $10^4$ CNFET 
-for each network's node\cite{liu_jetcs} we must estimate the required resource useful 
-for implementing the entire DiSR block (Fig.~\ref{fig:implementation}). For this purpose, 
-after a description of the DiSR circuitry with an hardware description language (VHDL) 
-we have synthesized at gate-level the required hardware. Furthermore, considering the 
-specific layout of each single logic elements (such as NAND, full-adder, latch etc.), 
-we are able to count the number of CNFET necessary for implementing the DiSR logic. 
-With this approach we estimated 2452 CNFET for implementing that blocks which constitutes 
-about the 25\% of the overall node budget. This number of resource can be certainly reducing 
-applying more effort in the circuitry design of each building block exposed in this section.
+One of main design challenge typical of DNA Self-Assembled systems is due to the
+reduced available resource (such as the number of CNFETs per node) for implementing both 
+computations and routing decisions for each node. Thi is due to the limited feasibiliy
+of DNA grid were can be placed the single unit cells such as CNFETs and nanowires.
+For this reason, considering a budget of $10^4$ CNFETs for each network's node~\cite{liu_jetcs}
+we should estimate the required resource useful for implementing the entire DiSR block 
+(Fig.~\ref{fig:implementation}). For this purpose, after a description of the DiSR circuitry 
+with an hardware description language (VHDL) we have synthesized at gate-level the required 
+hardware. Furthermore, considering the specific layout of each single logic elements 
+(such as NAND, full-adder, latch etc.), we are able to count the number of CNFETs 
+(carbon nanotube field-effect transitor) necessary for implementing the DiSR logic. 
+In particular, in Fig.\ref{fig:imp_trend} is shown the results of synthesis in therms 
+of number of devices (CNFET) versus the number of network nodes while the network scale 
+up from $10\times10$ to $100\times100$ nodes. Can be observed tath, while the node increase 
+rapidly, the circuitry complexity wich implements the DiSR algorithm increase more slowly. 
+This means that the implemented system scale fine when the number of network's node. 
+In fact, when the number of node increase, the number of register for store the local 
+\emph{segID} for the router and the segment id within the table \emph{link\_visited[]} 
+and \emph{link\_tvisited[]} increase too. For example, the increment of the number of 
+register that implement the \emph{link\_visited[]} and \emph{link\_tvisited[]} table 
+follow the function:
+
+\begin{equation}
+  \label{eq:imp_trend}
+  N_{reg}=2\cdot N_{port} \cdot log_2(N)
+\end{equation}
+where $N_{port}$ is the number of the router's ports (4 in our cases), N is the number 
+of network's node and the therms 2 take in account that \emph{link\_visited[]} and 
+\emph{link\_tvisited[]} are two separate set o registers.
+
+
+%With this approach we estimated about 2000 CNFET for implementing that blocks when
+%it is implemented in a network with $100\times100$ nodes. 
+%This number of resource can be certainly reducing 
+%applying more effort in the circuitry design of each building block exposed in this section.
+
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.40\textwidth]{pictures/disr_imp.eps}
+  \includegraphics[width=0.48\textwidth]{pictures/imp.eps}
   \caption{\emph{DiSR} block architecture.}
- \label{fig:implementation}
+ \label{fig:imp_trend}
 \end{figure}
