@@ -1,7 +1,7 @@
 
 \section{Implementation Issues}
-
 \label{sec:implementation}
+
 Although a completed and detailed floorplan of the node is not the
 focus of this work, in this section we want to give a basic idea of
 which are the main elements required to support this kind of
@@ -45,24 +45,24 @@ block, which mainly consist in the following building elements:
       specific fields  for representing the \emph{segID} (nodeID+linkID). 
 \item \emph{Control circuitry}: This circuitry read the information from the incoming packet, 
       LED registers and the dynamic behaviour status (DBS block) and is able to write The LED
-      informations and change the dynamic behaviour status. The output (Ctrl\_out), drive 
+      informations and change the dynamic behaviour status. The output (Ctrl Out), drive 
       the others communications resources (such as node transceivers) for actuating the DiSR 
       routing operation.
 \end{itemize}
 
-One of main design challenge typical of DNA Self-Assembled systems is due to the
-reduced available resource (such as the number of CNFETs per node) for implementing both 
-computations and routing decisions for each node. The reason, is the limited feasibility
-of DNA grids were can be placed the single unit cells such as CNFETs and nanowires.
+One of the main design challenge typical of DNA Self-Assembled systems is due to the
+reduced available resource  for implementing both computations and routing decisions for each node. 
+The reason is the limited feasibility of DNA grids were can be placed the single unit cells such 
+as CNFETs (carbon nanotube field-effect transistors) and nanowires.
 For this reason, considering a budget of $10^4$ CNFETs for each network's node~\cite{liu_jetcs}
-we should estimate the required resource useful for implementing the entire DiSR block 
+we should estimate the required resource for implementing the entire DiSR block 
 (Fig.~\ref{fig:implementation}). For this purpose, after a description of the DiSR circuitry 
 with an hardware description language (VHDL) we have synthesized at gate-level the required 
 hardware. Furthermore, considering the specific layout of each single logic elements 
 (such as NAND, full-adder, latch etc.), we are able to count the number of CNFETs 
-(carbon nanotube field-effect transistor) necessary for implementing the DiSR logic. 
+necessary for implementing the DiSR logic. 
 In particular, in Fig.\ref{fig:imp_trend} is shown the results of synthesis in therms 
-of number of devices (CNFET) versus the number of network nodes while the network scale 
+of number of devices (CNFETs) versus the number of network nodes while the network scale 
 up from $10\times10$ to $100\times100$ nodes. Can be observed that, while the node have
 a squared increment, the circuitry complexity which implements the DiSR algorithm increase slowly. 
 This means that the implemented system scale fine whit the number of network's node. 
@@ -78,11 +78,11 @@ of network's node and the therms 2 take in account that \emph{link\_visited[]} a
 \emph{link\_tvisited[]} are two separate set o registers. While this number is fixed by 
 the number of network's node, the control circuitry can be optimized applying more effort 
 when designing this building block. However, observing the Fig.\ref{fig:imp_trend} can 
-be pointed out that the proposed implementation occupy only 20\% of the node budget. 
+be pointed out that the proposed implementation occupy  about 20\% of the node budget. 
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.48\textwidth]{pictures/imp.eps}
-  \caption{\emph{DiSR} block architecture.}
+  \includegraphics[width=0.48\textwidth]{pictures/imp_rslt.eps}
+  \caption{DiSR synthesis results: N is the number of network's node.}
  \label{fig:imp_trend}
 \end{figure}
