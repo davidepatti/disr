@@ -36,7 +36,7 @@ block, which mainly consist in the following building elements:
 \item \emph{DBS block}: It Takes trace of the dynamic behaviour status (DBS). 
       How discussed in the Sec.~\ref{ssec:disr_dstruct}, there are six possible status. 
       These status can be codified using only 3 bit implemented with a 3-bit register 
-      and the required combinatory logic. This block is essentially designed as a state machine.
+      and the required combinational logic. This block is essentially designed as a state machine.
 \item \emph{LED register}: Is a set of register useful for storage the local environment data (LED)
       described in Sec.~\ref{ssec:disr_dstruct}. In Fig.~\ref{fig:implementation}, in their 
       respective block, are highlighted two table that represents the \emph{link\_visited[]} 
@@ -52,25 +52,22 @@ block, which mainly consist in the following building elements:
 
 One of main design challenge typical of DNA Self-Assembled systems is due to the
 reduced available resource (such as the number of CNFETs per node) for implementing both 
-computations and routing decisions for each node. Thi is due to the limited feasibiliy
-of DNA grid were can be placed the single unit cells such as CNFETs and nanowires.
+computations and routing decisions for each node. The reason, is the limited feasibility
+of DNA grids were can be placed the single unit cells such as CNFETs and nanowires.
 For this reason, considering a budget of $10^4$ CNFETs for each network's node~\cite{liu_jetcs}
 we should estimate the required resource useful for implementing the entire DiSR block 
 (Fig.~\ref{fig:implementation}). For this purpose, after a description of the DiSR circuitry 
 with an hardware description language (VHDL) we have synthesized at gate-level the required 
 hardware. Furthermore, considering the specific layout of each single logic elements 
 (such as NAND, full-adder, latch etc.), we are able to count the number of CNFETs 
-(carbon nanotube field-effect transitor) necessary for implementing the DiSR logic. 
+(carbon nanotube field-effect transistor) necessary for implementing the DiSR logic. 
 In particular, in Fig.\ref{fig:imp_trend} is shown the results of synthesis in therms 
 of number of devices (CNFET) versus the number of network nodes while the network scale 
-up from $10\times10$ to $100\times100$ nodes. Can be observed tath, while the node increase 
-rapidly, the circuitry complexity wich implements the DiSR algorithm increase more slowly. 
-This means that the implemented system scale fine when the number of network's node. 
-In fact, when the number of node increase, the number of register for store the local 
-\emph{segID} for the router and the segment id within the table \emph{link\_visited[]} 
-and \emph{link\_tvisited[]} increase too. For example, the increment of the number of 
-register that implement the \emph{link\_visited[]} and \emph{link\_tvisited[]} table 
-follow the function:
+up from $10\times10$ to $100\times100$ nodes. Can be observed that, while the node have
+a squared increment, the circuitry complexity which implements the DiSR algorithm increase slowly. 
+This means that the implemented system scale fine whit the number of network's node. 
+For example, the increment of the number of register that implement the \emph{link\_visited[]} 
+and \emph{link\_tvisited[]} table follow the function:
 
 \begin{equation}
   \label{eq:imp_trend}
@@ -78,14 +75,10 @@ follow the function:
 \end{equation}
 where $N_{port}$ is the number of the router's ports (4 in our cases), N is the number 
 of network's node and the therms 2 take in account that \emph{link\_visited[]} and 
-\emph{link\_tvisited[]} are two separate set o registers.
-
-
-%With this approach we estimated about 2000 CNFET for implementing that blocks when
-%it is implemented in a network with $100\times100$ nodes. 
-%This number of resource can be certainly reducing 
-%applying more effort in the circuitry design of each building block exposed in this section.
-
+\emph{link\_tvisited[]} are two separate set o registers. While this number is fixed by 
+the number of network's node, the control circuitry can be optimized applying more effort 
+when designing this building block. However, observing the Fig.\ref{fig:imp_trend} can 
+be pointed out that the proposed implementation occupy only 20\% of the node budget. 
 
 \begin{figure}
   \centering
