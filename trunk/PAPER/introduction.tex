@@ -1,16 +1,17 @@
 
 \section{Introduction and Motivation}
 
-Exploring long term alternatives to the CMOS technology is gaining
-more and more revelance as the scaling trend of such devices keeps
-introducing new challenges. Power density, defect tolerance, testing
-costs and wire delays are only a few of the many critical aspects
-involved~\cite{itrs12}. While software parallelism and multicore
-approaches~\cite{horowitz2004, mudge2001, powell2009} are partially mitigating the impact of such
-constraints on performances, it is likely that the growing computing demand will
-eventually need even more radical architectural modifications and new
-paradigms in order to address the Computer Design challenges of the next
-decades.
+% TODO: re-enable on long paper
+%Exploring long term alternatives to the CMOS technology is gaining
+%more and more revelance as the scaling trend of such devices keeps
+%introducing new challenges. Power density, defect tolerance, testing
+%costs and wire delays are only a few of the many critical aspects
+%involved~\cite{itrs12}. While software parallelism and multicore
+%approaches~\cite{horowitz2004, mudge2001, powell2009} are partially mitigating the impact of such
+%constraints on performances, it is likely that the growing computing demand will
+%eventually need even more radical architectural modifications and new
+%paradigms in order to address the Computer Design challenges of the next
+%decades.
 
 In the last years, Self-assembled nanoscale architectures~\cite{winfree1998, yan2003}
 are emerging as a promising technology due their tera/peta scale of
@@ -25,12 +26,14 @@ attached. This can be achieved by designing approapriate complementary DNA tags 
 each terminal to be placed, so that a nano device will be attached
 only where its own DNA tag matches a complementary tag on the DNA grid
 scaffold (see figure~\ref{fig:dna_tag}.
+
 \begin{figure}
   \centering
     \includegraphics[width=0.40\textwidth]{pictures/dna2b.eps}
   \caption{DNA tag matching}
   \label{fig:dna_tag}
 \end{figure}
+
 A detailed description of the chemical properties involved is far
 beyond the scope of this paper (see also~\cite{braun1998, seeman1999}), so we will focus on
 the three main challenges that this new fabrication process introduces
@@ -50,45 +53,61 @@ symbols forming the DNA sequence is limited (sequence of 4 nucleobases
 G,A,T,C) and so creating many different tags (of a given lenght) would
 mean make them more similar to each other, increasing the probability
 of incorrect/partial matching. To avoid this problem we should limit
-the number of unique tags, thus limiting the complexity at each node. 
+the number of unique tags, thus limiting the complexity at each node.
+In particular, a budget of about $10,000$ transistor per node has been
+estimated in~\cite{liu_jetcs}.
 
-\emph{Large scale randomness} and \emph{high defect rates} are the other two fundaments
-conditions of self-assembled technology: if, as seen, some complexity
-can be introduced by designing tag sequences in the DNA grid of each
-node, we have no control of where each of these grids will be placed
-on the whole network. Further, as a consequence, we cannot guarantee
-other typical properties of regular networks, like nodes being
-connected to 4 neighbors, having a determined orientation and so on.
+\emph{Large scale randomness} is the other fundamental condition of
+self-assembled technology: DNA tags allow a control placement inside
+node grid, but there is no control of where each of these  grids will
+be placed on the whole network. As a consequence, other typical
+properties of regular networks cannot be guaranteed, e.g. being
+connected to a fixed number of neighbors, having a determined
+orientation and so on.
+
+Finally, \emph{defect rates}: while they are very hardly tolerated in mask
+based top down design , the same nature of a bottom up self
+assembled process cannot assume such a deterministic device placement
+process.
 
 These aspects of a DNA-self assembly process lead to some important
-architectural implications to be addressed when approaching to the
-Computer Design: computational model must be founded on a distributed
-network of small computing and storage nodes, randomly placed and
-interconnected (see figure~\ref{fig:nana}).  Proof-of-concept of such kind of computational model
-can be found in~\cite{patwardhan2006_1}, where instructions and data operands travel
-on packets and routed using a topology-agnostic strategy that avoids
-deadlock, since no particular regularity can be assumed in such
-network. 
+implications to be addressed when approaching to the design of
+computer architecture: a computational model should be founded on a
+distributed network of small computing and storage nodes, randomly
+placed and interconnected (see figure~\ref{fig:nana}).
+Proof-of-concept of such kind of computational model can be found for
+example in~\cite{patwardhan2006_1}.  Since no regularity can be
+assumed in such network, a topology agnostic strategy that avoids
+deadlock should be adopted in order to route packets (e.g.
+instructions and data operands) among nodes.  It is important to
+underline that, altought we can assume an architecture similar to the
+one depicted in~\ref{fig:nana} as background, the topology discovery
+problem is more general and not stricly dependent on any of the
+underlying computing architectures.
 
+%where instructions and data operands travel
+%on packets and routed using a topology-agnostic strategy that avoids
+%deadlock, 
 \begin{figure}
   \centering
-    \includegraphics[width=0.40\textwidth]{pictures/dna1.eps}
-  \caption{Irregular architecture of computing and storage elements}
+    \includegraphics[width=0.20\textwidth]{pictures/dna1.eps}
+  \caption{Irregular topology of computing and storage elements}
   \label{fig:nana}
 \end{figure}
 
-In this paper we introduce DiSR, a first effort for a Distributed
+The contribution presented in this paper is to bring the advantages of
+a segment-based approach to deadlock freedom without requiring any topology graph,
+external defect map or centralized algorithm execution.  We introduce DiSR, a first effort for a Distributed
 Segment-based Routing in large scale DNA self assembled networks.
-Given the irregular/high-defect rates scenario assumed as background, is essential
+While maintaining similar properties to segment-based , the DiSR
+approach is not intended to discover the "optimal" segment choice
+(ideally reachable with the knowledge of the topology graph) but just
+to demonstrate a concrete model that can fit into such complex,
+irregular and large sized topologies.
+Given the irregular/high-defect rates scenario discussed above, is essential
 avoiding non-scalable or resource hungry solutions such as
 centralized off-chip algorithms, tree-based approaches, virtual channels
 or expensive implementations based on hardware redundancy.
-Altought we will assume an architecture similar to the one depicted
-in~\ref{fig:nana} as background, it
-is important to underline that the proposed approach to topology
-discovery is more general and not stricly dependent on any of these
-architectures.
-
 
 \section{Related Works}
 
@@ -128,21 +147,19 @@ choice, would make it the best choice for the given scenario;
 however, its topology independency still requires the knowledge of the
 whole network graph in order to find the segments. 
 
-The contribution presented in this paper is to bring the advantages of
-segment-based turn prohibition without requiring any topology graph,
-external defect map or centralized algorithm execution.  While
-maintaining similar properties to segment-based routing, the DiSR
-approach is not intended to discover the "optimal" segment choice
-(ideally reachable with the knowledge of the topology graph) but just
-to demonstrate a concrete model that can fit into such complex,
-irregular and large sized topologies.
+The DiSR approach presented in this works is a first attempt of
+reaching the same goal of SR (e.g. estabilishing segments) without
+requiring a topology graph and a centralized exectution.
 
 The paper is organized as follows: in Section~\ref{sec:disr_concepts}
 we introduce the main elements of the DiSR approach, describing  
 a draft of the DiSR model in Section~\ref{sec:disr_model}
 together with execution model details in Section~\ref{sec:disr_detaled_model}.
-Finally, simulations are carried out with the opensource tool Nanoxim
+In Section~\ref{sec:simulatio} simulations are carried out with the opensource tool Nanoxim
 to demostrate how DiSR preserves some of the main segment-based
-properties and how compares to the tree-based approaches.
+properties and how compares to the tree-based approaches. Finally a
+draft of a VHDL hardware implementation is shown in
+Section~\ref{sec:implementation} to evaluate the feasibility of the
+approach in terms of node complexity.
 
 
