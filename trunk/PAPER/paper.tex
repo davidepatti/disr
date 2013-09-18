@@ -63,20 +63,20 @@ Elettrica, Elettronica ed Informatica, Universit\`a di Catania, Italy
 
 \begin{abstract}
 In this paper we present DiSR, a first effort for a distributed
-segment-based approach to routing and defect mapping in a nano-scale, topology agnostic
-scenario based on DNA self-assembly. The main aim is exploiting the
-already-proven qualities of segment-based routing without neither requiring a
-topology graph as input, nor needing a centralized algorithm to
-configure network paths. 
-After introducing the conceptual elements and the execution model of
-DiSR, we developed the opensource Nanoxim tool to show how the proposed
-approach can be used to discover irregular network topology while
-estabilishing network segments.  The results shows how DiSR still
-preserves some important features
-(connectivity, defect tolerance, scalability)  while avoiding centralized
-tree-based broadcasting and resource hungry solutions such as virtual
-channels and hardware redundancy. Finally, we analyzed a possible
-VHDL hardware implementation of the required control logic and storage for
+segment-based approach to routing and defect mapping in a nano-scale,
+topology agnostic scenario based on DNA self-assembly. The main aim is
+exploiting the already-proven qualities of segment-based routing
+without neither requiring a topology graph as input, nor needing a
+centralized algorithm to configure network paths.  After introducing
+the conceptual elements and the execution model of DiSR, we show how
+the opensource Nanoxim platform has been used to evaluate the proposed
+approach in the process of discovering irregular network topology
+while estabilishing network segments.  Results show how DiSR still
+preserves some important properties (coverage, defect tolerance,
+scalability)  while avoiding centralized tree-based broadcasting and
+resource hungry solutions such as virtual channels and hardware
+redundancy. Finally, we analyzed a first, not yet optimised VHDL
+hardware implementation of the required control logic and storage for
 DiSR, demonstrating a relatively acceptable impact ranging from 15 to
 about 25\% of the budget of transistors available for each node.
 \end{abstract}
@@ -98,7 +98,16 @@ Nanotechnology, DNA, Self-assembly, Routing
 %------------------------------------------------------------------------------
 
 \section{Conclusions}
-...
+In this work we presented DiSR, a initial attempt of porting a segment based
+approach to distributed self-assembled nanoscale scenario. We
+demostrated how DiSR can accomplish the aim of finding a segment
+coverage of the network withouth requiring any centralized approach
+that would request a graph topology as input. A draft hardware
+implementation has been presented to evalute the impact on the limited
+node size typical of the assumed scenario. Future works will focus on
+developing self tuning of DiSR to match a high coverage levels and the
+detailed low level hardware implementation on
+DNA grid using the appropriate nano devices models.
 
 %------------------------------------------------------------------------------
 
