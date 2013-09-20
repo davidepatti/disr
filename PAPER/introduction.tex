@@ -69,7 +69,8 @@ orientation and so on.
 Finally, \emph{defect rates}: while they are very hardly tolerated in mask
 based top down design , the same nature of a bottom up self
 assembled process cannot assume such a deterministic device placement
-process.
+process, thus defect tolerance is something like a design requirement
+more than a exception to be avoided.
 
 These aspects of a DNA-self assembly process lead to some important
 implications to be addressed when approaching to the design of
@@ -83,8 +84,8 @@ deadlock should be adopted in order to route packets (e.g.
 instructions and data operands) among nodes.  It is important to
 underline that, altought we can assume an architecture similar to the
 one depicted in~\ref{fig:nana} as background, the topology discovery
-problem is more general and not stricly dependent on any of the
-underlying computing architectures.
+problem faced in this work is more general and not stricly dependent on any of the
+underlying computing architecture.
 
 %where instructions and data operands travel
 %on packets and routed using a topology-agnostic strategy that avoids
@@ -96,10 +97,11 @@ underlying computing architectures.
   \label{fig:nana}
 \end{figure}
 
-The main contribution presented in this paper is to bring the advantages of
-a segment-based approach to deadlock freedom without requiring any topology graph,
-external defect map or centralized algorithm execution.  We introduce DiSR, a first effort for a Distributed
+In this paper we introduce DiSR, a first effort for a Distributed
 Segment-based Routing in large scale DNA self assembled networks.
+The main contribution is to bring the advantages of
+a segment-based approach to deadlock freedom without requiring any topology graph,
+external defect map or centralized algorithm execution. 
 While maintaining similar properties to segment-based , the DiSR
 approach is not intended to discover the "optimal" segment choice
 (ideally reachable with the knowledge of the topology graph) but just
@@ -161,9 +163,9 @@ however, its topology independency still requires the knowledge of the
 whole network graph in order to find the segments. 
 
 The DiSR approach presented in this work is a first attempt of
-reaching the same goal of a segment based approach, that is
+reaching the same goals of a segment based approach, that is
 estabilishing segments, without requiring any topology graph or
-centralized execution.
+centralized execution. 
 
 
 
