@@ -11,12 +11,12 @@ links. A segment $S_1$ starts with a link attached to a node which
 belongs to different segment $S_2$, ending with a link attached to a
 node belonging to a different segment $s_3$. In other words, a segment
 a path between connecting two other different segments.A exception is
-the first segment estabilished in the network, called \emph{starting
+the first segment established in the network, called \emph{starting
 segment} which is  a loop beginning/ending on a particular node
 defined as \emph{bootstrap node}.
 The idea is to partition the network in a set of disjoint segments, and then
 placing a turn restriction within each segment. It has been proved~\cite{mejia_ipdps06}
-that such a set of turn prohibitions guarantees dealock freedom and
+that such a set of turn prohibitions guarantees deadlock freedom and
 while preserving connectivity of the network.
 
 Describing the execution phases of DiSR from a top level point-of-view
@@ -62,11 +62,11 @@ As regards packet\_type, we can have the following control packets:
 \begin{itemize}
 \item{\texttt{STARTING\_SEGMENT\_REQUEST}}: Injected by the bootstrap
 node to when searching for the first segment. 
-\item{\texttt{STARTING\_SEGMENT\_CONFIRM}}: used when estabilishing
+\item{\texttt{STARTING\_SEGMENT\_CONFIRM}}: used when establishing
 the starting  segment. 
 \item{\texttt{SEGMENT\_REQUEST}}: used to search candidates for a segment (not the
 first)
-\item{\texttt{SEGMENT\_CONFIRM}}: used to estabilish a segment. 
+\item{\texttt{SEGMENT\_CONFIRM}}: used to establish a segment. 
 \item{\texttt{SEGMENT\_CANCEL}}: used to cancel the process of searching a segment along a
 specific link.
 \end{itemize}
@@ -186,7 +186,7 @@ following.
 \end{figure}
 \begin{itemize}
 
-\item{\textbf{Injecting bootstrap request}}: all nodes have a initial
+\item{\textbf{Injecting bootstrap request}}: all nodes have an initial
 \emph{DBS} status \emph{Free}, except for a
  node with status \emph{Bootstrap}, set by some signal from an
 upper layer via (a). When starting, this bootstrap node 
@@ -194,7 +194,7 @@ changes its status to \emph{ActiveSearching} (b), injecting a
 \texttt{STARTING\_SEGMENT\_REQUEST} across one of its free links. 
 
 \item{\textbf{Flooding}}: Each node receiving a \texttt{STARTING\_SEGMENT\_REQUEST},
-if $Free$ forwards it to its free links using a flooding mechanism and
+when $Free$ forwards it to its free links using a flooding mechanism and
 becoming $CandidateStarting$ (g).
 Each of its free links is then marked as \emph{tvisited} with the segment id
 associated to the request. Note that a node that has already received a
@@ -206,7 +206,7 @@ flooding.
 
 \item{\textbf{Confirming the Starting Segment}}: when the \texttt{STARTING\_SEGMENT\_REQUEST} packet reaches
 the bootstrap node (from a different link, of course), the starting
-segment is found. Then the boostrap node sends back a \texttt{STARTING\_SEGMENT\_CONFIRM}
+segment is found. Then the bootstrap node sends back a \texttt{STARTING\_SEGMENT\_CONFIRM}
 packet along the link from which it received the
 \texttt{STARTING\_SEGMENT\_REQUEST} and becomes $Assigned$ (c). Each
 node receiving the confirm do same by changing its own status
@@ -233,14 +233,14 @@ a \texttt{SEGMENT\_REQUEST} across one of its free links (d). Note
 that since this is not the starting segment in this case the packet
 should not reach the initiator, but just another \emph{Assigned} node.
 
-\item{\textbf{Setup of a segment}}: The find process is successfull
+\item{\textbf{Setup of a segment}}: The find process is successful
 when an already \emph{Assigned} node receives the
 \texttt{SEGMENT\_REQUEST} packet. Then, a \texttt{SEGMENT\_CONFIRM} is
 sent back along the path that originated the request (e), while the
 node remain $Assigned$ (since it could confirm more segments). Each node
 previously set as $Candidate$ for that segment id, when receiving the
 confirm packet changes its status to $Assigned$ (m) and forwards back
-the same confirm until it reaches the initator of the request, which
+the same confirm until it reaches the initiator of the request, which
 changes from $ActiveSearching$ to $Assigned$ (c).
 
 \item{\textbf{Failing while searching a segment}}: a node received a \texttt{SEGMENT\_REQUEST} packet but
