@@ -95,7 +95,7 @@ underlying computing architectures.
   \label{fig:nana}
 \end{figure}
 
-The contribution presented in this paper is to bring the advantages of
+The main contribution presented in this paper is to bring the advantages of
 a segment-based approach to deadlock freedom without requiring any topology graph,
 external defect map or centralized algorithm execution.  We introduce DiSR, a first effort for a Distributed
 Segment-based Routing in large scale DNA self assembled networks.
@@ -109,8 +109,20 @@ avoiding non-scalable or resource hungry solutions such as
 centralized off-chip algorithms, tree-based approaches, virtual channels
 or expensive implementations based on hardware redundancy.
 
-\section{Related Works}
+The paper is organized as follows: in Section~\ref{sec:related_works}
+we summarize the main approaches to topology agnostic routing. Next in
+Section~\ref{sec:disr_concepts} are described the main elements of the
+proposed approach, showing a the DiSR execution model in
+Section~\ref{sec:execution_model}.  In Section~\ref{sec:simulation}
+simulations are carried out with the opensource tool Nanoxim to
+demostrate how DiSR preserves some of the main segment-based
+properties and how compares to the tree-based approaches. Finally a
+draft of a architectural implementation is shown in
+Section~\ref{sec:implementation} to evaluate the feasibility of the
+approach in terms of node complexity.
 
+\section{Related Works}
+\label{sec:related_works}
 Several works~\cite{sancho2002, skeie2002, skeie2004, koibuchi2003} have been presented addressing the problem of topology
 agnostic routing. While they show interesting
 performances, the requirement for virtual channels resources 
@@ -118,7 +130,7 @@ to avoid deadlock makes them not suitable for the specific DNA self
 assembled networks we are assuming as background.
 Other topology independent algorithms~\cite{schroeder1991, koibuchi2001, cherkasova1996} do not use virtual channels to
 achieve deadlock freedom, but turn proibitions. 
-In particular, up*/down* exploits the creation of a spanning tree of the
+In particular, authors of~\cite{Patwardhan05evaluatingthe} exploits the creation of a spanning tree of the
 topology, then placing bidirectional restrictions by avoiding a packet
 to traverse the same link in both up and down directions.
 While the hierarchical nature of this approach can lead to uneven traffic
@@ -147,19 +159,10 @@ choice, would make it the best choice for the given scenario;
 however, its topology independency still requires the knowledge of the
 whole network graph in order to find the segments. 
 
-The DiSR approach presented in this works is a first attempt of
-reaching the same goal of SR (e.g. estabilishing segments) without
-requiring a topology graph and a centralized exectution.
+The DiSR approach presented in this work is a first attempt of
+reaching the same goal of a segment based approach, that is
+estabilishing segments, without requiring any topology graph or
+centralized execution.
 
-The paper is organized as follows: in Section~\ref{sec:disr_concepts}
-we introduce the main elements of the DiSR approach, describing  
-a draft of the DiSR model in Section~\ref{sec:disr_model}
-together with execution model details in Section~\ref{sec:disr_detaled_model}.
-In Section~\ref{sec:simulatio} simulations are carried out with the opensource tool Nanoxim
-to demostrate how DiSR preserves some of the main segment-based
-properties and how compares to the tree-based approaches. Finally a
-draft of a architectural implementation is shown in
-Section~\ref{sec:implementation} to evaluate the feasibility of the
-approach in terms of node complexity.
 
 
