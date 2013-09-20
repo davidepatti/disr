@@ -16,10 +16,10 @@ showdvi: paper.dvi
 	open paper.dvi&
 
 showps: paper.ps
-	ghostview paper.ps&
+	open paper.ps&
 
 showpdf: paper.pdf
-	acroread paper.pdf&
+	open paper.pdf&
 
 clean:
 	rm -f *.pdf *.aux *.bbl *.log *.blg *.dvi *.ps
