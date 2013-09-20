@@ -56,7 +56,7 @@ Self-Assembled systems is the limited resource available for
 implementing both computations and routing decisions for each node.
 For this reason, assuming a budget of $10^4$ CNFETs for each network's
 node~\cite{liu_jetcs} we estimated the required resource for
-implementing the entire DiSR block. An not optimized behavioural
+implementing the entire DiSR block. A not optimized behavioural
 HDL of the DiSR circuitry has been written and synthesized at gate-level.
 Considering the specific layout of each single logic elements ( NAND,
 full-adder, latch etc.), it has been possible to get a rough estimate
@@ -76,11 +76,11 @@ Further, more than the absolute number of devices itself, it is interesting to
 observe that, while the node have a squared increment, the circuitry
 complexity which implements the DiSR algorithm increases with a slowly
 growing trend.  
-An intuitive explaination of this is the relatively simple logic of
+An intuitive explanation of this is the relatively simple logic of
 DiSR, whose behaviour is almost code on scalable storage structures.
 For example, the number of registers implementing the
 \emph{link\_visited[]} and \emph{link\_tvisited[]} table follow the
-logaritmic function:
+logarithmic function:
 \begin{equation}
   \label{eq:imp_trend}
   N_{reg}=2\cdot N_{port} \cdot log_2(N)

@@ -49,7 +49,7 @@ The show the results, the following evaluation metrics have been adopted:
 \item{Node coverage}: this is the fraction of nodes that
 are assigned to a segment. In the ideal case, all the non defective
 nodes should be assigned, so this metric is useful to show how some
-disconnected node regions can negativaly impact on the whole DiSR
+disconnected node regions can negatively impact on the whole DiSR
 effectiveness.
 \item{\emph{Latency}}: this measures how the cycles required to complete the
 segment assignment scales for increasing network sizes and defect rates
@@ -126,10 +126,10 @@ of upper bound) have been reported
 (see~\cite{Patwardhan05evaluatingthe} for details). What it's more
 interesting is to observe is how DiSR latency scales with network
 size. For example, going from 900 to 2500 nodes, at the medium defect
-rate of $0.15$, leads to an increse from 3000 to 4500 cycles. Note how
-the effect of defect rate is incresing until the threshold of $0.25$
+rate of $0.15$, leads to an increase from 3000 to 4500 cycles. Note how
+the effect of defect rate is increasing until the threshold of $0.25$
 is reached, meaning that while DiSR finds it more difficult to
-complete the process due incresing defective paths, it still discover
+complete the process due increasing defective paths, it still discover
 new segments when let running for a more extended amount of cycles.
 After that threshold, the impact of entire disconnected regions
 becomes predominant and DiSR more quickly complete the process
@@ -156,11 +156,11 @@ This is an important aspect to evaluate when considering that one of
 the main advantages of DiSR against all the tree based approaches
 should be the ability of choosing whatever bootstrap node, without
 having to care of any particular \emph{root-node role} assumed in the future.
-In other words, after segments have been estabilished, the bootstrap node
+In other words, after segments have been established, the bootstrap node
 is like every other node, i.e. it is not center of a structure, and it
 is not an hotspot for the traffic distribution. The results in terms
 of coverage,  shown for low, medium and high defect profiles, seems to
-demostrate a relatively limited impact of the bootstrap choice in
+demonstrate a relatively limited impact of the bootstrap choice in
 the low/medium scenarios, while a 30\%instability is found for very high defect
 rates. This also sounds acceptable, since when lot of defective nodes
 are present, the particular position of the bootstrap choice could
