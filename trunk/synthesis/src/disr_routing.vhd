@@ -164,7 +164,7 @@ proc:	process(pkt_type,pkt_src,pkt_segid_node,pkt_segid_link)
 
 				end if;
 			end if;
-		
+------------------------------------------------------------------------------------------------		
 --		elsif (pkt_in(FLIT_SIZE-1 downto FLIT_SIZE-4))=STARTING_SEGMENT_CONFIRM) then
 
 --		elsif (pkt_in(FLIT_SIZE-1 downto FLIT_SIZE-4))=SEGMENT_CONFIRM) then	
