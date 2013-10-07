@@ -1,0 +1,10 @@
+analyze -format vhdl src/pkg_disr.vhd
+analyze -format vhdl src/disr_routing.vhd
+target_library=/usr/synopsys/libraries/umc/fse0a_d_generic_core_tt1v25c.db
+elaborate disr
+set_max_area 0
+compile
+report_reference
+report_area
+quit
+
