@@ -1,0 +1,1368 @@
+
+                    Synopsys Interface Shell (TM)
+              Version 2001.08 for linux -- Aug 22, 2001
+              Copyright (c) 1988-2001 by Synopsys, Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys, Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Initializing...
+analyze -format vhdl src/pkg_disr.vhd
+Loading db file '/usr/synopsys/synthesis/libraries/syn/standard.sldb'
+Loading db file '/usr/synopsys/synthesis/libraries/syn/gtech.db'
+Loading db file '/usr/synopsys/libraries/umc/gscl45nm.db'
+Reading in the Synopsys vhdl primitives.
+/home/andrea/Desktop/papers/disr/synthesis/src/pkg_disr.vhd:
+1
+analyze -format vhdl src/disr_routing.vhd
+/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd:
+1
+target_library=/usr/synopsys/libraries/umc/fse0a_d_generic_core_tt1v25c.db
+{"/usr/synopsys/libraries/umc/fse0a_d_generic_core_tt1v25c.db"}
+elaborate disr
+Warning: Variable 'pkt_src' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'ttl' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'local_segID' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'dbs' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'link_visited_flag' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'free_link_results' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'link_visited' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+Warning: Variable 'request_path' is being read 
+	in routine disr line 61 in file '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd', 
+	but is not in the process sensitivity list of the block which begins 
+	there.   (HDL-179)
+
+Inferred memory devices in process 'proc'
+	in routine disr line 61 in file
+         '/home/andrea/Desktop/papers/disr/synthesis/src/disr_routing.vhd'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    ctrl_out_reg     |   Latch   |   4   |  Y  | N  | N  | N  | -  | -  | -  |
+|       dbs_reg       |   Latch   |   3   |  Y  | N  | N  | N  | -  | -  | -  |
+| link_visited_flag_reg |  Latch  |   4   |  Y  | N  | N  | N  | -  | -  | -  |
+|  link_visited_reg   |   Latch   |  48   |  Y  | N  | N  | N  | -  | -  | -  |
+|   local_segID_reg   |   Latch   |  12   |  Y  | N  | N  | N  | -  | -  | -  |
+===============================================================================
+
+Current design is now 'disr'
+1
+set_max_area 0
+1
+compile
+Loading db file '/usr/synopsys/libraries/umc/fse0a_d_generic_core_tt1v25c.db'
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Library                                         |  Available  |
+============================================================================
+| DesignWare-Basic                                           |      *      |
+| DesignWare-Foundation                                      |             |
+============================================================================
+
+
+  Loading target library 'fse0a_d_generic_core_tt1v25c'
+  Loading design 'disr'
+Warning: Design 'disr' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Information: Timing loop detected. (OPT-150)
+	U863/A U863/Z U391/CONTROL1_0 U391/Z_2 U372/DATA2_2 U372/Z_2 U164/DATA1_0 U164/Z_0 dbs_reg[2]/enable dbs_reg[2]/Q U283/A U283/Z U284/A U284/Z 
+Information: Timing loop detected. (OPT-150)
+	U285/A U285/Z U376/A U376/Z U377/A U377/Z U863/B U863/Z U391/CONTROL1_0 U391/Z_2 U372/DATA2_2 U372/Z_2 U164/DATA1_0 U164/Z_0 dbs_reg[2]/enable dbs_reg[2]/Q 
+Warning: Disabling timing arc between pins 'A' and 'Z' on cell 'U863'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'B' and 'Z' on cell 'U863'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'dbs_reg[1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'dbs_reg[0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1_0' and 'Z_2' on cell 'U303'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'a2[2]' and 'z27' on cell 'U243'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'y[2]' and 'z14' on cell 'U190'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1_0' and 'Z_0' on cell 'U677'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_flag_reg[2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_flag_reg[1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_flag_reg[0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2_0' and 'Z_0' on cell 'U677'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'h3[9]' and 'z43' on cell 'U408'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2_0' and 'Z_2' on cell 'U391'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2_0' and 'Z_2' on cell 'U303'
+         to break a timing loop (OPT-314)
+
+  Beginning Resource Allocation  (area only)
+  -----------------------------
+  Allocating blocks in 'disr'
+  Allocating blocks in 'disr'
+  Allocating blocks in 'DW01_cmp2_10'
+  Building model 'DW01_cmp2_10' (rpl)
+Information: Changed wire load model for 'DW01_cmp2_10' from '(none)' to 'enG5K'. (OPT-170)
+Warning: Design 'disr' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Information: Timing loop detected. (OPT-150)
+	*cell*187/CONTROL1 *cell*187/Z_2 *cell*179/DATA2_2 *cell*179/Z_2 *cell*161/DATA2_2 *cell*161/Z_2 *cell*51/DATA1_0 *cell*51/Z_0 dbs_reg[2]/enable dbs_reg[2]/Q U57/B U57/Z U58/A U58/Z U59/A U59/Z U74/A U74/Z U79/A U79/Z U80/A U80/Z *cell*29/CONTROL1 *cell*29/Z_2 *cell*24/U8/i3 *cell*24/U8/o0 *cell*24/U6/I1 *cell*24/U6/O U598/r14 U598/z194 U599/A U599/Z *cell*211/CONTROL1 *cell*211/Z_0 U392/A U392/Z 
+Information: Timing loop detected. (OPT-150)
+	U393/A U393/Z *cell*187/CONTROL2 *cell*187/Z_2 *cell*179/DATA2_2 *cell*179/Z_2 *cell*161/DATA2_2 *cell*161/Z_2 *cell*51/DATA1_0 *cell*51/Z_0 dbs_reg[2]/enable dbs_reg[2]/Q U57/B U57/Z U58/A U58/Z U59/A U59/Z U74/A U74/Z U79/A U79/Z U80/A U80/Z *cell*29/CONTROL1 *cell*29/Z_2 *cell*24/U8/i3 *cell*24/U8/o0 *cell*24/U6/I1 *cell*24/U6/O U598/r14 U598/z194 U599/A U599/Z *cell*211/CONTROL1 *cell*211/Z_0 
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_2' on cell '*cell*187'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_2' on cell '*cell*187'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*187'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*187'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*179'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*179'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_9' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_9' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_9' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_9' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_9' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_9' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i17' and 'z231' on cell 'U680'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*215'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*215'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*215'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*215'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*10'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*10'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*9'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*9'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'DATA2_9' and 'Z_9' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'DATA2_9' and 'Z_9' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[1][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[2][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[3][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'link_visited_reg[3][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'f21' and 'z280' on cell 'U746'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*217'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*217'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*247'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*247'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*247'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*247'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*185'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*185'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*173'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*173'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*173'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*173'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*137'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*137'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*137'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*137'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*131'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*131'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 's10' and 'z142' on cell 'U541'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*115'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*115'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'p7' and 'z101' on cell 'U479'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'q7' and 'z101' on cell 'U479'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'j3' and 'z44' on cell 'U417'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'k3' and 'z44' on cell 'U417'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*181'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*181'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_11' on cell '*cell*183'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_11' on cell '*cell*183'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_11' on cell '*cell*135'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_11' on cell '*cell*135'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_9' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_9' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*10'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*10'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*9'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*9'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_9' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_9' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*217'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*217'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*185'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*185'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*173'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*173'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*131'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*131'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*115'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*115'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*169'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*169'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*109'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*109'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_11' on cell '*cell*135'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_11' on cell '*cell*135'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_9' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_9' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_8' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_8' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_8' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_8' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_8' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_8' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*115'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*115'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*181'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*181'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*169'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*169'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*129'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*129'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_11' on cell '*cell*165'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_11' on cell '*cell*165'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_8' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_8' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_7' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_7' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_6' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_6' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_6' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_6' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*169'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*169'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*129'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*129'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*109'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*109'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_11' on cell '*cell*183'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_11' on cell '*cell*183'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_7' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_7' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_6' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_6' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_5' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_5' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_5' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_5' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*109'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*109'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_11' on cell '*cell*165'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_11' on cell '*cell*165'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_8' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_8' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_5' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_5' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_4' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_4' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_4' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_4' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_11' on cell '*cell*165'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_11' on cell '*cell*165'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*111'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_0' on cell '*cell*111'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_6' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_6' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_4' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_4' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_3' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_3' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_3' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_3' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*111'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*111'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_6' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_6' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_3' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_3' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_2' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_2' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_2' on cell '*cell*117'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL1' and 'Z_2' on cell '*cell*117'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_5' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_5' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_2' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_2' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*117'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*117'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_5' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_5' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_1' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_1' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_1' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_1' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_4' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_4' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_0' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_7' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL3' and 'Z_7' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_7' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_7' on cell '*cell*22'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_4' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_4' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_9' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_9' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_3' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_3' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_8' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_8' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_3' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_3' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_7' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_7' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_2' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_2' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_8' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_8' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_2' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_2' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_6' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_6' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_1' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_1' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_6' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_6' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_0' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_0' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_5' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_5' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_0' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_0' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_5' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_5' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_1' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_1' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_4' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_4' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_7' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL6' and 'Z_7' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_4' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_4' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_3' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_3' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_3' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_3' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_2' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*19'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_0' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_1' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_7' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'CONTROL2' and 'Z_7' on cell '*cell*18'
+         to break a timing loop (OPT-314)
+Warning: Design 'disr' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Information: Timing loop detected. (OPT-150)
+	*cell*261/U242/s27 *cell*261/U242/z373 *cell*261/U159/U1/CONTROL1 *cell*261/U159/U1/Z_2 *cell*261/U160/U1/DATA2_2 *cell*261/U160/U1/Z_2 *cell*261/U109/U1/DATA1_0 *cell*261/U109/U1/Z_0 dbs_reg[2]/enable dbs_reg[2]/Q 
+Information: Timing loop detected. (OPT-150)
+	*cell*261/U241/p27 *cell*261/U241/z372 *cell*261/U159/U1/CONTROL2 *cell*261/U159/U1/Z_2 *cell*261/U160/U1/DATA2_2 *cell*261/U160/U1/Z_2 *cell*261/U109/U1/DATA1_0 *cell*261/U109/U1/Z_0 dbs_reg[2]/enable dbs_reg[2]/Q 
+Warning: Disabling timing arc between pins 's27' and 'z373' on cell '*cell*261/U242'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'p27' and 'z372' on cell '*cell*261/U241'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'p59' and 'z1000' on cell '*cell*261/U968'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'h59' and 'z997' on cell '*cell*261/U965'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'x60' and 'z1023' on cell '*cell*261/U991'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'p60' and 'z1020' on cell '*cell*261/U988'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'g78' and 'z1433' on cell '*cell*261/U1401'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'f78' and 'z1432' on cell '*cell*261/U1400'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'q78' and 'z1443' on cell '*cell*261/U1411'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'p78' and 'z1442' on cell '*cell*261/U1410'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'j38' and 'z546' on cell '*cell*261/U462'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i38' and 'z545' on cell '*cell*261/U461'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'q33' and 'z466' on cell '*cell*261/U373'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'n33' and 'z465' on cell '*cell*261/U372'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'j86' and 'z1636' on cell '*cell*261/U1604'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i86' and 'z1635' on cell '*cell*261/U1603'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i32' and 'z447' on cell '*cell*261/U349'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'h37' and 'z526' on cell '*cell*261/U442'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'e37' and 'z525' on cell '*cell*261/U441'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'f32' and 'z444' on cell '*cell*261/U345'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'b37' and 'z524' on cell '*cell*261/U440'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'e33' and 'z459' on cell '*cell*261/U366'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'b33' and 'z458' on cell '*cell*261/U365'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'e85' and 'z1606' on cell '*cell*261/U1574'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'd85' and 'z1605' on cell '*cell*261/U1573'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'n36' and 'z517' on cell '*cell*261/U433'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'c62' and 'z1043' on cell '*cell*261/U1011'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'y61' and 'z1042' on cell '*cell*261/U1010'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'd65' and 'z1109' on cell '*cell*261/U1077'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'a65' and 'z1108' on cell '*cell*261/U1076'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'DATA2_0' and 'Z_0' on cell '*cell*261/U41/U1'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'enable' and 'Q' on cell 'local_segID_reg[LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'k36' and 'z516' on cell '*cell*261/U432'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'h36' and 'z515' on cell '*cell*261/U431'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'd34' and 'z473' on cell '*cell*261/U383'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'a34' and 'z472' on cell '*cell*261/U382'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i85' and 'z1610' on cell '*cell*261/U1578'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'h85' and 'z1609' on cell '*cell*261/U1577'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'w36' and 'z522' on cell '*cell*261/U438'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 't36' and 'z521' on cell '*cell*261/U437'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'b36' and 'z511' on cell '*cell*261/U427'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'x35' and 'z510' on cell '*cell*261/U426'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'e32' and 'z443' on cell '*cell*261/U344'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'b32' and 'z440' on cell '*cell*261/U333'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'a32' and 'z439' on cell '*cell*261/U332'
+         to break a timing loop (OPT-314)
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+Information: Changed wire load model for 'disr_DW01_cmp2_10_0' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'disr_DW01_cmp2_10_0'
+  Mapping 'disr_DW01_cmp2_10_0'
+Information: Changed wire load model for 'disr_DW01_cmp2_10_0' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'DW01_cmp2_2_1' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'DW01_cmp2_2_1'
+  Mapping 'DW01_cmp2_2_1'
+Information: Changed wire load model for 'DW01_cmp2_2_1' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'DW01_cmp2_3_1' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'DW01_cmp2_3_1'
+  Mapping 'DW01_cmp2_3_1'
+Information: Changed wire load model for 'DW01_cmp2_3_1' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'disr_DW01_cmp2_10_1' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'disr_DW01_cmp2_10_1'
+  Mapping 'disr_DW01_cmp2_10_1'
+Information: Changed wire load model for 'disr_DW01_cmp2_10_1' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'DW01_cmp2_2_1' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'DW01_cmp2_2_1'
+  Mapping 'DW01_cmp2_2_1'
+Information: Changed wire load model for 'DW01_cmp2_2_1' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'disr_DW01_cmp2_10_2' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'disr_DW01_cmp2_10_2'
+  Mapping 'disr_DW01_cmp2_10_2'
+Information: Changed wire load model for 'disr_DW01_cmp2_10_2' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'DW01_cmp2_2_1' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'DW01_cmp2_2_1'
+  Mapping 'DW01_cmp2_2_1'
+Information: Changed wire load model for 'DW01_cmp2_2_1' from 'G5K' to 'enG5K'. (OPT-170)
+Information: Changed wire load model for 'disr_DW01_cmp2_10_3' from '(none)' to 'G5K'. (OPT-170)
+  Structuring 'disr_DW01_cmp2_10_3'
+  Mapping 'disr_DW01_cmp2_10_3'
+Information: Changed wire load model for 'disr_DW01_cmp2_10_3' from 'G5K' to 'enG5K'. (OPT-170)
+Warning: Design 'disr' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+  Selecting implementations in 'disr'
+Warning: Design 'disr' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Information: Timing loop detected. (OPT-150)
+	U190/y[1] U190/z14 U189/w U189/z13 *cell*261/U212/d26 *cell*261/U212/z348 *cell*261/U211/f26 *cell*261/U211/z349 *cell*261/U163/U1/CONTROL1 *cell*261/U163/U1/Z_2 *cell*717/syn4181/e87 *cell*717/syn4181/z1654 *cell*718/net3010/r87 *cell*718/net3010/z1659 dbs_reg[1]/GB dbs_reg[1]/Q 
+Information: Timing loop detected. (OPT-150)
+	dbs_reg[0]/GB dbs_reg[0]/Q U190/y[0] U190/z14 U189/w U189/z13 *cell*261/U212/d26 *cell*261/U212/z348 *cell*261/U211/f26 *cell*261/U211/z349 *cell*261/U163/U1/CONTROL1 *cell*261/U163/U1/Z_2 *cell*717/syn4181/e87 *cell*717/syn4181/z1654 *cell*718/net3010/r87 *cell*718/net3010/z1659 
+Warning: Disabling timing arc between pins 'y[1]' and 'z14' on cell 'U190'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'dbs_reg[0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'p77' and 'z1417' on cell '*cell*261/U1385'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'o77' and 'z1416' on cell '*cell*261/U1384'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'c36' and 'z511' on cell '*cell*261/U427'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'x36' and 'z522' on cell '*cell*261/U438'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i76' and 'z1385' on cell '*cell*261/U1353'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'h76' and 'z1384' on cell '*cell*261/U1352'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'u36' and 'z521' on cell '*cell*261/U437'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'c78' and 'z1429' on cell '*cell*261/U1397'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'b78' and 'z1428' on cell '*cell*261/U1396'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i37' and 'z526' on cell '*cell*261/U442'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'f37' and 'z525' on cell '*cell*261/U441'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'DATA2_9' and 'Z_9' on cell '*cell*261/U38/U1'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'c37' and 'z524' on cell '*cell*261/U440'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'QB' on cell 'link_visited_reg[2][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'x77' and 'z1425' on cell '*cell*261/U1393'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'w77' and 'z1424' on cell '*cell*261/U1392'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'o36' and 'z517' on cell '*cell*261/U433'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'x75' and 'z1375' on cell '*cell*261/U1343'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'w75' and 'z1374' on cell '*cell*261/U1342'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'l36' and 'z516' on cell '*cell*261/U432'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'i36' and 'z515' on cell '*cell*261/U431'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'x67' and 'z1174' on cell '*cell*261/U1142'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'w67' and 'z1173' on cell '*cell*261/U1141'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'f33' and 'z459' on cell '*cell*261/U366'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'c33' and 'z458' on cell '*cell*261/U365'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'j32' and 'z447' on cell '*cell*261/U349'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'r33' and 'z466' on cell '*cell*261/U373'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'o33' and 'z465' on cell '*cell*261/U372'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'e34' and 'z473' on cell '*cell*261/U383'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'b34' and 'z472' on cell '*cell*261/U382'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'y35' and 'z510' on cell '*cell*261/U426'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 't27' and 'z373' on cell '*cell*261/U242'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'q27' and 'z372' on cell '*cell*261/U241'
+         to break a timing loop (OPT-314)
+  Structuring 'disr_DW01_cmp2_10_3'
+  Mapping 'disr_DW01_cmp2_10_3'
+  Structuring 'disr_DW01_cmp2_10_2'
+  Mapping 'disr_DW01_cmp2_10_2'
+  Structuring 'disr_DW01_cmp2_10_1'
+  Mapping 'disr_DW01_cmp2_10_1'
+  Structuring 'disr_DW01_cmp2_10_0'
+  Mapping 'disr_DW01_cmp2_10_0'
+  Structuring 'disr'
+  Mapping 'disr'
+Information: Changed wire load model for 'disr' from 'G5K' to 'enG5K'. (OPT-170)
+  Selecting implementations in 'disr'
+Information: Timing loop detected. (OPT-150)
+	dbs_reg[2]/GB dbs_reg[2]/Q *cell*876/syn10696/I2 *cell*876/syn10696/O *cell*876/syn13001/I *cell*876/syn13001/O *cell*876/net3497/B2 *cell*876/net3497/O r205/*cell*874/syn5051/A1 r205/*cell*874/syn5051/O r205/*cell*874/syn5146/B1 r205/*cell*874/syn5146/O r205/*cell*874/syn5152/A1 r205/*cell*874/syn5152/O r205/*cell*874/syn5158/A1 r205/*cell*874/syn5158/O r205/*cell*874/syn5164/A1 r205/*cell*874/syn5164/O r205/*cell*874/syn5170/A1 r205/*cell*874/syn5170/O r205/*cell*874/syn5176/A1 r205/*cell*874/syn5176/O r205/*cell*874/syn5182/A1 r205/*cell*874/syn5182/O r205/*cell*874/syn5186/A1 r205/*cell*874/syn5186/O r205/*cell*874/syn5188/A1 r205/*cell*874/syn5188/O r205/*cell*874/net3358/A1 r205/*cell*874/net3358/O *cell*876/syn10798/I1 *cell*876/syn10798/O *cell*876/syn14492/B1 *cell*876/syn14492/O *cell*876/syn12954/I1 *cell*876/syn12954/O *cell*876/syn11532/A1 *cell*876/syn11532/O *cell*876/net3513/I1 *cell*876/net3513/O 
+Information: Timing loop detected. (OPT-150)
+	*cell*876/syn10799/I *cell*876/syn10799/O *cell*876/syn10803/I2 *cell*876/syn10803/O *cell*876/syn10807/I1 *cell*876/syn10807/O *cell*876/syn12948/I1 *cell*876/syn12948/O *cell*876/net3516/A1 *cell*876/net3516/O local_segID_reg[LINK][1]/GB local_segID_reg[LINK][1]/Q *cell*876/syn10698/I *cell*876/syn10698/O *cell*876/net3487/B2 *cell*876/net3487/O r205/*cell*874/syn5048/I r205/*cell*874/syn5048/O r205/*cell*874/syn5051/A2 r205/*cell*874/syn5051/O r205/*cell*874/syn5146/B1 r205/*cell*874/syn5146/O r205/*cell*874/syn5152/A1 r205/*cell*874/syn5152/O r205/*cell*874/syn5158/A1 r205/*cell*874/syn5158/O r205/*cell*874/syn5164/A1 r205/*cell*874/syn5164/O r205/*cell*874/syn5170/A1 r205/*cell*874/syn5170/O r205/*cell*874/syn5176/A1 r205/*cell*874/syn5176/O r205/*cell*874/syn5182/A1 r205/*cell*874/syn5182/O r205/*cell*874/syn5186/A1 r205/*cell*874/syn5186/O r205/*cell*874/syn5188/A1 r205/*cell*874/syn5188/O r205/*cell*874/net3358/A1 r205/*cell*874/net3358/O *cell*876/syn10798/I1 *cell*876/syn10798/O *cell*876/syn14492/B1 *cell*876/syn14492/O *cell*876/syn12954/I1 *cell*876/syn12954/O *cell*876/syn11532/A1 *cell*876/syn11532/O *cell*876/net3513/I1 *cell*876/net3513/O dbs_reg[1]/GB dbs_reg[1]/Q 
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'dbs_reg[2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'dbs_reg[1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'QB' on cell 'link_visited_reg[3][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][9]'
+         to break a timing loop (OPT-314)
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+
+
+  Beginning Phase 1 Design Rule Fixing  (max_transition)
+  ------------------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:17    1446.7      0.00       0.0       0.0 *cell*721/net3072        
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:17    1445.8      0.00       0.0       0.0                          
+
+  Optimization Complete
+  ---------------------
+  Transferring design 'disr' to database 'disr.db'
+Current design is 'disr'.
+1
+report_reference
+ 
+****************************************
+Report : reference
+Design : disr
+Version: 2001.08
+Date   : Fri Sep 27 00:50:15 2013
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AN2CKRMX1          fse0a_d_generic_core_tt1v25c
+                                  1.600000      12     19.200000  
+AN3B1NRMX1         fse0a_d_generic_core_tt1v25c
+                                  2.880000       1      2.880000  
+AN3RMX1            fse0a_d_generic_core_tt1v25c
+                                  2.240000       1      2.240000  
+AN4B1RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.560000       1      2.560000  
+AO13RMX1           fse0a_d_generic_core_tt1v25c
+                                  2.560000       2      5.120000  
+AO22RMX1           fse0a_d_generic_core_tt1v25c
+                                  2.560000       2      5.120000  
+AO112RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.560000       3      7.680000  
+AO122RMX1          fse0a_d_generic_core_tt1v25c
+                                  3.200000       2      6.400000  
+AOI12RMXSP         fse0a_d_generic_core_tt1v25c
+                                  1.600000       4      6.400000  
+AOI13RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.240000       3      6.720000  
+AOI22B2NRMX1       fse0a_d_generic_core_tt1v25c
+                                  2.560000       1      2.560000  
+AOI22RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.240000      70    156.800001  
+AOI23RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.560000       7     17.920000  
+AOI33RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.880000       1      2.880000  
+AOI122RMX1         fse0a_d_generic_core_tt1v25c
+                                  2.880000       2      5.760000  
+AOI222RMX1         fse0a_d_generic_core_tt1v25c
+                                  3.200000      30     96.000001  
+DBAHRBRMX1         fse0a_d_generic_core_tt1v25c
+                                  5.760000       2     11.520000  n
+INVCKRMX1          fse0a_d_generic_core_tt1v25c
+                                  0.960000     109    104.639998  
+MXL2NRMXLP         fse0a_d_generic_core_tt1v25c
+                                  2.560000       1      2.560000  
+ND2BPNRMX1         fse0a_d_generic_core_tt1v25c
+                                  1.280000      27     34.559999  
+ND3RMXSP           fse0a_d_generic_core_tt1v25c
+                                  1.600000      17     27.200000  
+ND4B1RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.560000       2      5.120000  
+ND4RMX1            fse0a_d_generic_core_tt1v25c
+                                  2.240000       4      8.960000  
+NR2BPNRMX1         fse0a_d_generic_core_tt1v25c
+                                  1.280000      33     42.239999  
+NR2RMX2            fse0a_d_generic_core_tt1v25c
+                                  2.240000       1      2.240000  
+NR3RMXSP           fse0a_d_generic_core_tt1v25c
+                                  1.600000      12     19.200000  
+NR4RMX1            fse0a_d_generic_core_tt1v25c
+                                  2.240000       2      4.480000  
+OA12RMX1           fse0a_d_generic_core_tt1v25c
+                                  2.240000       2      4.480000  
+OAI12B2RMX1        fse0a_d_generic_core_tt1v25c
+                                  2.240000       2      4.480000  
+OAI12RMXSP         fse0a_d_generic_core_tt1v25c
+                                  1.600000      24     38.400001  
+OAI22RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.240000      22     49.280000  
+OAI112RMXSP        fse0a_d_generic_core_tt1v25c
+                                  1.920000       6     11.520000  
+OAI122RMX1         fse0a_d_generic_core_tt1v25c
+                                  2.880000      14     40.320002  
+OAI222RMXSP        fse0a_d_generic_core_tt1v25c
+                                  2.880000      47    135.360005  
+OR2B1RMXLP         fse0a_d_generic_core_tt1v25c
+                                  1.600000       1      1.600000  
+OR2RMXLP           fse0a_d_generic_core_tt1v25c
+                                  1.600000       1      1.600000  
+OR3B1RMX1          fse0a_d_generic_core_tt1v25c
+                                  2.880000       1      2.880000  
+OR3RMX1            fse0a_d_generic_core_tt1v25c
+                                  2.240000       1      2.240000  
+QDBAHRMX1          fse0a_d_generic_core_tt1v25c
+                                  4.800000      69    331.200013  n
+TIE0RMX1           fse0a_d_generic_core_tt1v25c
+                                  0.960000       1      0.960000  
+TIE1RMX1           fse0a_d_generic_core_tt1v25c
+                                  0.960000       1      0.960000  
+XNR2RMXSP          fse0a_d_generic_core_tt1v25c
+                                  2.880000       1      2.880000  
+XOR2RMXSP          fse0a_d_generic_core_tt1v25c
+                                  2.560000      19     48.639999  
+disr_DW01_cmp2_10_0              39.040001       1     39.040001  h
+disr_DW01_cmp2_10_1              39.040001       1     39.040001  h
+disr_DW01_cmp2_10_2              39.040001       1     39.040001  h
+disr_DW01_cmp2_10_3              39.040001       1     39.040001  h
+-----------------------------------------------------------------------------
+Total 47 references                                  1441.920044
+1
+report_area
+Information: Updating design information... (UID-85)
+Information: Timing loop detected. (OPT-150)
+	dbs_reg[2]/GB dbs_reg[2]/Q U1061/I2 U1061/O U1256/I U1256/O U912/B2 U912/O r205/U9/A1 r205/U9/O r205/U17/B1 r205/U17/O r205/U18/A1 r205/U18/O r205/U19/A1 r205/U19/O r205/U20/A1 r205/U20/O r205/U21/A1 r205/U21/O r205/U22/A1 r205/U22/O r205/U23/A1 r205/U23/O r205/U24/A1 r205/U24/O r205/U25/A1 r205/U25/O r205/U6/A1 r205/U6/O U1144/I1 U1144/O U1332/B1 U1332/O U1253/I1 U1253/O U1233/A1 U1233/O U973/I1 U973/O 
+Information: Timing loop detected. (OPT-150)
+	U1145/I U1145/O U1149/I2 U1149/O U1153/I1 U1153/O U1250/I1 U1250/O U975/A1 U975/O local_segID_reg[NODE][1]/GB local_segID_reg[NODE][1]/Q U1088/I U1088/O U902/A2 U902/O r205/U8/I r205/U8/O r205/U9/A2 r205/U9/O r205/U17/B1 r205/U17/O r205/U18/A1 r205/U18/O r205/U19/A1 r205/U19/O r205/U20/A1 r205/U20/O r205/U21/A1 r205/U21/O r205/U22/A1 r205/U22/O r205/U23/A1 r205/U23/O r205/U24/A1 r205/U24/O r205/U25/A1 r205/U25/O r205/U6/A1 r205/U6/O U1144/I1 U1144/O U1332/B1 U1332/O U1253/I1 U1253/O U1233/A1 U1233/O U973/I1 U973/O dbs_reg[1]/GB dbs_reg[1]/Q 
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'dbs_reg[2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'dbs_reg[0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'local_segID_reg[NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'dbs_reg[1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[1][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'QB' on cell 'link_visited_reg[2][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[2][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[0][NODE][9]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][LINK][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'QB' on cell 'link_visited_reg[3][LINK][1]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[0]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][2]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_flag_reg[3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][3]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][4]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][5]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][6]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][7]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][8]'
+         to break a timing loop (OPT-314)
+Warning: Disabling timing arc between pins 'GB' and 'Q' on cell 'link_visited_reg[3][NODE][9]'
+         to break a timing loop (OPT-314)
+ 
+****************************************
+Report : area
+Design : disr
+Version: 2001.08
+Date   : Fri Sep 27 00:50:16 2013
+****************************************
+
+Library(s) Used:
+
+    fse0a_d_generic_core_tt1v25c (File: /usr/synopsys/libraries/umc/fse0a_d_generic_core_tt1v25c.db)
+
+Number of ports:               49
+Number of nets:               613
+Number of cells:              568
+Number of references:          47
+
+Combinational area:       1099.199951
+Noncombinational area:     342.720001
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:          1441.919952
+Total area:                 undefined
+1
+quit
+1
+dc_shell> 
+Memory usage for this session 218564 Kbytes.
+CPU usage for this session 27 seconds.
+
+Thank you...
