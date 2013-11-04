@@ -5,11 +5,11 @@
 \label{sec:disr_concepts}
 
 \subsection{Basic Idea}
-The main concept behind of the original SR approach is the
-\emph{segment}: a segment is basically a path of consecutive node and
-links. A segment $S_1$ starts with a link attached to a node which
+The main concept behind the kind of turn prohibition we want to
+achieve is the \emph{Segment}: it is basically a path of consecutive
+nodes and links. A segment $S_1$ starts with a link attached to a node which
 belongs to different segment $S_2$, ending with a link attached to a
-node belonging to a different segment $s_3$. In other words, a segment
+node belonging to a different segment $S_3$. In other words, a segment
 a path between connecting two other different segments.A exception is
 the first segment established in the network, called \emph{starting
 segment} which is  a loop beginning/ending on a particular node
@@ -37,8 +37,8 @@ of the following phases: (1) Injection of the DiSR process from upper layer to s
 node (2) Bootstrap node broadcasting to create the first segment of the subnet
 (3) Parallel requests starting from assigned node to discover other
 segments. The following subsection describe the data structure and
-execution model required at each node.
-%\item Turn proibition in each confirmed segment
+execution model required at each node. (4) Turn proibition in each
+confirmed segment.
 %\item Draining of remaining packet due timeouts
 
 %Once again, it should be pointed out that nowhere in the network there
@@ -46,7 +46,7 @@ execution model required at each node.
 %description of the exection model at each node is discussed in the
 %next section.
 
-\subsection{Packets types Required}
+\subsection{Signal Types Required}
 
 The DiSR approach works with a distributed mechanism which is build
 upon an exchange of small packets containing the following fields:
@@ -180,7 +180,7 @@ following.
 
 \begin{figure}
   \centering
-    \includegraphics[width=0.30\textwidth]{pictures/state_machine.eps}
+    \includegraphics[width=0.40\textwidth]{pictures/state_machine.eps}
   \caption{DiSR node execution model}
   \label{fig:state_machine}
 \end{figure}
@@ -254,157 +254,157 @@ sends back a \texttt{SEGMENT\_CANCEL} along the proper link.
 \end{itemize}
 
 
-%\subsection{Intra-node vs Inter-node parallelism}
-%In the processes described above, we assumed that each node in the
-%READY\_SEARCHING state can start a find segment process by injecting a
-%\texttt{SEGMENT\_REQUEST}. However, a more accurate decision when defining DiSR
-%should be made in order to decide whether or not the node must
-%actually perform this action. 
-%The point above is is strictly related to the general question: which
-%level of “parallelism” should we allow in DiSR ? The adopted approach
-%is that, although the nature of DiSR itself is intrinsicly parallel,
-%the use of parallelism makes things work in a more complex way. In
-%other words, DiSR is parallel when needed, but it does not exploit
-%parallelism as an “improving feature”. When not needed, things should
-%be serialized. For example: when a node is “ready searching” could
-%start several find segment process associated to the same segment, one
-%for each free link. But serializing this by investigating the free
-%links in order could be a simplest solution. We refer to this saying
-%that we avoid intra-node parallelism.  Note that while intra-node
-%parallelism can be avoided, trying to avoid inter-node parallelism
-%could be more complex than allowing the parallelism itself. Imagine
-%for example the effort of trying to coordinate nodes so that an unique
-%finding node process is actually running in the whole subnet. Thus, in
-%contrast to the intra-node parallelism, the inter-node parallelism is
-%a structural property of the DiSR algorithm and should not be avoided.
+\subsection{Intra-node vs Inter-node parallelism}
+In the processes described above, we assumed that each node in the
+READY\_SEARCHING state can start a find segment process by injecting a
+\texttt{SEGMENT\_REQUEST}. However, a more accurate decision when defining DiSR
+should be made in order to decide whether or not the node must
+actually perform this action. 
+The point above is is strictly related to the general question: which
+level of “parallelism” should we allow in DiSR ? The adopted approach
+is that, although the nature of DiSR itself is intrinsicly parallel,
+the use of parallelism makes things work in a more complex way. In
+other words, DiSR is parallel when needed, but it does not exploit
+parallelism as an “improving feature”. When not needed, things should
+be serialized. For example: when a node is “ready searching” could
+start several find segment process associated to the same segment, one
+for each free link. But serializing this by investigating the free
+links in order could be a simplest solution. We refer to this saying
+that we avoid intra-node parallelism.  Note that while intra-node
+parallelism can be avoided, trying to avoid inter-node parallelism
+could be more complex than allowing the parallelism itself. Imagine
+for example the effort of trying to coordinate nodes so that an unique
+finding node process is actually running in the whole subnet. Thus, in
+contrast to the intra-node parallelism, the inter-node parallelism is
+a structural property of the DiSR algorithm and should not be avoided.
 %------------------------------------------------------------------------------
 
 % TODO: FIX and RE-enable in long paper
 
 
-%\section{Detailed Node behaviour Model}
-%\label{sec:execution_model}
-%
-%The \emph{LED} variables at each node are are initially set so the node and
-%each of its links is set as free. The only node that makes exception
-%is the bootstrap node, initialized in the \emph{Bootstrap} status. All
-%the subsequent events happening at each node are the consequence of
-%its current dynamic status (DBS) and the packets received.
-%
-%
-%%TODO: add state machines
-%
-%% TODO: fix, move elsewhere or delete
-%%Assumption: when discussing of visited/\emph{tvisited} nodes, we are assuming
-%%with an id corresponding to the same subnet. Nodes involved in other
-%%subnet processes can simply ignore these packets. (TBD: formalize more
-%%clearly in which cases inter-subnet packets must be ignored, probably
-%%this happens most of the times, but in some cases, e.g. when a
-%%terminal node is found, some kind of communication packets are needed
-%%in order to crearte the bridge between two subnets.) 
-%
-%\subsection{Receiving a \texttt{STARTING\_SEGMENT\_REQUEST}}
-%
-%The request for the first segment should be managed differently since
-%all nodes (except the starting one) must forward the packet using a
-%flooding mechanism. This is necessary since the request packet must
-%return the bootstrap node.
-%When a node receives a \texttt{STARTING\_SEGMENT\_REQUEST}, the
-%following cases can happen:
-%
-%\begin{itemize}
-%\item The node is not candidate or assigned: it should set itself as
-%\emph{Candidate} and forward the packet along its free links, using
-%flooding.  
-%\item The node is \emph{Candidate} with the same
-%\emph{segID} and \emph{src\_id} is equal to node id: this means the
-%node was the initiator of the request, so a starting segment was found and
-%should be confirmed sending back a \texttt{STARTING\_SEGMENT\_CONFIRM}
-%packet.  
-%\item The node is \emph{Candidate}, with the same \emph{segID} of the
-%packet but \emph{src\_id} is different from node id: due
-%the flooding mechanism, another starting segment packet reached a node
-%which was previously marked as \emph{Candidate} from the same starting segment
-%search process. Since the node is candidate with the same id, it means
-%that it already accomplished in the task of propagating that kind
-%packets, thus can simply ignore the event thrashing the packet.  
-%%TBD: how the status should be changed ? depend on the flooding mechanism. Note
-%%that these links do not include the link from which the request was
-%%received.  
-%\item The node is \emph{Candidate}, with a different \emph{segID}: 
-%this simply means that the starting segment received is deprecated,
-%because the node has already accepted non-starting segment requests
-%originated from other \emph{Assigned} nodes.
-%\item The node is \emph{Assigned}, with a different \emph{segID}:
-%same as the previous case. 
-%
-%% TODO: check and remove, the below is not true
-%%CHECK:  it is not the initiator of the starting segment request, but
-%%is already assigned to some segment!? assuming again we are discussing
-%%of nodes belonging to the same subnet, this should NOT happen, since
-%%the only visited node of the subnet should be the initial node from
-%%which the \texttt{STARTING\_SEGMENT\_REQUEST} originated. Note again that we are
-%%assuming that if the the node is visited or \emph{tvisited} with the id of
-%%another subnet can simply ignore the request.  The node is \emph{tvisited}
-%%but it is not the initiator of the request (different id): same as
-%%above, if we are assuming nodes of the same subnet, this should not
-%%happen. If the node is of another subnet, can simply ignore the event.
-%
-%\end{itemize}
-%
-%\subsection{Receiving a \texttt{SEGMENT\_REQUEST}}
-%When a node receives a \texttt{SEGMENT\_REQUEST}, the are the following cases:
-%
-%\begin{itemize}
-%\item The node is \emph{Assigned}: a segment was
-%found and it should be confirmed sending back a \texttt{SEGMENT\_CONFIRM}
-%packet.  
-%\item The node is \emph{Candidate}: it should discard the packet sending
-%back a \texttt{SEGMENT\_CANCEL} 
-%\item The node is not \emph{Assigned} or \emph{Candidate} and has free
-%links: it marks itself as \emph{Candidate} and forwards the \texttt{SEGMENT\_REQUEST}
-%to one of its free links, according to some internal ordering
-%\end{itemize}
-%
-%NOTE: the main difference between confirming a \texttt{STARTING\_SEGMENT\_REQUEST}
-%and confirming a \texttt{SEGMENT\_REQUEST} is that in the first case the node
-%itself is included in the segment , while in the second case the
-%receiving node does not belong to the segment found. 
-%
-%%The motivation is
-%%that in the second case the node was already marked as \emph{visited} because
-%%of being assigned to some segment found before, while in the
-%%starting-segment case, by definition, the first segment of a subnet
-%%begins with the starting node, which is marked as \emph{visited} by the SR
-%%algorithm when searching for the first (starting) segment. Remember
-%%that the first segment of a subnet is a loop beginning with the
-%%starting node. 
-%
-%\subsection{Receiving a \texttt{SEGMENT\_CONFIRM}}
-%When received, if the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
-%the packet, the node learns to belong to the segment associated to the
-%id. Further, it should forward this packet to the link where the
-%original \texttt{SEGMENT\_REQUEST} packet came from, so that all candidate nodes
-%can learn the segment id they belong to.  \emph{LED} shoud be
-%updated from \emph{tvisited} to \emph{visited}.  the
-%\emph{link\_tvisited} previously set with the \emph{segID} should be invalidated the
-%\emph{link\_visited} variable associated to the incoming confirm should be set
-%as segID. Note that if the request was flooded across different links,
-%the \emph{link\_visited} variable associated to the other paths should not be
-%set.  the \emph{link\_visited} variable associated to the link from which the
-%request was originated should be set segID
-%
-%\subsection{Receiving a \texttt{SEGMENT\_CANCEL}}
-%When a node receives a \texttt{SEGMENT\_CANCEL} packet it means that searching
-%for a segment along that path was unsuccessful. But if the node still
-%has other free links to try, it should forward a \texttt{SEGMENT\_REQUEST} to
-%the next link (next according to some internal ordering). So a node
-%forwards back the \texttt{SEGMENT\_CANCEL} packet along the link that originated
-%the \texttt{SEGMENT\_REQUEST} packet only when there are no more free links to
-%try. If this is the case, the node modifies its status from
-%\emph{Candidate} to \emph{Free} and forwards the \texttt{SEGMENT\_CANCEL} packet to the link from which
-%the request was received. The process stops when the \texttt{SEGMENT\_CANCEL}
-%packet reach the starting node that originated the request.
+\section{Detailed Node behaviour Model}
+\label{sec:execution_model}
+
+The \emph{LED} variables at each node are are initially set so the node and
+each of its links is set as free. The only node that makes exception
+is the bootstrap node, initialized in the \emph{Bootstrap} status. All
+the subsequent events happening at each node are the consequence of
+its current dynamic status (DBS) and the packets received.
+
+
+%TODO: add state machines
+
+% TODO: fix, move elsewhere or delete
+%Assumption: when discussing of visited/\emph{tvisited} nodes, we are assuming
+%with an id corresponding to the same subnet. Nodes involved in other
+%subnet processes can simply ignore these packets. (TBD: formalize more
+%clearly in which cases inter-subnet packets must be ignored, probably
+%this happens most of the times, but in some cases, e.g. when a
+%terminal node is found, some kind of communication packets are needed
+%in order to crearte the bridge between two subnets.) 
+
+\subsection{Receiving a \texttt{STARTING\_SEGMENT\_REQUEST}}
+
+The request for the first segment should be managed differently since
+all nodes (except the starting one) must forward the packet using a
+flooding mechanism. This is necessary since the request packet must
+return the bootstrap node.
+When a node receives a \texttt{STARTING\_SEGMENT\_REQUEST}, the
+following cases can happen:
+
+\begin{itemize}
+\item The node is not candidate or assigned: it should set itself as
+\emph{Candidate} and forward the packet along its free links, using
+flooding.  
+\item The node is \emph{Candidate} with the same
+\emph{segID} and \emph{src\_id} is equal to node id: this means the
+node was the initiator of the request, so a starting segment was found and
+should be confirmed sending back a \texttt{STARTING\_SEGMENT\_CONFIRM}
+packet.  
+\item The node is \emph{Candidate}, with the same \emph{segID} of the
+packet but \emph{src\_id} is different from node id: due
+the flooding mechanism, another starting segment packet reached a node
+which was previously marked as \emph{Candidate} from the same starting segment
+search process. Since the node is candidate with the same id, it means
+that it already accomplished in the task of propagating that kind
+packets, thus can simply ignore the event thrashing the packet.  
+%TBD: how the status should be changed ? depend on the flooding mechanism. Note
+%that these links do not include the link from which the request was
+%received.  
+\item The node is \emph{Candidate}, with a different \emph{segID}: 
+this simply means that the starting segment received is deprecated,
+because the node has already accepted non-starting segment requests
+originated from other \emph{Assigned} nodes.
+\item The node is \emph{Assigned}, with a different \emph{segID}:
+same as the previous case. 
+
+% TODO: check and remove, the below is not true
+%CHECK:  it is not the initiator of the starting segment request, but
+%is already assigned to some segment!? assuming again we are discussing
+%of nodes belonging to the same subnet, this should NOT happen, since
+%the only visited node of the subnet should be the initial node from
+%which the \texttt{STARTING\_SEGMENT\_REQUEST} originated. Note again that we are
+%assuming that if the the node is visited or \emph{tvisited} with the id of
+%another subnet can simply ignore the request.  The node is \emph{tvisited}
+%but it is not the initiator of the request (different id): same as
+%above, if we are assuming nodes of the same subnet, this should not
+%happen. If the node is of another subnet, can simply ignore the event.
+
+\end{itemize}
+
+\subsection{Receiving a \texttt{SEGMENT\_REQUEST}}
+When a node receives a \texttt{SEGMENT\_REQUEST}, the are the following cases:
+
+\begin{itemize}
+\item The node is \emph{Assigned}: a segment was
+found and it should be confirmed sending back a \texttt{SEGMENT\_CONFIRM}
+packet.  
+\item The node is \emph{Candidate}: it should discard the packet sending
+back a \texttt{SEGMENT\_CANCEL} 
+\item The node is not \emph{Assigned} or \emph{Candidate} and has free
+links: it marks itself as \emph{Candidate} and forwards the \texttt{SEGMENT\_REQUEST}
+to one of its free links, according to some internal ordering
+\end{itemize}
+
+NOTE: the main difference between confirming a \texttt{STARTING\_SEGMENT\_REQUEST}
+and confirming a \texttt{SEGMENT\_REQUEST} is that in the first case the node
+itself is included in the segment , while in the second case the
+receiving node does not belong to the segment found. 
+
+%The motivation is
+%that in the second case the node was already marked as \emph{visited} because
+%of being assigned to some segment found before, while in the
+%starting-segment case, by definition, the first segment of a subnet
+%begins with the starting node, which is marked as \emph{visited} by the SR
+%algorithm when searching for the first (starting) segment. Remember
+%that the first segment of a subnet is a loop beginning with the
+%starting node. 
+
+\subsection{Receiving a \texttt{SEGMENT\_CONFIRM}}
+When received, if the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
+the packet, the node learns to belong to the segment associated to the
+id. Further, it should forward this packet to the link where the
+original \texttt{SEGMENT\_REQUEST} packet came from, so that all candidate nodes
+can learn the segment id they belong to.  \emph{LED} shoud be
+updated from \emph{tvisited} to \emph{visited}.  the
+\emph{link\_tvisited} previously set with the \emph{segID} should be invalidated the
+\emph{link\_visited} variable associated to the incoming confirm should be set
+as segID. Note that if the request was flooded across different links,
+the \emph{link\_visited} variable associated to the other paths should not be
+set.  the \emph{link\_visited} variable associated to the link from which the
+request was originated should be set segID
+
+\subsection{Receiving a \texttt{SEGMENT\_CANCEL}}
+When a node receives a \texttt{SEGMENT\_CANCEL} packet it means that searching
+for a segment along that path was unsuccessful. But if the node still
+has other free links to try, it should forward a \texttt{SEGMENT\_REQUEST} to
+the next link (next according to some internal ordering). So a node
+forwards back the \texttt{SEGMENT\_CANCEL} packet along the link that originated
+the \texttt{SEGMENT\_REQUEST} packet only when there are no more free links to
+try. If this is the case, the node modifies its status from
+\emph{Candidate} to \emph{Free} and forwards the \texttt{SEGMENT\_CANCEL} packet to the link from which
+the request was received. The process stops when the \texttt{SEGMENT\_CANCEL}
+packet reach the starting node that originated the request.
 
 %TODO REPEAT!!
 %When a node discovers that the path that includes
