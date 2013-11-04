@@ -3,15 +3,15 @@
 \label{sec:simulation}
 
 In this section we will test the proposed DiSR approach to demonstrate
-its effectiveness and to compare it against topology agnostic approach
+its effectiveness and compare it against topology agnostic approach
 based on spanning trees and
 broadcasting~\cite{Patwardhan05evaluatingthe}, to measure how DiSR
-performs in covering the network structure
+performs in covering the network structure.
 
 %\item Against the centralized segment based approach (SR), to evaluate
 %if and how its known properties are still preserved in the new nano-scale distributed scenario
 
-\subsection{Nanoxim environment}
+\subsection{Nanoxim Environment}
 
 In order to quantitatively and qualitatively evaluate the proposed approach a
 specific simulation environment has been developed, resulting in
@@ -21,7 +21,7 @@ Nanoxim is a SystemC tool based on a almost rewritten
 version of the Noxim Network-on-Chip simulator~\cite{noxim}. While some
 complex features have been removed (e.g. wormhole, congestion/topology
 aware routing and selection strategies) new features specifically
-taylored for nanoscale scenario were introduced, e.g. the ability to simulate a random
+taylored for the nanoscale scenario were introduced, e.g. the ability to simulate a random
 network, the implementation of the DiSR to obtain the segment topology
 and the support for defective links and nodes.
 
@@ -41,15 +41,14 @@ working, thus having all its links cannot be utilized during DiSR setup.
 \item {\emph{Bootstrap node}}: the node used from upper layer 
 to inject the DiSR process. When not explicitly investigating the
 impact of each single bootstrap choice, a set representative regions have been
-considered, i.e. the central part of the network and the edge corners
+considered, e.g. the central part of the network and the edge corners.
 \end{itemize}
-
-The show the results, the following evaluation metrics have been adopted:
+To present the results, the following evaluation metrics have been adopted:
 \begin{itemize}
 \item{Node coverage}: this is the fraction of nodes that
 are assigned to a segment. In the ideal case, all the non defective
 nodes should be assigned, so this metric is useful to show how some
-disconnected node regions can negatively impact on the whole DiSR
+disconnected regions can negatively impact on the whole DiSR
 effectiveness.
 \item{\emph{Latency}}: this measures how the cycles required to complete the
 segment assignment scales for increasing network sizes and defect rates

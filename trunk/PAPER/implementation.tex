@@ -28,8 +28,9 @@ configuration registers, related to an implementation the proposed approach.
 To give a basic estimate of the overhead needed we will focus on
 DiSR-specific components, that is, the control logic and configuration
 registers needed to implement DiSR. In
-Figure~\ref{fig:implementation} is shown a sketch of this block, which
-mainly consist in the following building element: 
+Figure~\ref{fig:implementation} is shown a sketch of a possible
+implementation, which mainly consist in the following building
+elements: 
 \begin{itemize}
 	\item \textbf{DBS block:} It takes trace of the DBS state machine, 
 	consisting of a 3-bit register (to cover six DBS values) and the 
@@ -39,7 +40,7 @@ mainly consist in the following building element:
 	The bootstrap node is selected by setting the boot signal to high
 	during the initialization phase.  
 	\item \textbf{LED registers:} A set of registers storing 
-	the Local Environment Data (LED) listed in the section
+	the \emph{LED} listed in the section
 	\ref{sec:disr_concepts}. It should be pointed out that, while the \emph{visited} 
 	and \emph{tvisited} data must be implemented with two distinct
 	elements, the \emph{tvisited} and \emph{visited} table can be implemented with 
@@ -54,7 +55,7 @@ mainly consist in the following building element:
 	updating them when required. This block drives the LED register 
 	for storing or, for reading the LED data according with
 	\emph{write enable (WE)} or \emph{read enable (RE)}
-	signals. Then, the resulting Ctrl-Out output drives the other
+	signals. Then, the resulting \emph{Ctrl-Out} drives the other
 	communication resources for actuating the DiSR routing operation.
 \end{itemize}
 
@@ -69,13 +70,13 @@ As discussed above, one of the main design challenge of DNA
 Self-Assembled systems is the limited resource available for
 implementing both computations and routing decisions for each node.
 Assuming a budget of $10^4$ CNFETs for each network's
-node~\cite{liu_jetcs}  we estimated the required resource for
+node~\cite{liu_jetcs}  we estimated the required resources for
 implementing the entire DiSR block.  A not optimized RTL description
 (with an hardware description language)  of the DiSR circuitry has
 been written and synthesized at gate-level. Considering the specific
 layout of each single logic elements (NAND, full-adder, latch etc.),
 it has been possible to get a rough estimate of the number of
-transistors necessary for implementing the DiSR logic.
+transistors necessary to implement the DiSR logic.
 
 Figure~\ref{fig:imp_trend} shows the results of synthesis in
 terms of number of devices (CNFETs) versus the number of network nodes
@@ -87,7 +88,7 @@ while the network scales up from $10\times10$ to $100\times100$ nodes.
  \label{fig:imp_trend}
 \end{figure}
 In particular, observing the Figure~\ref{fig:imp_trend} can 
-be pointed out that the proposed implementation occupy  about 17\% of the node budget. 
+be pointed out that the proposed implementation occupies about 17\% of the node budget. 
 Further, more than the absolute number of devices itself, it is interesting to
 observe that, while the node have a squared increment, the circuitry
 complexity which implements the DiSR algorithm increases with a slowly
