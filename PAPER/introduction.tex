@@ -1,17 +1,17 @@
 
 \section{Introduction and Motivation}
 
-% TODO: re-enable on long paper
-%Exploring long term alternatives to the CMOS technology is gaining
-%more and more revelance as the scaling trend of such devices keeps
-%introducing new challenges. Power density, defect tolerance, testing
-%costs and wire delays are only a few of the many critical aspects
-%involved~\cite{itrs12}. While software parallelism and multicore
-%approaches~\cite{horowitz2004, mudge2001, powell2009} are partially mitigating the impact of such
-%constraints on performances, it is likely that the growing computing demand will
-%eventually need even more radical architectural modifications and new
-%paradigms in order to address the Computer Design challenges of the next
-%decades.
+ TODO: re-enable on long paper
+Exploring long term alternatives to the CMOS technology is gaining
+more and more revelance as the scaling trend of such devices keeps
+introducing new challenges. Power density, defect tolerance, testing
+costs and wire delays are only a few of the many critical aspects
+involved~\cite{itrs12}. While software parallelism and multicore
+approaches~\cite{horowitz2004, mudge2001, powell2009} are partially mitigating the impact of such
+constraints on performances, it is likely that the growing computing demand will
+eventually need even more radical architectural modifications and new
+paradigms in order to address the Computer Design challenges of the next
+decades.
 
 In the last years, Self-assembled nanoscale architectures~\cite{winfree1998, yan2003}
 are emerging as a promising technology due their tera/peta scale of
@@ -27,14 +27,6 @@ attached. This can be achieved by designing appropriate complementary DNA tags f
 each terminal to be placed, so that a nano device will be attached
 only where its own DNA tag matches a complementary tag on the DNA grid
 scaffold.
-%(see figure~\ref{fig:dna_tag}.
-%
-%\begin{figure}
-%  \centering
-%    \includegraphics[width=0.30\textwidth]{pictures/dna2b.eps}
-%  \caption{DNA tag matching}
-%  \label{fig:dna_tag}
-%\end{figure}
 A detailed description of the chemical properties involved is far
 beyond the scope of this paper (see also~\cite{braun1998, seeman1999}), so we will focus on
 the three main challenges that this new fabrication process introduces
@@ -72,6 +64,16 @@ assembled process cannot assume such a deterministic device placement
 process, thus defect tolerance is something like a design requirement
 more than an exception to be avoided.
 
+\begin{figure}
+\centering
+\begin{tabular}{cc}
+    \includegraphics[width=0.40\textwidth]{pictures/dna2b.eps} &
+    \includegraphics[width=0.40\textwidth]{pictures/dna1_complex2.eps} \\
+ (a) & (b)
+ \end{tabular}
+  \caption{DNA tag matching and Resulting Irregualr Topology}
+  \label{fig:nana}
+\end{figure}
 These aspects of a DNA-self assembly process lead to some important
 implications to be addressed when approaching to the design of
 computer architecture: a computational model should be founded on a
@@ -86,16 +88,6 @@ underline that, altougth we can assume an architecture similar to the
 one depicted in Figure~\ref{fig:nana} as background, the topology discovery
 problem faced in this work is more general and not strictly dependent on any of the
 underlying computing architecture.
-
-%where instructions and data operands travel
-%on packets and routed using a topology-agnostic strategy that avoids
-%deadlock, 
-\begin{figure}
-  \centering
-    \includegraphics[width=0.20\textwidth]{pictures/dna1.eps}
-  \caption{Irregular topology of computing and storage elements}
-  \label{fig:nana}
-\end{figure}
 
 In this paper we introduce DiSR, a first effort for a Distributed
 Segment-based Routing in large scale DNA self assembled networks.

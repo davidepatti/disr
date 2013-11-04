@@ -1,5 +1,5 @@
 
-\section{Implementation Issues}
+\section{Hardware Implementation}
 \label{sec:implementation}
 
 Although a completed and detailed floorplan of the node is not the
@@ -20,74 +20,85 @@ configuration registers, related to an implementation the proposed approach.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.25\textwidth]{pictures/disr_imp.eps}
+  \includegraphics[width=0.40\textwidth]{pictures/implementation.eps}
   \caption{\emph{DiSR} block architecture.}
  \label{fig:implementation}
 \end{figure}
 
-Let's so focus to the \emph{DiSR} block. In
-Fig.~\ref{fig:implementation} is shown a possible sketch of this
-block, which mainly consist in the following building elements:
-
+To give a basic estimate of the overhead needed we will focus on
+DiSR-specific components, that is, the control logic and configuration
+registers needed to implement DiSR. In
+Figure~\ref{fig:implementation} is shown a sketch of this block, which
+mainly consist in the following building element: 
 \begin{itemize}
-\item \emph{DBS block}: It Takes trace of the DBS, and how already
-discussed in the Section~\ref{ssec:disr_dstruct}, there are six possible
-configurations. These values can be codified using 3 bit implemented
-with a 3-bit register and the required combinational logic. This block
-is essentially designed as a state machine.
-\item \emph{LED registers}: Is a set of registers useful for storing
-the local environment data (LED) described in
-Section~\ref{ssec:disr_dstruct}. In particular in
-fig.~\ref{fig:implementation}, are highlighted two tables representing
-the \emph{link\_visited[]} and \emph{link\_tvisited[]} values. This
-block consists of an array of registers (one for each
-direction) that can be implemented with an SRAM, in which are presents
-two specific fields  for representing the \emph{segID}. 
-\item \emph{Control circuitry}: This circuitry reads data
-from the fields of the incoming packet, LED registers and the
-\emph{DBS}, updating \emph{LED} and
-\emph{DBS} data when required. Then, the resulting \emph{Ctrl Out} output  drives the other
-communication resources (such as node transceivers) for actuating the
-DiSR routing operation.
+	\item \textbf{DBS block:} It takes trace of the DBS state machine, 
+	consisting of a 3-bit register (to cover six DBS values) and the 
+	required combinational logic. This block receives signals from 
+	stored packets to decode the packet type, and from 
+	the control circuitry to change its status.
+	The bootstrap node is selected by setting the boot signal to high
+	during the initialization phase.  
+	\item \textbf{LED registers:} A set of registers storing 
+	the Local Environment Data (LED) listed in the section
+	\ref{sec:disr_concepts}. It should be pointed out that, while the \emph{visited} 
+	and \emph{tvisited} data must be implemented with two distinct
+	elements, the \emph{tvisited} and \emph{visited} table can be implemented with 
+	a single RAM file for storing the segment id of each link.
+	This can be done adding a special register named \emph{Tflag}
+	indicating whether the \emph{SegID} value refers to \emph{visited} or to 
+	\emph{tvisited}. When SegID's register is set to 0, it means that the link
+	is neither visited nor tvisited.
+
+    \item \textbf{Control circuitry:} This circuitry reads data from
+	the incoming packet, the LED registers and the DBS,
+	updating them when required. This block drives the LED register 
+	for storing or, for reading the LED data according with
+	\emph{write enable (WE)} or \emph{read enable (RE)}
+	signals. Then, the resulting Ctrl-Out output drives the other
+	communication resources for actuating the DiSR routing operation.
 \end{itemize}
+
+Each building block reacts with the rising edge  of
+the\emph{clock signal} shown in Figure. An asynchronous system
+\emph{reset} signal is also present for restoring all registers to
+their default values. When this last signal is
+set, the DBS state machines for each network's node are set as
+\emph{Free}. 
 
 As discussed above, one of the main design challenge of DNA
 Self-Assembled systems is the limited resource available for
 implementing both computations and routing decisions for each node.
-For this reason, assuming a budget of $10^4$ CNFETs for each network's
-node~\cite{liu_jetcs} we estimated the required resource for
-implementing the entire DiSR block. A not optimized behavioural
-HDL of the DiSR circuitry has been written and synthesized at gate-level.
-Considering the specific layout of each single logic elements ( NAND,
-full-adder, latch etc.), it has been possible to get a rough estimate
-of the number of transistors necessary for implementing the DiSR
-logic.  Figure~\ref{fig:imp_trend} shows the results of synthesis in
+Assuming a budget of $10^4$ CNFETs for each network's
+node~\cite{liu_jetcs}  we estimated the required resource for
+implementing the entire DiSR block.  A not optimized RTL description
+(with an hardware description language)  of the DiSR circuitry has
+been written and synthesized at gate-level. Considering the specific
+layout of each single logic elements (NAND, full-adder, latch etc.),
+it has been possible to get a rough estimate of the number of
+transistors necessary for implementing the DiSR logic.
+
+Figure~\ref{fig:imp_trend} shows the results of synthesis in
 terms of number of devices (CNFETs) versus the number of network nodes
 while the network scales up from $10\times10$ to $100\times100$ nodes.
 \begin{figure}
   \centering
-  \includegraphics[width=0.25\textwidth]{pictures/imp_rslt.eps}
+  \includegraphics[width=0.40\textwidth]{pictures/imp_rslt.eps}
   \caption{Number of network's node (N) vs number of CNFETs.}
  \label{fig:imp_trend}
 \end{figure}
-In particular, observing the Fig.\ref{fig:imp_trend} can 
-be pointed out that the proposed implementation occupy  about 20\% of the node budget. 
+In particular, observing the Figure~\ref{fig:imp_trend} can 
+be pointed out that the proposed implementation occupy  about 17\% of the node budget. 
 Further, more than the absolute number of devices itself, it is interesting to
 observe that, while the node have a squared increment, the circuitry
 complexity which implements the DiSR algorithm increases with a slowly
 growing trend.  
 An intuitive explanation of this is the relatively simple logic of
-DiSR, whose behaviour is almost code on scalable storage structures.
-For example, the number of registers implementing the
-\emph{link\_visited[]} and \emph{link\_tvisited[]} table follow the
-logarithmic function:
-\begin{equation}
-  \label{eq:imp_trend}
-  N_{reg}=2\cdot N_{port} \cdot log_2(N)
-\end{equation}
-where $N_{port}$ is the number of the router's ports, $N$ is the number 
-of network's nodes while the term $2$ takes in account that \emph{link\_visited[]} and 
-\emph{link\_tvisited[]} are two separate set of registers. While this number is fixed by 
-the number of network's node, the control circuitry could be optimized applying more effort 
-in future designs of this building block. 
+DiSR, whose behaviour is al4ost code on scalable storage structures.
+For example, the number of registers
+implementing the \emph{link\_visited[]} and \emph{link\_tvisited[]}
+table follow the logarithmic function $N_{reg}=N_{port} \cdot
+log_2(N)$ where \emph{Nport} is the number of the router’s ports, N is
+the number of network’s nodes.  While $N_{reg}$ is fixed by the number
+of network’s node,  the control circuitry could be optimized applying
+more effort in future designs of this building block.
 
