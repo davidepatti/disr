@@ -1,9 +1,0 @@
-analyze -format vhdl src/pkg_disr.vhd
-analyze -format vhdl src/led_register.vhd
-target_library=/usr/synopsys/libraries/umc/fse0a_d_generic_core_tt1v25c.db
-elaborate led_registers
-set_max_area 0
-compile
-report_reference
-report_area
-
