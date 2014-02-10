@@ -180,17 +180,35 @@ following.
 
 \begin{figure}
   \centering
-    \includegraphics[width=0.40\textwidth]{pictures/state_machine.eps}
+    \includegraphics[width=0.40\textwidth]{pictures/dbs_updated.eps}
   \caption{DiSR node execution model}
   \label{fig:state_machine}
 \end{figure}
 \begin{itemize}
 
+\begin{figure*}
+\centering
+\begin{tabular}{cccc}
+\includegraphics[width=0.23\textwidth]{pictures/seq01.eps} & 
+\includegraphics[width=0.23\textwidth]{pictures/seq02.eps} &
+\includegraphics[width=0.23\textwidth]{pictures/seq03.eps} & 
+\includegraphics[width=0.23\textwidth]{pictures/seq04.eps} \\
+(a) & (b) & (c) & (d) \\
+\includegraphics[width=0.23\textwidth]{pictures/seq05.eps} &
+\includegraphics[width=0.23\textwidth]{pictures/seq06.eps} &
+\includegraphics[width=0.23\textwidth]{pictures/seq07.eps} & 
+\includegraphics[width=0.23\textwidth]{pictures/seq08.eps} \\
+(e) & (f) & (g) & (h) \\
+\end{tabular}
+\caption{DiSR (a) and RPF (b) node coverage}
+\label{fig:results_coverage}
+\end{figure*}
+
 \item{\textbf{Injecting bootstrap request}}: all nodes have an initial
 \emph{DBS} status \emph{Free}, except for a
  node with status \emph{Bootstrap}, set by some signal from an
 upper layer via (a). When starting, this bootstrap node 
-changes its status to \emph{ActiveSearching} (b), injecting a
+changes its status to \emph{CandidateStarting} (b), injecting a
 \texttt{STARTING\_SEGMENT\_REQUEST} across one of its free links. 
 
 \item{\textbf{Flooding}}: Each node receiving a \texttt{STARTING\_SEGMENT\_REQUEST},
