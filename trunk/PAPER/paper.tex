@@ -41,6 +41,7 @@
 \newcommand{\eg}{\emph{e.g.}}
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\etc}{\emph{etc.}}
+\newcommand{\disr}{{\sf DiSR}}
 %\renewcommand{\baselinestretch}{0.97}\normalsize
 %------------------------------------------------------------------------------
 
@@ -48,7 +49,7 @@
 
 %------------------------------------------------------------------------------
 
-\title{Deadlock Freedom on Self-Assembled DNA Nano Networks} 
+\title{Distributed Topology Discovery in Self-Assembled Nano Networks}
 
 \author{Vincenzo~Catania, Andrea Mineo, Salvatore Monteleone~and~Davide~Patti% 
 \thanks{The authors are with the Dipartimento di Ingegneria
@@ -60,22 +61,22 @@ Elettrica, Elettronica ed Informatica, Universit\`a di Catania, Italy
 %------------------------------------------------------------------------------
 
 \begin{abstract}
-In this paper we present DiSR, a first effort for a distributed
+In this paper we present \disr{}, a first effort for a distributed
 segment-based approach to routing and defect mapping in a nano-scale,
 topology agnostic scenario based on DNA self-assembly. The main aim is
 exploiting the already-proven qualities of segment-based routing
 without neither requiring a topology graph as input, nor needing a
 centralized algorithm to configure network paths.  After introducing
-the conceptual elements and the execution model of DiSR, we show how
+the conceptual elements and the execution model of \disr{}, we show how
 the opensource Nanoxim platform has been used to evaluate the proposed
 approach in the process of discovering irregular network topology
-while establishing network segments.  Results show how DiSR still
+while establishing network segments.  Results show how \disr{} still
 preserves some important properties (coverage, defect tolerance,
 scalability)  while avoiding centralized tree-based broadcasting and
 resource hungry solutions such as virtual channels and hardware
 redundancy. Finally, we analyzed a first, not yet optimised gate-level
 hardware implementation of the required control logic and storage for
-DiSR, demonstrating a relatively acceptable impact ranging from 10 to
+\disr{}, demonstrating a relatively acceptable impact ranging from 10 to
 about 20\% of the budget of transistors available for each node.
 \end{abstract}
 
@@ -96,14 +97,14 @@ Nanotechnology, DNA, Self-assembly, Routing, Deadlock
 %------------------------------------------------------------------------------
 
 \section{Conclusions}
-In this work we presented DiSR, an initial attempt of porting a segment based
+In this work we presented \disr{}, an initial attempt of porting a segment based
 approach to distributed self-assembled nanoscale scenario. We
-demonstrated how DiSR can accomplish the aim of finding a segment
+demonstrated how \disr{} can accomplish the aim of finding a segment
 coverage of the network without requiring any centralized approach
 that would request a graph topology as input. A draft hardware
 implementation has been presented to evaluate the impact on the limited
 node size typical of the assumed scenario. Future works will focus on
-developing self tuning of DiSR to match a high coverage levels and the
+developing self tuning of \disr{} to match a high coverage levels and the
 detailed low level hardware implementation on
 DNA grid using the appropriate nano devices models.
 
