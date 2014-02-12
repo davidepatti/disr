@@ -70,36 +70,6 @@ generated, a set of simulations with different seeds has been run
 for each system configuration. We found that 20 repetitions are
 required in order to obtain statistically significant results.
 
-% TODO: long paper
-\subsection{Other Optimisations}
-Some optimisation parameters, which demostrated to improve the \disr{}
-results have been fixed to some good values, but are not subject to
-further investigation; once again the focus here is not the
-optimal set of segments, but just demostrating a working approach. 
-These are optimisations are:
-\begin{itemize}
-\item{cycle\_links}: max number of retries across the set of links of
-each node. While searching for a free link due an incoming request,
-the same request is cancelled after a given number of tries. This
-gives to preceding node change to test a different paths. Default is set to 1.
-\item{bootstrap\_timeout}: number of time units that a bootstrap node
-should wait before assuming that a livelock in the starting segment
-process has occurred. In the worst case, we can imagine that longest
-path required is the one returning to the bootstrap node after having
-travelled across all the links. So, althought this is just an extreme
-situation, a good upper limit can be safely be set to NxN.
-\item{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
-setup process, a bootstrap node should not have defective links.
-Enabling this optimisation, a bootstrap node is immune to defects.
-We may think of a pre-bootstrap phase that properly selects (from upper
-layer via) a bootstrap node which is tested as properly connected. We
-enabled this optimisation, however empirical tests showed us that only
-simulations using bootstrap nodes placed on edges would be heavily
-affected, since these are nodes starting with a lower number of links,
-e.g. corner nodes could only have two connected direction, so even a
-defective link could prevent starting segment packet to return to
-bootstrap to close the loop a create the segment.
-\end{itemize}
 
 \subsection{Results}
 \label{sec:results}
@@ -194,3 +164,33 @@ different evolution in the \disr{} setup process.
 \label{fig:results_bootstrap}
 \end{figure}
 
+% TODO: long paper
+\subsection{Other Optimisations}
+Some optimisation parameters, which demostrated to improve the \disr{}
+results have been fixed to some good values, but are not subject to
+further investigation; once again the focus here is not the
+optimal set of segments, but just demostrating a working approach. 
+These are optimisations are:
+\begin{itemize}
+\item \emph{cycle\_links}: max number of retries across the set of links of
+each node. While searching for a free link due an incoming request,
+the same request is cancelled after a given number of tries. This
+gives to preceding node change to test a different paths. Default is set to 1.
+\item \emph{bootstrap\_timeout}: number of time units that a bootstrap node
+should wait before assuming that a livelock in the starting segment
+process has occurred. In the worst case, we can imagine that longest
+path required is the one returning to the bootstrap node after having
+travelled across all the links. So, althought this is just an extreme
+situation, a good upper limit can be safely be set to NxN.
+\item \emph{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
+setup process, a bootstrap node should not have defective links.
+Enabling this optimisation, a bootstrap node is immune to defects.
+We may think of a pre-bootstrap phase that properly selects (from upper
+layer via) a bootstrap node which is tested as properly connected. We
+enabled this optimisation, however empirical tests showed us that only
+simulations using bootstrap nodes placed on edges would be heavily
+affected, since these are nodes starting with a lower number of links,
+e.g. corner nodes could only have two connected direction, so even a
+defective link could prevent starting segment packet to return to
+bootstrap to close the loop a create the segment.
+\end{itemize}

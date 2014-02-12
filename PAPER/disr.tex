@@ -1,64 +1,60 @@
 
 %------------------------------------------------------------------------------
-\section{Preliminary Concepts}
+\section{\disr{} Sketch}
 %------------------------------------------------------------------------------
+
 \label{sec:disr_concepts}
-
-\subsection{Basic Idea}
 The main concept behind the kind of turn prohibition we want to
-achieve is the \emph{Segment}: it is basically a path of consecutive
-nodes and links. A segment $S_1$ starts with a link attached to a node which
-belongs to different segment $S_2$, ending with a link attached to a
-node belonging to a different segment $S_3$. In other words, a segment
-a path between connecting two other different segments.A exception is
-the first segment established in the network, called \emph{starting
-segment} which is  a loop beginning/ending on a particular node
-defined as \emph{bootstrap node}.
-The idea is to partition the network in a set of disjoint segments, and then
-placing a turn restriction within each segment. It has been proved~\cite{mejia_ipdps06}
-that such a set of turn prohibitions guarantees deadlock freedom and
-while preserving connectivity of the network.
+achieve is the \emph{Segment}. A segment is basically a path of consecutive
+nodes and links, starts with a link attached to a node of a different
+segment and ending with a link attached to a
+node belonging another. In other words, a segment
+a path between connecting two other different segments. The example
+in Figure~\ref{fig:segments} shows the segment with id $1.4$, starting
+with a link connected to the node $9$, the going trought nodes
+$4$,$3$,$2$ and ending with the link connected to the node $1$. Other
+segments depicted are $9.2$ (link,node $10$,link) and $9.3$
+(link from $9$ ,$8$,link,$7$,link,$6$,link,$5$,link to the $1$). Note
+also that start/ending link can coincide and a segment can also be
+formed by one single link (e.g. in $7.2$ or $5.4$).
+An exception to the rule that a segment must connect two other
+segments is the first segment established in the network, called
+\emph{starting segment} which is a loop beginning/ending on the same
+node.
 
-Describing the execution phases of DiSR from a top level point-of-view
-is basically similar to the classic SR approach. This can be useful to
-give an initial idea of the approach, however, some essential
-differences should be pointed out. First of all no centralized entity is
-globally aware of what is going on: the status of the DiSR execution
-is collectively distributed among the nodes; second, no defect map and/or
-topology graph is available as input, thus, the topology has to be
-discovered \emph{while} segments are created; finally, at the end of the
-execution, no segment list is created: Each node is only aware of
-belonging to some segment, ignoring the presence of other nodes
-in the same segment and even the presence of other segments in the
-network.
+\begin{figure}
+\centering
+    \includegraphics[width=0.25\textwidth]{pictures/network_slice.eps}
+  \caption{Example of Segments}
+  \label{fig:segments}
+\end{figure}
 
-Roughly speaking, the execution of can be described as the execution
-of the following phases: (1) Injection of the DiSR process from upper layer to set a bootstrap
-node (2) Bootstrap node broadcasting to create the first segment of the subnet
-(3) Parallel requests starting from assigned node to discover other
-segments. The following subsection describe the data structure and
-execution model required at each node. (4) Turn proibition in each
-confirmed segment.
-%\item Draining of remaining packet due timeouts
+A detailed description of the \disr{} execution model as depicted in
+the Figure~\ref{fig:disr_events} will be discussed in
+Subsection~\ref{sub:phases}. Roughly speaking, the execution of can be described as the execution
+of the following phases: 
+\begin{enumerate}
+\item Injection of the \disr{} process from an upper layer to set a \emph{bootstrap
+node} 
+\item Broadcasting and confirmation to create the first segment of the subnet
+\item Parallel requests starting from assigned node to discover other
+segments. 
+\item Turn proibition in each confirmed segment.
+\item Draining of remaining packet due timeouts
+\end{enumerate}
 
-%Once again, it should be pointed out that nowhere in the network there
-%is such a global vision of these exection phases. A more detailed
-%description of the exection model at each node is discussed in the
-%next section.
+\section{Detailed Description of \disr{}}
+\subsection{Message Types Required}
 
-\subsection{Signal Types Required}
-
-The DiSR approach works with a distributed mechanism which is build
+The \disr{} approach works with a distributed mechanism which is build
 upon an exchange of small packets containing the following fields:
 \begin{itemize}
-\item{packet\_type}: encodes the meaning of the control message respect
-to the whole DiSR process.
-\item{seg\_ID}: the id of the segment associated to the DiSR control message
-\item{src\_id}: the id of the node that initially originated the
-packet
+\item \emph{packet\_type}: encodes the meaning of the control message
+\item \emph{seg\_ID}: the id of the segment associated to the \disr{} control message
+\item \emph{src\_id}: the id of the node that originated the packet
 \end{itemize}
 
-As regards packet\_type, we can have the following control packets:
+As regards \emph{packet\_type} field, we can have the following control packets:
 \begin{itemize}
 \item{\texttt{STARTING\_SEGMENT\_REQUEST}}: Injected by the bootstrap
 node to when searching for the first segment. 
@@ -71,19 +67,15 @@ first)
 specific link.
 \end{itemize}
 
-A quantitative analysis of the resources needed to implement these
-fields is presented in Section~\ref{sec:implementation} when
-discussing the impact of the DiSR control logic and storage on
-hardware implementation of the node.
 
-\subsection{DiSR Data Structures}
+\subsection{\disr{} Data Structures}
 \label{ssec:disr_dstruct}
 
 We distinct between two different kind of data stored at each node:
 \emph{Local Environment Data} (\emph{LED}) and \emph{Dynamic Behaviour
 Status} (\emph{DBS}).
 
-The \emph{LED} is like a snapshot of the DiSR algorithm at each node,
+The \emph{LED} is like a snapshot of the \disr{} algorithm at each node,
 consisting in the following variables:
 \begin{itemize}
 \item{\emph{segID}}:a value used to specify the segment to which the
@@ -122,15 +114,9 @@ which strictly depends on the \emph{LED} data and the events occurring
 at the node. The \emph{DBS} can have the following values:
 
 \begin{itemize}
-\item{\emph{Free}}: a node that has  not been yet considered  by the DiSR algorithm.
-The node is not marked as \emph{visited}/\emph{tvisited}.
+\item{\emph{Free}}: a node that has  not been yet considered  by the \disr{} algorithm.
 \item{\emph{Bootstrap}}: a node which has been explicitly set as bootstrap node from
 an upper layer via. 
-% TODO: this and all the other details on the items below should be
-% checked and moved elsewhere for a future long paper
-%This is required because a
-%\texttt{STARTING\_SEGMENT\_REQUEST} packet should be injected in order to start
-%the whole process.
 \item{\emph{ActiveSearching}}: a node from which a find process of new segments has
 been started and not yet cancelled or confirmed. 
 %This happens when all
@@ -140,8 +126,7 @@ been started and not yet cancelled or confirmed.
 %the segment request sent there is a link that is being investigated by
 %the node, that is a tvisited\_link marked with the same id of the node 
 \item{\emph{Candidate}}: a node currently candidate for belonging to some segment
-with id segid, not being itself the node from which the find process
-was started. 
+, but not being itself the node from which the find process was started. 
 
 %The following conditions should be matched: \emph{tvisited} =
 %true, with segID=X different from node's id.  Two links set as
@@ -158,30 +143,34 @@ for starting segment.
 %\texttt{STARTING\_SEGMENT\_CONFIRM} with the same \emph{segID} when receiving a normal
 %\texttt{SEGMENT\_REQUEST}: Overwrites its status setting it to \emph{Candidate} for the
 %segID frees the links previously set as \emph{tvisited} during flooding
-\item{\emph{Assigned}}: a node for which the segment has been determined.  The
-segment \emph{segID} attribute value is set to some id X different from \texttt{NULL}.
+\item{\emph{Assigned}}: a node for which the segment has been determined.  
 %The \emph{visited} value is \emph{true} NOTE: an \emph{Assigned} state is a quick temporary
 %state, since it becomes \emph{ActiveSearching} if a not (\emph{visited}/tvisited)
 %link is suitable for searching new segments (see next\_visited
 %procedure on paper) 
 \end{itemize}
 
+A quantitative analysis of the resources needed to implement these
+fields is presented in Section~\ref{sec:implementation} when
+discussing the impact of the \disr{} control logic and storage on
+hardware implementation of the node.
 
-\subsection{DiSR Execution Model}
+\subsection{Execution Model}
+\label{sub:phases}
 
-In Figure~\ref{fig:state_machine} are depicted the main events
-representing the execution model at each node. The DiSR control
-packets described in the previous subsection trigger node events,
-which eventually change $DBS$ status according to the current value of
-$LED$ variables and the type of the packet received. The main DiSR
-phases, together with a reference to the particular status transition
-shown in Figure~\ref{fig:state_machine} are described in the
-following.
+The \disr{} control packets described in the previous subsection trigger
+node events, which eventually change $DBS$ status according to the
+current value of $LED$ variables and the type of the packet received.
+The main \disr{} phases, together with a reference to the particular
+status transition involved are described in the following. As a
+convention, we used single letters to refer to one of the \emph{DBS} transitions in
+Figure~\ref{fig:state_machine} while the phases are visually
+represented in~\ref{fig:disr_events}.
 
 \begin{figure}
   \centering
-    \includegraphics[width=0.40\textwidth]{pictures/dbs_updated.eps}
-  \caption{DiSR node execution model}
+    \includegraphics[width=0.25\textwidth]{pictures/dbs_updated.eps}
+  \caption{\disr{} node execution model}
   \label{fig:state_machine}
 \end{figure}
 \begin{itemize}
@@ -200,42 +189,38 @@ following.
 \includegraphics[width=0.23\textwidth]{pictures/seq08.eps} \\
 (e) & (f) & (g) & (h) \\
 \end{tabular}
-\caption{DiSR (a) and RPF (b) node coverage}
-\label{fig:results_coverage}
+\caption{\disr{} (a) and RPF (b) node coverage}
+\label{fig:disr_events}
 \end{figure*}
 
 \item{\textbf{Injecting bootstrap request}}: all nodes have an initial
-\emph{DBS} status \emph{Free}, except for a
- node with status \emph{Bootstrap}, set by some signal from an
-upper layer via (a). When starting, this bootstrap node 
-changes its status to \emph{CandidateStarting} (b), injecting a
-\texttt{STARTING\_SEGMENT\_REQUEST} across one of its free links. 
+\emph{DBS} status set to \emph{Free}, except for a
+ node with status \emph{Bootstrap}, set by some control signal from an
+upper layer via $(a)$. When starting, this bootstrap node 
+changes its status to \emph{CandidateStarting} $(b)$, injecting a
+\texttt{STARTING\_SEGMENT\_REQUEST} across one of its free links
+(Figure~\ref{fig:disr_events}-a). 
 
-\item{\textbf{Flooding}}: Each node receiving a \texttt{STARTING\_SEGMENT\_REQUEST},
-when $Free$ forwards it to its free links using a flooding mechanism and
-becoming $CandidateStarting$ (g).
+\item{\textbf{Bootnode Broadcasting}}: Each node receiving a \texttt{STARTING\_SEGMENT\_REQUEST},
+when $Free$, forwards it to its free links using a flooding mechanism and
+becoming $CandidateStarting$ $(g)$.
 Each of its free links is then marked as \emph{tvisited} with the segment id
 associated to the request. Note that a node that has already received a
 \texttt{STARTING\_SEGMENT\_REQUEST} packet can simply ignore further packets
 associated to the same request, having already contributed to the
-flooding. 
+flooding (Figure~\ref{fig:disr_events}-b).
 %Note also that each of these packets has a max\_segment\_hops
 %field to prevent packets from travelling undefinitively.  
 
-\item{\textbf{Confirming the Starting Segment}}: when the \texttt{STARTING\_SEGMENT\_REQUEST} packet reaches
+\item{\textbf{Confirming the Starting Segment}}: when a \texttt{STARTING\_SEGMENT\_REQUEST} packet reaches
 the bootstrap node (from a different link, of course), the starting
 segment is found. Then the bootstrap node sends back a \texttt{STARTING\_SEGMENT\_CONFIRM}
 packet along the link from which it received the
-\texttt{STARTING\_SEGMENT\_REQUEST} and becomes $Assigned$ (c). Each
+\texttt{STARTING\_SEGMENT\_REQUEST} and becomes $Assigned$ $(l)$. Each
 node receiving the confirm do same by changing its own status
-to \emph{Assigned} (l). So the confirmation packet is sent back from
-node to node and the starting segment is created. 
+to \emph{Assigned}(Figure~\ref{fig:disr_events}-c). So the confirmation packet is sent back from
+node to node and the starting segment is created (Figure~\ref{fig:disr_events}-d). 
 
-Note: A node being \emph{CandidateStarting}, when receiving a simple
-(not starting) \texttt{SEGMENT\_REQUEST} , can simply cancel its
-previous \emph{CandidateStarting} status and set itself as
-$Candidate$ for that request (h), since this new
-request means that the starting segment has already been found. 
 
 %What happens to nodes not receiving these segment request?
 %they simply remain \emph{tvisited} and after a timeout reset their
@@ -245,57 +230,41 @@ request means that the starting segment has already been found.
 
 %failure: TODO should we handle this case ? i.e.  marking as terminal ?
 
-\item{\textbf{Injecting other requests}}: Each node in the
+\item{\textbf{Injecting Segment Requests}: Each node in the
 \emph{Assigned} status can initiate a search for a segment, by sending
-a \texttt{SEGMENT\_REQUEST} across one of its free links (d). Note
-that since this is not the starting segment in this case the packet
-should not reach the initiator, but just another \emph{Assigned} node.
-
-\item{\textbf{Setup of a segment}}: The find process is successful
+a \texttt{SEGMENT\_REQUEST} across one of its free links $(c)$ (see
+Figure~\ref{fig:disr_events}-e). 
+Note that each \emph{Assigned} note can inject the request just after
+becoming assigned, i.e. it is not needed that the whole confirmation
+process in completed (Figure~\ref{disr_events}-f).
+Note also that nodes previosly set as \emph{CandidateStarting}, when receiving 
+a \texttt{SEGMENT\_REQUEST} can simply cancel their
+status and set as $Candidate$ for that request, since this new
+request means that the first starting segment has already been found $(h)$. 
+\item{\textbf{Segment Confirmation}}: The find process is successful
 when an already \emph{Assigned} node receives the
 \texttt{SEGMENT\_REQUEST} packet. Then, a \texttt{SEGMENT\_CONFIRM} is
-sent back along the path that originated the request (e), while the
+sent back along the path that originated the request
+(Figure~\ref{fig:disr_events}-g), while the
 node remain $Assigned$ (since it could confirm more segments). Each node
 previously set as $Candidate$ for that segment id, when receiving the
-confirm packet changes its status to $Assigned$ (m) and forwards back
-the same confirm until it reaches the initiator of the request, which
-changes from $ActiveSearching$ to $Assigned$ (c).
+a confirmation packet changes its status to $Assigned$ $(m)$ and forwards back
+the same confirmation until it reaches the initiator of the request,
+which then changes from $ActiveSearching$ to $Assigned$ $(d)$.
 
-\item{\textbf{Failing while searching a segment}}: a node received a \texttt{SEGMENT\_REQUEST} packet but
-matched one of two the following conditions: the node is $Free$ but has no
+\item{\textbf{Failing while searching a segment}}: this happen when a node received a \texttt{SEGMENT\_REQUEST} packet but
+matches one of two the following conditions: first, the node is $Free$ but has no
 more suitable free links (thus can’t forward the
-\texttt{SEGMENT\_REQUEST})(f); the node
-is candidate for another find process(i).  In all these cases the node
-sends back a \texttt{SEGMENT\_CANCEL} along the proper link. 
+\texttt{SEGMENT\_REQUEST})$(f)$; the node
+is already \emph{Candidate} with another segment id, i.e. another find
+process.  In all these cases the node
+sends back a \texttt{SEGMENT\_CANCEL} along the incoming link (see at
+the bottom of Figure~\ref{fig:disr_events}).
 %Each of the subsequent nodes will forward this \texttt{SEGMENT\_CANCEL}
 %only if no more free links can be explored starting from them.
 \end{itemize}
 
 
-\subsection{Intra-node vs Inter-node parallelism}
-In the processes described above, we assumed that each node in the
-READY\_SEARCHING state can start a find segment process by injecting a
-\texttt{SEGMENT\_REQUEST}. However, a more accurate decision when defining DiSR
-should be made in order to decide whether or not the node must
-actually perform this action. 
-The point above is is strictly related to the general question: which
-level of “parallelism” should we allow in DiSR ? The adopted approach
-is that, although the nature of DiSR itself is intrinsicly parallel,
-the use of parallelism makes things work in a more complex way. In
-other words, DiSR is parallel when needed, but it does not exploit
-parallelism as an “improving feature”. When not needed, things should
-be serialized. For example: when a node is “ready searching” could
-start several find segment process associated to the same segment, one
-for each free link. But serializing this by investigating the free
-links in order could be a simplest solution. We refer to this saying
-that we avoid intra-node parallelism.  Note that while intra-node
-parallelism can be avoided, trying to avoid inter-node parallelism
-could be more complex than allowing the parallelism itself. Imagine
-for example the effort of trying to coordinate nodes so that an unique
-finding node process is actually running in the whole subnet. Thus, in
-contrast to the intra-node parallelism, the inter-node parallelism is
-a structural property of the DiSR algorithm and should not be avoided.
-%------------------------------------------------------------------------------
 
 % TODO: FIX and RE-enable in long paper
 
@@ -433,3 +402,27 @@ packet reach the starting node that originated the request.
 %cyclelinks timeout) The node it’s \emph{tvisited} for the same request id,
 %previously forwarded that request along some free direction, but now
 %it’s receiving a a cancel request and has no more free links
+\subsection{Intra-node vs Inter-node parallelism}
+In the processes described above, we assumed that each node in the
+\emph{Assigned} status can start a find segment process by injecting a
+\texttt{SEGMENT\_REQUEST}. However, a more accurate decision when
+defining \disr{} should be made in order to decide whether or not the
+node must actually perform this action.  The point above is is
+strictly related to the general question: which level of “parallelism”
+should we allow in \disr{} ? The adopted approach is that, although
+the nature of \disr{} itself is intrinsicly parallel, the use of
+parallelism makes things work in a more complex way. In other words,
+\disr{} is parallel when needed, but it does not exploit parallelism
+as an “improving feature”. When not needed, things should be
+serialized. For example: when a node is “ready searching” could start
+several find segment process associated to the same segment, one for
+each free link. But serializing this by investigating the free links
+in order could be a simplest solution. We refer to this saying that we
+avoid intra-node parallelism.  Note that while intra-node parallelism
+can be avoided, trying to avoid inter-node parallelism could be more
+complex than allowing the parallelism itself. Imagine for example the
+effort of trying to coordinate nodes so that an unique finding node
+process is actually running in the whole subnet. Thus, in contrast to
+the intra-node parallelism, the inter-node parallelism is a structural
+property of the \disr{} algorithm and should not be avoided.
+%------------------------------------------------------------------------------

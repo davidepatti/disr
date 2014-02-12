@@ -109,7 +109,7 @@ draft of a architectural implementation is shown in
 Section~\ref{sec:implementation} to evaluate the feasibility of the
 approach in terms of node complexity.
 
-\section{Related Works}
+\section{Related Works and Contribution}
 \label{sec:related_works}
 Several works~\cite{sancho2002, skeie2002, skeie2004, koibuchi2003} have been presented addressing the problem of topology
 agnostic routing. While they show interesting
@@ -136,21 +136,35 @@ DNA self-assembled networks scenario. For the same reason, we also
 avoid considering solutions based on hardware-redundancy to
 dynamically recover defects as in~\cite{constantinides2006, kohler2010, kim2006, park2006, ebrahimi2013}. 
 
-In~\cite{mejia_ipdps06} authors present SR, an approach the solves these
+In~\cite{mejia_ipdps06} authors present an approach the solves these
 limitations by allowing turn restrictions to be placed locally,
 independently from other restrictions. The whole network is
-partitioned into segments, and each bidirectional turn
+partitioned into segments, and a bidirectional turn
 restriction can be freely chosen within a segment in order to guarantee
-deadlock freedom and connected networks. This \emph{locality
-independence} property, together with no requirement of any particular tree/root
+deadlock freedom while preserving network connectivity. This \emph{locality
+independence} property, avoiding the requirement of any particular tree/root
 choice, would make it the best choice for the given scenario;
-however, its topology independency still requires the knowledge of the
+however, it still requires the knowledge of the
 whole network graph in order to find the segments. 
 
 The \disr{} approach presented in this work is a first attempt of
-reaching the same goals of a segment based approach, that is
-establishing segments, without requiring any topology graph or
-centralized execution. 
-
+reaching the same goals of a segment based turn prohibition  without
+requiring any topology graph or centralized execution.  In particular
+\disr{} aims to obtain a segment network partitioning using a
+completely different mechanism, based on a distributed exchange of
+small setup packets. The following main features distinguish \disr{}
+from classic approaches to segment partitioning: 
+\begin{itemize}
+\item No centralized entity is globally responsible and/or aware of
+what is going on, i.e. the status of the \disr{} execution is
+collectively distributed among the nodes
+\item  No defect map and/or topology graph is used as input,
+thus, the topology has to be discovered \emph{while} segments are
+created
+\item At the end of the execution, no segment list is created or
+stored anywhere: each node is only aware of belonging to some segment,
+ignoring the presence of other nodes in the same segment and even the
+presence of other segments in the network
+\end{itemize}
 
 
