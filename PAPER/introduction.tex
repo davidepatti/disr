@@ -1,20 +1,19 @@
 
 \section{Introduction and Motivation}
 
- TODO: re-enable on long paper
 Exploring long term alternatives to the CMOS technology is gaining
 more and more revelance as the scaling trend of such devices keeps
 introducing new challenges. Power density, defect tolerance, testing
 costs and wire delays are only a few of the many critical aspects
 involved~\cite{itrs12}. While software parallelism and multicore
-approaches~\cite{horowitz2004, mudge2001, powell2009} are partially mitigating the impact of such
+approaches~\cite{horowitz2004, powell2009} are partially mitigating the impact of such
 constraints on performances, it is likely that the growing computing demand will
 eventually need even more radical architectural modifications and new
 paradigms in order to address the Computer Design challenges of the next
 decades.
 
-In the last years, Self-assembled nanoscale architectures~\cite{winfree1998, yan2003}
-are emerging as a promising technology due their tera/peta scale of
+In the last years, Self-assembled nanoscale architectures~\cite{yan2003}
+emerged as a promising technology due their tera/peta scale of
 integration, defect tolerance and huge potential computing
 capabilities. These technologies are certainly still at
 their early stage of development, however different laboratory demos and
@@ -89,12 +88,12 @@ one depicted in Figure~\ref{fig:nana} as background, the topology discovery
 problem faced in this work is more general and not strictly dependent on any of the
 underlying computing architecture.
 
-In this work we introduce DiSR, a Distributed Segment-based approach
+In this work we introduce \disr{}, a Distributed Segment-based approach
 to deadlock freedom in large scale DNA self assembled networks. Our
 contribution aims to achieve the classical properties of a
 segment-based approach~\cite{mejia_ipdps06} without requiring any
 topology graph, external defect map or centralized algorithm
-execution.  So the DiSR approach is not intended to discover the
+execution.  So the \disr{} approach is not intended to discover the
 ``optimal'' segment choice (ideally reachable with the knowledge of
 the topology graph) but just to demonstrate a concrete model that can
 fit into such complex, irregular and large sized networks.
@@ -104,7 +103,7 @@ we summarize the main approaches to topology agnostic routing. Next in
 Section~\ref{sec:disr_concepts} are described the main elements and
 the execution model of the proposed approach.  In Section~\ref{sec:simulation}
 simulations are carried out with the opensource tool Nanoxim to
-demonstrate how DiSR preserves some of the main segment-based
+demonstrate how \disr{} preserves some of the main segment-based
 properties and how compares to the tree-based approaches. Finally a
 draft of a architectural implementation is shown in
 Section~\ref{sec:implementation} to evaluate the feasibility of the
@@ -148,7 +147,7 @@ choice, would make it the best choice for the given scenario;
 however, its topology independency still requires the knowledge of the
 whole network graph in order to find the segments. 
 
-The DiSR approach presented in this work is a first attempt of
+The \disr{} approach presented in this work is a first attempt of
 reaching the same goals of a segment based approach, that is
 establishing segments, without requiring any topology graph or
 centralized execution. 

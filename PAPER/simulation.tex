@@ -2,10 +2,10 @@
 \section{Simulation and Results}
 \label{sec:simulation}
 
-In this section we will test the proposed DiSR approach to demonstrate
+In this section we will test the proposed \disr{} approach to demonstrate
 its effectiveness and compare it against topology agnostic approach
 based on spanning trees and
-broadcasting~\cite{Patwardhan05evaluatingthe}, to measure how DiSR
+broadcasting~\cite{Patwardhan05evaluatingthe}, to measure how \disr{}
 performs in covering the network structure.
 
 %\item Against the centralized segment based approach (SR), to evaluate
@@ -22,13 +22,13 @@ version of the Noxim Network-on-Chip simulator~\cite{noxim}. While some
 complex features have been removed (e.g. wormhole, congestion/topology
 aware routing and selection strategies) new features specifically
 taylored for the nanoscale scenario were introduced, e.g. the ability to simulate a random
-network, the implementation of the DiSR to obtain the segment topology
+network, the implementation of the \disr{} to obtain the segment topology
 and the support for defective links and nodes.
 
 %------------------------------------------------------------------------------
 \subsection{Experimental setup}
 The following parameters have been taken into account when
-performing the DiSR simulation:
+performing the \disr{} simulation:
 \begin{itemize}
 \item {\emph{Size of the network}}: number of nodes, on a range from
 10x10 to 100x100 sized networks. 
@@ -36,10 +36,10 @@ performing the DiSR simulation:
 %disconnected or not present, from 0 the amount that yelds
 %no more segments.
 \item {\emph{\% defective nodes}}: the probability that a node is not
-working, thus having all its links cannot be utilized during DiSR setup.  
+working, thus having all its links cannot be utilized during \disr{} setup.  
 %Same range as defective links parameter.
 \item {\emph{Bootstrap node}}: the node used from upper layer 
-to inject the DiSR process. When not explicitly investigating the
+to inject the \disr{} process. When not explicitly investigating the
 impact of each single bootstrap choice, a set representative regions have been
 considered, e.g. the central part of the network and the edge corners.
 \end{itemize}
@@ -48,7 +48,7 @@ To present the results, the following evaluation metrics have been adopted:
 \item{Node coverage}: this is the fraction of nodes that
 are assigned to a segment. In the ideal case, all the non defective
 nodes should be assigned, so this metric is useful to show how some
-disconnected regions can negatively impact on the whole DiSR
+disconnected regions can negatively impact on the whole \disr{}
 effectiveness.
 \item{\emph{Latency}}: this measures how the cycles required to complete the
 segment assignment scales for increasing network sizes and defect rates
@@ -56,7 +56,7 @@ segment assignment scales for increasing network sizes and defect rates
 bootstrap node on the node coverage.
 \end{itemize}
 
-%Further, to evaluate how DiSR compares against the centralized segment
+%Further, to evaluate how \disr{} compares against the centralized segment
 %based algorithm, the following metrics have been adopted:
 %\begin{itemize}
 %%\item {Average Path Lenght}:
@@ -72,7 +72,7 @@ required in order to obtain statistically significant results.
 
 % TODO: long paper
 \subsection{Other Optimisations}
-Some optimisation parameters, which demostrated to improve the DiSR
+Some optimisation parameters, which demostrated to improve the \disr{}
 results have been fixed to some good values, but are not subject to
 further investigation; once again the focus here is not the
 optimal set of segments, but just demostrating a working approach. 
@@ -88,7 +88,7 @@ process has occurred. In the worst case, we can imagine that longest
 path required is the one returning to the bootstrap node after having
 travelled across all the links. So, althought this is just an extreme
 situation, a good upper limit can be safely be set to NxN.
-\item{bootstrap\_immunity}: in order to avoid the failure of the whole DiSR
+\item{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
 setup process, a bootstrap node should not have defective links.
 Enabling this optimisation, a bootstrap node is immune to defects.
 We may think of a pre-bootstrap phase that properly selects (from upper
@@ -108,18 +108,18 @@ In this section we analyze the results in terms of node
 coverage and latency at different network sizes, defect rates and
 bootstrap injection points.  In particular
 Figure~\ref{fig:results_coverage} shows
-node coverage for DiSR and RPF tree based approach respectively. While
-the first aim of DiSR is not to reach the optimal coverage, we still
+node coverage for \disr{} and RPF tree based approach respectively. While
+the first aim of \disr{} is not to reach the optimal coverage, we still
 can observe a quite good performance as compared to the tree based
 approach. Note that defect rates beyond 25\% lead to many disconnected
-regions of nodes that DiSR currently cannot handle.
+regions of nodes that \disr{} currently cannot handle.
 For example Figure~\ref{fig:net} show a 30x30 network with a 25\%
 defect in which the bottom-left part cannot be reached due
 disconnected regions. Note that remaining defective nodes belonging to
-connected regions are successfully surrounded by DiSR coverage; in any
+connected regions are successfully surrounded by \disr{} coverage; in any
 case, these defect levels should be considered as worst case scenarios, so the
 achieved coverage of $0.5$ is a satisfying result for this first
-version of DiSR. On the other hand, the network size seems to have a
+version of \disr{}. On the other hand, the network size seems to have a
 limited impact when defect rate do not introduce too much disconnected
 regions. 
 \begin{figure*}
@@ -129,7 +129,7 @@ regions.
 \includegraphics[width=0.48\textwidth]{pictures/coverage.eps} \\
 (a) & (b) 
 \end{tabular}
-\caption{DiSR (a) and RPF (b) node coverage}
+\caption{\disr{} (a) and RPF (b) node coverage}
 \label{fig:results_coverage}
 \end{figure*}
 
@@ -147,7 +147,7 @@ regions.
 \includegraphics[width=0.48\textwidth]{pictures/set2_rpf.eps} \\
 (a) & (b)
 \end{tabular}
-\caption{Latency of DiSR (a) vs tree based RPF (b) }
+\caption{Latency of \disr{} (a) vs tree based RPF (b) }
 \label{fig:results_latency}
 \end{figure*}
 
@@ -155,11 +155,11 @@ The number of cycles required to complete segment mapping process
 is shown in Figure~\ref{fig:results_latency}. In this case comparison
 against tree-based shows better (lower) values at different defect
 rates.  Rather than the absolute numbers, what it's more interesting
-to observe is how DiSR latency scales with network size. For example,
+to observe is how \disr{} latency scales with network size. For example,
 going from 900 to 2500 nodes, at the medium defect rate of $0.15$,
 leads to an increase from 3000 to 4500 cycles. It should be noticed
 also how the effect of defect rate is increasing until the threshold
-of $0.25$ is reached, meaning that until that limit DiSR finds it more
+of $0.25$ is reached, meaning that until that limit \disr{} finds it more
 and more difficult to complete the process due increasing defective
 paths, but still discover new segments when let running for a more
 extended amount of cycles. This behavior is not reported in the RPF
@@ -173,7 +173,7 @@ the covering process, since far less nodes can be actually reached.
 Finally, Figure~\ref{fig:results_bootstrap} visually represents  the
 stability of the approach against choices of a different bootstrap
 node in a 10x10 network.  This is an important aspect to evaluate when
-considering that one of the main advantages of DiSR against all the
+considering that one of the main advantages of \disr{} against all the
 tree based approaches should be the ability of choosing whatever
 bootstrap node, without having to care about the role assumed in the
 future by the chosen root node.  In other words, after segments have
@@ -185,7 +185,7 @@ impact of the bootstrap choice in the low/medium scenarios, while a
 $30\%$ instability is found for very high defect rates. This also
 sounds acceptable, since when a lot of defective nodes are present, the
 particular position of the bootstrap node could lead to a completely
-different evolution in the DiSR setup process.
+different evolution in the \disr{} setup process.
 
 \begin{figure}
 \centering
