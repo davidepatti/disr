@@ -115,14 +115,14 @@ to the Fig~\ref{fig:node_structure}).
 \begin{figure}
   \centering
   \includegraphics[width=0.40\textwidth]{pictures/packager.eps}
-  \caption{Packager block}
+  \caption{Packager block.}
  \label{fig:packager}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.40\textwidth]{pictures/pipeline.eps}
-  \caption{Pipeline description of \disr{} operations}
+  \caption{Pipeline description of \disr{} operations.}
  \label{fig:pipeline}
 \end{figure}
 
@@ -160,7 +160,7 @@ the network scales up from $10\times10$ to $100\times100$ nodes.
 \begin{figure}
   \centering
   \includegraphics[width=0.50\textwidth]{pictures/synthesis.eps}
-  \caption{Number of network's node (N) vs number of CNFETs necassary to implement
+  \caption{Network size vs number of CNFETs necassary to implement
   the \disr{} circuitry.}
  \label{fig:synthesys}
 \end{figure}
@@ -180,19 +180,19 @@ log_2(N)$ where \emph{Nport} is the number of the router’s ports, N is
 the number of network’s nodes.
 
 In order to have an idea of the maximum working clock frequency for
-the implemented circuitry, timing results can be obtained from a gate-
-level netlist. Since a complete technology library usefull for
+the implemented circuitry, timing results can be obtained from a 
+gate-level netlist. Since a complete technology library usefull for
 commercial synthesis tool (like Design Compiler) doesn't exist for 
 this particular technology (at the best that we know), we have
-synthesized the RTL description of \disr{} with a standard 32nm CMOS
-library obtaining  a delay of about $\mathrm{\tau_{\disr{}}=10} FO4$
+synthesized the RTL description of \disr{} with a standard 32 nm CMOS
+library obtaining  a delay of about $\mathrm{\tau_{\disr{}}=10} \ FO4$
 (fan-out of four). Considering the results obtained
 in~\cite{deng_isscc07}, wich reports the ratio in therms of FO4
-between a standard 32nm CMOS technology and a carbon nanotube ones, 
-rough delay estimation can be obtained. In particolar has been reported a
-ratio R of:  
+between a standard 32 nm CMOS technology and a carbon nanotube ones, 
+rough delay estimation can be obtained. In particolar in such work 
+has been reported a ratio of:  
 \begin{equation}
-\mathrm{R=\frac{FO4_{CMOS}}{FO4_{CNFET}}=2}  
+\mathrm{\frac{FO4_{CMOS}}{FO4_{CNFET}}=2}  
 \end{equation}
 Considering that F04 CMOS is about 30 ps, and the results of last
 equation, a FO4 for the CNFET case is equal to about 15 ps, and
