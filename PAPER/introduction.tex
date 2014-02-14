@@ -3,9 +3,10 @@
 
 Exploring long term alternatives to the CMOS technology is gaining
 more and more revelance as the scaling trend of such devices keeps
-introducing new challenges. Power density, defect tolerance, testing
+introducing new challenges: power density, defect tolerance, testing
 costs and wire delays are only a few of the many critical aspects
-involved~\cite{itrs12}. While software parallelism and multicore
+involved~\cite{itrs13}. 
+While software parallelism and multicore
 approaches~\cite{horowitz2004, powell2009} are partially mitigating the impact of such
 constraints on performances, it is likely that the growing computing demand will
 eventually need even more radical architectural modifications and new
@@ -25,7 +26,7 @@ nano-devices (e.g. nanowires and CNFETs~\cite{bachtold2001, tans1998, cui2001}) 
 attached. This can be achieved by designing appropriate complementary DNA tags for
 each terminal to be placed, so that a nano device will be attached
 only where its own DNA tag matches a complementary tag on the DNA grid
-scaffold.
+scaffold (see Figure~\ref{fig:nana}-a).
 A detailed description of the chemical properties involved is far
 beyond the scope of this paper (see also~\cite{braun1998, seeman1999}), so we will focus on
 the three main challenges that this new fabrication process introduces
@@ -70,23 +71,20 @@ more than an exception to be avoided.
     \includegraphics[width=0.40\textwidth]{pictures/dna1_complex2.eps} \\
  (a) & (b)
  \end{tabular}
-  \caption{DNA tag matching and Resulting Irregualr Topology}
+  \caption{(a) DNA tag matching and (b) resulting trregualr topology}
   \label{fig:nana}
 \end{figure*}
 These aspects of a DNA-self assembly process lead to some important
 implications to be addressed when approaching to the design of
-computer architecture: a computational model should be based on a
-distributed network of small computing and storage nodes, randomly
-placed and interconnected (see Figure~\ref{fig:nana}).
-Proof-of-concept of such kind of computational model can be found for
-example in~\cite{patwardhan2006_1}.  Since no regularity can be
-assumed in such network, a topology agnostic strategy that avoids
-deadlock should be adopted in order to route packets (e.g.
-instructions and data operands) among nodes.  It is important to
-underline that, altougth we can assume an architecture similar to the
-one depicted in Figure~\ref{fig:nana} as background, the topology discovery
-problem faced in this work is more general and not strictly dependent on any of the
-underlying computing architecture.
+a computer architecture: computational model should be based on a
+distributed network of small processing and storage nodes, randomly
+placed and interconnected (see Figure~\ref{fig:nana}-b).
+Proof-of-concept of such architectures can be found for
+example in~\cite{patwardhan2006_1}, where instruction and data
+operands are move around the network in order to be processed.
+Indepentedly from the particular policy chosen for routing packets,
+such networks must be able to guarantee deadlock freedom without any
+prior assumption on topology.
 
 In this work we introduce \disr{}, a Distributed Segment-based approach
 to deadlock freedom in large scale DNA self assembled networks. Our
@@ -97,6 +95,11 @@ execution.  So the \disr{} approach is not intended to discover the
 ``optimal'' segment choice (ideally reachable with the knowledge of
 the topology graph) but just to demonstrate a concrete model that can
 fit into such complex, irregular and large sized networks.
+It is important to
+underline that, altougth we can assume an architecture similar to the
+one depicted in Figure~\ref{fig:nana} as background, the topology discovery
+problem faced in this work is more general and not strictly dependent on any of the
+underlying computing architecture.
 
 The paper is organized as follows: in Section~\ref{sec:related_works}
 we summarize the main approaches to topology agnostic routing. Next in
@@ -109,32 +112,34 @@ draft of a architectural implementation is shown in
 Section~\ref{sec:implementation} to evaluate the feasibility of the
 approach in terms of node complexity.
 
-\section{Related Works and Contribution}
+\section{Background and Contribution}
 \label{sec:related_works}
-Several works~\cite{sancho2002, skeie2002, skeie2004, koibuchi2003} have been presented addressing the problem of topology
-agnostic routing. While they show interesting
-performances, the requirement for virtual channels resources 
-to avoid deadlock makes them not suitable for the specific DNA self
-assembled networks we are assuming as background.
-Other topology independent algorithms~\cite{schroeder1991, koibuchi2001, cherkasova1996} do not use virtual channels to
-achieve deadlock freedom, but turn prohibitions. 
+Several worksaddressed the problem of topology agnostic deadlock
+freedom introducing virtual channels~\cite{sancho2002, skeie2002,
+skeie2004, koibuchi2003}, but while they show interesting
+performances, the low resources deadlock makes them not suitable for
+the specific DNA self assembled networks we are assuming as
+background.
+Other topology independent algorithms~\cite{schroeder1991,
+koibuchi2001, cherkasova1996} do not require any virtual channels but
+exploit the concept of ``turn prohibition''.
 In particular, authors of~\cite{Patwardhan05evaluatingthe} exploits the creation of a spanning tree of the
-topology, then placing bidirectional restrictions by avoiding a packet
+topology, placing bidirectional restrictions by avoiding a packet
 to traverse the same link in both up and down directions.
-While the hierarchical nature of this approach can lead to uneven traffic
+The hierarchical nature of this approach can lead to uneven traffic
 distribution, with many packets traversing upper links (near to the
-root), this is quite acceptable in classical wide area networks
+root), but this is quite acceptable in classical wide area networks
 topologies with a limited number of nodes. Other approaches such as
 FX~\cite{sancho2000} mitigate this
 issue, but the set of turn restrictions is still prefixed,
 strictly depending on the particular tree root selected. 
 Other solutions try to approach the issue of irregular
-topologies by limiting the number~\cite{dally1994, duato1997, gomez2004, koibuchi2008} or the
-location~\cite{zhang2008, sui2000, flich2008, liu2011} of missing links. This
+topologies by limiting the number~\cite{duato1997, gomez2004, koibuchi2008} or the
+location~\cite{zhang2008, flich2008, liu2011} of missing links. This
 restriction is clearly unacceptable given the hight-defect rates of
 DNA self-assembled networks scenario. For the same reason, we also
 avoid considering solutions based on hardware-redundancy to
-dynamically recover defects as in~\cite{constantinides2006, kohler2010, kim2006, park2006, ebrahimi2013}. 
+dynamically recover defects as in~\cite{constantinides2006, kohler2010,  park2006, ebrahimi2013}. 
 
 In~\cite{mejia_ipdps06} authors present an approach the solves these
 limitations by allowing turn restrictions to be placed locally,
@@ -148,11 +153,12 @@ however, it still requires the knowledge of the
 whole network graph in order to find the segments. 
 
 The \disr{} approach presented in this work is a first attempt of
-reaching the same goals of a segment based turn prohibition  without
-requiring any topology graph or centralized execution.  In particular
-\disr{} aims to obtain a segment network partitioning using a
+achieving the same goals of a segment based turn prohibition  without
+requiring any topology graph or centralized execution. In particular
+\disr{} implements segment discovery and turn prohibition using a
 completely different mechanism, based on a distributed exchange of
-small setup packets. The following main features distinguish \disr{}
+small setup packets requiring on average $15\%$ of the available
+resource budget. The following main features distinguish \disr{}
 from classic approaches to segment partitioning: 
 \begin{itemize}
 \item No centralized entity is globally responsible and/or aware of
