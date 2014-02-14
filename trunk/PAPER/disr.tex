@@ -1,14 +1,14 @@
 
 %------------------------------------------------------------------------------
-\section{\disr{} Sketch}
+\section{\disr{} Overview}
 %------------------------------------------------------------------------------
 
 \label{sec:disr_concepts}
 The main concept behind the kind of turn prohibition we want to
-achieve is the \emph{Segment}. A segment is basically a path of consecutive
-nodes and links, starts with a link attached to a node of a different
-segment and ending with a link attached to a
-node belonging another. In other words, a segment
+achieve is the \emph{segment}. A segment $S_y$ is basically a path of consecutive
+nodes and links, starting with a link attached to a node belonging to
+a different segment $S_x$ and ending with a link attached to a
+node of another segment $S_z$. In other words, a segment
 a path between connecting two other different segments. The example
 in Figure~\ref{fig:segments} shows the segment with id $1.4$, starting
 with a link connected to the node $9$, the going trought nodes
@@ -173,7 +173,6 @@ represented in~\ref{fig:disr_events}.
   \caption{\disr{} node execution model}
   \label{fig:state_machine}
 \end{figure}
-\begin{itemize}
 
 \begin{figure*}
 \centering
@@ -189,10 +188,11 @@ represented in~\ref{fig:disr_events}.
 \includegraphics[width=0.23\textwidth]{pictures/seq08.eps} \\
 (e) & (f) & (g) & (h) \\
 \end{tabular}
-\caption{\disr{} (a) and RPF (b) node coverage}
+\caption{Example of \disr{} segment setup: Nodes status are labeled as CandidateStarting($Cs$), Candidate ($C$), Free ($F$), Assigned ($A$) and Boostrap ($B$)}
 \label{fig:disr_events}
 \end{figure*}
 
+\begin{itemize}
 \item{\textbf{Injecting bootstrap request}}: all nodes have an initial
 \emph{DBS} status set to \emph{Free}, except for a
  node with status \emph{Bootstrap}, set by some control signal from an
@@ -230,7 +230,7 @@ node to node and the starting segment is created (Figure~\ref{fig:disr_events}-d
 
 %failure: TODO should we handle this case ? i.e.  marking as terminal ?
 
-\item{\textbf{Injecting Segment Requests}: Each node in the
+\item{\textbf{Injecting Segment Requests}}: Each node in the
 \emph{Assigned} status can initiate a search for a segment, by sending
 a \texttt{SEGMENT\_REQUEST} across one of its free links $(c)$ (see
 Figure~\ref{fig:disr_events}-e). 
