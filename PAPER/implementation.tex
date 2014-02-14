@@ -1,39 +1,38 @@
 \section{Hardware Implementation}
 \label{sec:implementation}
 
-A possible hardware implementation of the \disr{} algorithm will be
-described in this section.  Before to enter in to detail of  \disr{}
-architecture,  an idea of node structure tailored for this particular
-scenario can be found depicted in Fig.~\ref{fig:node_structure}. In
-particular, such node should have the following foundamental elements:
+A possible hardware implementation of \disr{} algorithm will be
+described in this section. Figure~\ref{fig:node_structure} depicts the general
+structure of a node in this particular scenario. In particular such a node
+is composed by the following fundamental elements:
 
 \begin{itemize}%----Start Itemize------
 
-	\item \textbf{I/O Buffers-Trasceivers:} These elements, one for
-	each port,  are responsible of data transmission between neighbours
-	nodes. The packets received or sent will be stored in specified buffers
-	named input and output buffers respectivelly.
+	\item \textbf{I/O Buffers-Transceivers:} These elements, one for
+	each port,  are responsible for data transmission with neighbors
+	nodes. The packets received or sent are stored in specific buffers
+	named input and output buffers respectively.
 
-	\item \textbf{Switch Matrix:} Driven by a switch controller, enables the
-	reciprocal connections beetween		 devices inside the node. Before
-	the creation of segments, such controller receives information from
-	\disr{} block.  After this phase, the switch controller will be driven by
-	the block wich implements the routing algorithm. The Switch matrix is
-	essentially a series of multiplexers and demultiplexers.
+	\item \textbf{Switch Matrix:} Driven by a switch controller, it enables the
+	reciprocal connections among devices inside the node. Before segments'
+	creation, this controller receives information from
+	\disr{} block. After this phase, the switch controller will be driven by
+	the block implementing the routing algorithm. The \emph{Switch Matrix} is
+	essentially composed of a series of multiplexers and demultiplexers.
 
-	\item  \textbf{Processing Element (PE):} Is strictly related to the node
-	functionality  and role inside a given network, e.g. being a
-	computation or storage node.
+	\item  \textbf{Processing Element (PE):} Is strictly related to the
+	functionality and role that the node cover inside a given network (e.g. being a
+	computation or storage node).
 
 	\item \textbf{\disr{}-Routing:} The \disr{} block contains all the hardware, control
-	logic and configuration registers, related to the implementation of the
+	logic and configuration registers, needed by the implementation of the
 	proposed approach. The routing algorithm receives information
-	from \disr{}  wich indicates the status of the segments that interests a
-	particular node. The routing operation will take in account of these
-	informations in order to perform a deadlock-free routing. Both Routing
-	and \disr{} are connected to the switch matrix in order to receive
+	from \disr{}  which indicates the status of segments related to a
+	particular node. Routing operations will take into account these
+	information to obtain deadlock freedom. Both Routing
+	and \disr{} are connected to the \emph{Switch Matrix} in order to receive
 	packets from the input buffer. Since the packets are processed one at
-	a time, a specific arbiter should be present within the switch matrix
+	a time, a specific arbiter should be present within the \emph{Switch Matrix}
 	controller. 
 
 \end{itemize}%------End Itemize------
@@ -55,17 +54,17 @@ particular, such node should have the following foundamental elements:
  \label{fig:implementation}
 \end{figure}
 
-To give a basic estimate of the overhead needed we will focus on \disr{}-
-specific components, that is, the control logic and configuration
-registers needed to implement \disr{}. In Figure~\ref{fig:implementation}
-is shown a sketch of the  architecture, which mainly consist in the
+To give a basic estimate of the overhead needed we focus on \disr{}-
+specific components namely the control logic and configuration
+registers needed to implement \disr{}. Figure~\ref{fig:implementation}
+shows an architecture sketch, which mainly consist in the
 following building elements:
 
 \begin{itemize}
 
 	\item \textbf{DBS block:}
 
-	It takes trace of the DBS state machine,  consisting of a 3-bit
+	It takes trace of the DBS state machine, consisting of a 3-bit
 	register (to cover six DBS values) and the  required combinational
 	logic. This block receives signals from  stored packets  in order
 	to decode the packet type, and from  the control circuitry to
@@ -73,44 +72,41 @@ following building elements:
 	boot signal to high during the initialization phase.
 
 	\item \textbf{LED registers:}
-	A set of registers store the \emph{LED} listed in the
-	section~\ref{sec:disr_concepts}.  In particular, in the
-	link\_visited[] table, can be pointed out the presence of two
-	particular registernamed \emph{tflag} and \emph{busy}.  The Latter
-	is used to indicate if a specific port is alredy visited or
-	tvisited while the former indicates specifically if the specific
-	port is alredy candidate or  assigned for a specific segment.
+	A set of registers store the \emph{LED} defined in
+	section~\ref{sec:disr_concepts}.  In the
+	link\_visited[] table, we defined two specific registers named
+	\emph{tflag} and \emph{busy}. While the first one indicates
+    if the specific port of a segment is already candidate or assigned,
+    the second one records if a specific port is already visited or tvisited
 
     \item \textbf{Control circuitry:}
-    This circuitry decodes the the      incoming packet, the LED
-	registers and the DBS,     updating them when required. This block
-	drives the LED register   to store or, to read the LED data
-	according with \emph{write enable (WE)} or \emph{read enable (RE)}
+    This circuitry decodes incoming packet, LED
+	registers and DBS, updating them when required. This block
+	drives LED register according with \emph{write enable (WE)} or \emph{read enable (RE)}
 	signals. Then, the resulting \emph{Ctrl-Out} drives the other
-	communication resources for actuating the \disr{} routing operation.
+	communication resources to actuate \disr{} routing operations.
 
 	\item \textbf{Packager:}
-	Essentially is a set of registers and multiplexers. Starting from
-	an incoming packet stored in the input buffer, it updates the
-	content of the packet before the retransmission to   a destination
-	node.  In some cases, this circuitry builds the packet from the
-	scratch.  For example this happens when a node is bootsrap and for
-	the first time it should inject a \emph{strating\_segment\_request}. 
-	In Fig.~\ref{fig:packager} is shown the architecture of such packager 
+	Essentially it is a set of registers and multiplexers. Starting from
+	an incoming packet stored in the input buffer, it updates packet's
+	content before retransmission to a destination
+	node.  In some cases, this circuitry builds the packet from
+	scratch e.g. when a node is bootstrap and for
+	the first time it should inject a \emph{starting\_segment\_request}. 
+	Figure~\ref{fig:packager} depicts the architecture of this
 	block. When a packet is created for the first time, the multiplexers 
-	driven by the controller, will select the information incoming from the 
-	internal node such as the \emph{soruce\_ID}. In this situation the 
-	TTL field should be resetted to its initial value and the \emph{segment\_ID}
+	driven by the controller, will select information incoming from an internal 
+    node such as the \emph{source\_ID}. In this situation the 
+	TTL field should be reset to its initial value and the \emph{segment\_ID}
 	is composed by the node ID and by the output port identification 
 	number.
 
 \end{itemize}
 
 While the elements mentioned above are part of the \disr{} circuitry,
-the other devices depicted in Fig.~\ref{fig:implementation} like the
+the other devices depicted in Figure~\ref{fig:implementation} like the
 multiplexer and demultiplexer are implemented outside \disr{}. In
-particular, such components will be inside the switch matrix  (refers
-to the Fig~\ref{fig:node_structure}).
+particular, such components will be inside the \emph{Switch Matrix} (see Figure~\ref{fig:node_structure}).
 
 \begin{figure}
   \centering
@@ -126,22 +122,22 @@ to the Fig~\ref{fig:node_structure}).
  \label{fig:pipeline}
 \end{figure}
 
-Each of just described building block, reacts with the rising edge  of
+All the blocks described above, reacts with the rising edge of
 the \emph{clock signal}. An asynchronous system \emph{reset} signal is
 also present to restore all registers to their default values. When
-this signal is set, the DBS state machines for each network
+this signal is set, DBS state machines for each network
 node are set as \emph{Free}.  
-In Fig.~\ref{fig:pipeline} is described the pipeline structure of the
-\disr{} architecture. The packets incoming from the neighbours node, or
-locally generated will be send to the DBS state machine in order to te
-ensure the status commutation. While the DBS updates its state,  in the
-next clock cycle the control circuitry will update the Led status and
-will drive the switch matrix in order to send eventually the packets to
-the  right output buffer.
+Figure~\ref{fig:pipeline} is shows the pipeline structure of the
+\disr{} architecture. Packets incoming from neighbor nodes (or
+generated locally) are sent to the DBS state machine in order to
+ensure the status commutation. While DBS updates its state, in the
+next clock cycle the control circuitry will update LED registers status and
+will drive the \emph{Switch Matrix} in order to send eventually the packets to
+the right output buffer.
 %--------------------------------------------------------------------
 \subsection{Synthesis results}
 
-As discussed above, one of the main design challenge of DNA Self-
+As discussed above, one of the main design challenges of DNA Self-
 Assembled systems is the limited number of resources available to implement both
 computations and routing decisions for each node. Assuming a budget of
 $10^4$ CNFETs for each network's node~\cite{liu_jetcs}  we estimated
@@ -152,7 +148,7 @@ and synthesized at gate-level using \emph{Synopsys Design Compiler} with
 a generic technology library (GTECH).
 Considering the specific layout of each single logic elements  (NAND,
 full-adder, latch etc.), it has been possible to get a rough estimate
-of the number of transistors necessary to implement the \disr{} logic.
+of the number of transistors necessary to implement \disr{} logic.
 Figure~\ref{fig:synthesys} shows the results of synthesis in terms of
 number of devices (CNFETs) versus the number of network nodes while
 the network scales up from $10\times10$ to $100\times100$ nodes.
@@ -160,55 +156,55 @@ the network scales up from $10\times10$ to $100\times100$ nodes.
 \begin{figure}
   \centering
   \includegraphics[width=0.50\textwidth]{pictures/synthesis.eps}
-  \caption{Network size vs number of CNFETs necassary to implement
+  \caption{Network size vs number of CNFETs necessary to implement
   the \disr{} circuitry.}
  \label{fig:synthesys}
 \end{figure}
 
-In particular, observing the Figure~\ref{fig:synthesys} can  be
-pointed out that the proposed implementation occupies about 17,5\% of
-the node budget. In particular the main contribution is due to the
-controller circuitry followed by LED registers. Further, more than the
+In particular, Figure~\ref{fig:synthesys} shows that the proposed 
+implementation occupies about 17,5\% of our node budget. 
+The main contribution is due to the controller circuitry followed by LED registers. 
+Further, more than the
 absolute number of devices itself, it is interesting to observe that
-the circuitry complexity which implements the \disr{} algorithm increases
-with a slowly growing trend.   An intuitive explanation of this is the
-relatively simple logic of \disr{}, whose behaviour is almost code on
+the circuitry complexity which implements \disr{} algorithm increases
+with a slowly growing trend. An intuitive explanation of this is the
+relatively simple logic of \disr{}, whose behavior is almost coded on
 scalable storage structures. For example, the number of registers
 implementing the \emph{link\_visited[]} and \emph{link\_tvisited[]}
 table follow the logarithmic function $N_{reg}=N_{port} \cdot
-log_2(N)$ where \emph{Nport} is the number of the router’s ports, N is
+log_2(N)$ where \emph{Nport} is the number of the router’s ports and N is
 the number of network’s nodes.
 
 In order to have an idea of the maximum working clock frequency for
 the implemented circuitry, timing results can be obtained from a 
-gate-level netlist. Since a complete technology library usefull for
-commercial synthesis tool (like Design Compiler) doesn't exist for 
-this particular technology (at the best that we know), we have
-synthesized the RTL description of \disr{} with a standard 32 nm CMOS
-library obtaining  a delay of about $\mathrm{\tau_{\disr{}}=10} \ FO4$
+gate-level netlist. Since a complete technology library useful for
+commercial synthesis tool (e.g. Design Compiler) is not available for
+this particular technology, we have
+synthesized the RTL description of \disr{}, with a standard 32~nm CMOS
+library, obtaining a delay of about $\mathrm{\tau_{\disr{}}=10} \ FO4$
 (fan-out of four). Considering the results obtained
-in~\cite{deng_isscc07}, wich reports the ratio in therms of FO4
-between a standard 32 nm CMOS technology and a carbon nanotube ones, 
-rough delay estimation can be obtained. In particolar in such work 
+in~\cite{deng_isscc07}, which reports the ratio in terms of FO4
+between a standard 32~nm CMOS technology and a carbon nanotube ones, 
+rough delay estimation can be obtained. In particular in such work 
 has been reported a ratio of:  
 \begin{equation}
 \mathrm{\frac{FO4_{CMOS}}{FO4_{CNFET}}=2}  
 \end{equation}
-Considering that F04 CMOS is about 30 ps, and the results of last
-equation, a FO4 for the CNFET case is equal to about 15 ps, and
-then the working frequency can be computed as:
+Considering that F04 CMOS is about 30~ps, and the results of last
+equation, a FO4 for the CNFET case is equal to about 15~ps, the working 
+frequency can be computed as:
 \begin{equation}
 \mathrm{f_{clk}=\frac{1}{T_{max}}=\frac{1}{\tau_{\disr{}} \cdot FO4_{CNFET}}}=
 \frac{1}{10\cdot 15 \cdot 10^{-12}}=6,6 GHz
 \end{equation}
-where $\mathrm{\tau_{\disr{}}}$ was expressed in therms of FO4.
+where $\mathrm{\tau_{\disr{}}}$ is expressed in terms of FO4.
 
-Regards the power consumption of the entire \disr{} devices, 
-an accurate power analysis with the switch activity
-annotation can be avoided because the \disr{} circuitry will be active 
-only once at the system startup. Indeed, after the setup phase, when all segments
-are mapped in to the network, the \disr{} block will stop its activity
-giving as output the fixed status of segments to the routing
-algorithm. For this reason the dynamic power will going  to zero and
-the only cosumption will be eventually only due to the leackage
+Regarding the power consumption of whole \disr{} devices, 
+we avoided an accurate power analysis with the switch activity
+annotation due to the fact that \disr{} circuitry will be active 
+only once during system startup. Indeed, after the setup phase, 
+when all segments are mapped, the \disr{} block will stop its activity 
+passing all the information related to segments to the routing
+algorithm. For this reason the dynamic power falls to zero and
+the only consumption could be due to the leakage
 consumption.
