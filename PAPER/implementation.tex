@@ -1,8 +1,8 @@
 \section{Hardware Implementation}
 \label{sec:implementation}
 
-A possible hardware implementation of the DiSR algorithm will be
-described in this section.  Before to enter in to detail of  DiSR
+A possible hardware implementation of the \disr{} algorithm will be
+described in this section.  Before to enter in to detail of  \disr{}
 architecture,  an idea of node structure tailored for this particular
 scenario can be found depicted in Fig.~\ref{fig:node_structure}. In
 particular, such node should have the following foundamental elements:
@@ -17,7 +17,7 @@ particular, such node should have the following foundamental elements:
 	\item \textbf{Switch Matrix:} Driven by a switch controller, enables the
 	reciprocal connections beetween		 devices inside the node. Before
 	the creation of segments, such controller receives information from
-	DiSR block.  After this phase, the switch controller will be driven by
+	\disr{} block.  After this phase, the switch controller will be driven by
 	the block wich implements the routing algorithm. The Switch matrix is
 	essentially a series of multiplexers and demultiplexers.
 
@@ -25,13 +25,13 @@ particular, such node should have the following foundamental elements:
 	functionality  and role inside a given network, e.g. being a
 	computation or storage node.
 
-	\item \textbf{DiSR-Routing:} The DiSR block contains all the hardware, control
+	\item \textbf{\disr{}-Routing:} The \disr{} block contains all the hardware, control
 	logic and configuration registers, related to the implementation of the
 	proposed approach. The routing algorithm receives information
-	from DiSR  wich indicates the status of the segments that interests a
+	from \disr{}  wich indicates the status of the segments that interests a
 	particular node. The routing operation will take in account of these
 	informations in order to perform a deadlock-free routing. Both Routing
-	and DiSR are connected to the switch matrix in order to receive
+	and \disr{} are connected to the switch matrix in order to receive
 	packets from the input buffer. Since the packets are processed one at
 	a time, a specific arbiter should be present within the switch matrix
 	controller. 
@@ -45,19 +45,19 @@ particular, such node should have the following foundamental elements:
  \label{fig:node_structure}
 \end{figure}
 %--------------------------------------------------------------------
-\subsection{DiSR Architecture}
+\subsection{\disr{} Architecture}
 \label{ssec:disr_architecture}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.40\textwidth]{pictures/disr_rtl_updated.eps}
-  \caption{\emph{DiSR} block architecture.}
+  \caption{\emph{\disr{}} block architecture.}
  \label{fig:implementation}
 \end{figure}
 
-To give a basic estimate of the overhead needed we will focus on DiSR-
+To give a basic estimate of the overhead needed we will focus on \disr{}-
 specific components, that is, the control logic and configuration
-registers needed to implement DiSR. In Figure~\ref{fig:implementation}
+registers needed to implement \disr{}. In Figure~\ref{fig:implementation}
 is shown a sketch of the  architecture, which mainly consist in the
 following building elements:
 
@@ -87,7 +87,7 @@ following building elements:
 	drives the LED register   to store or, to read the LED data
 	according with \emph{write enable (WE)} or \emph{read enable (RE)}
 	signals. Then, the resulting \emph{Ctrl-Out} drives the other
-	communication resources for actuating the DiSR routing operation.
+	communication resources for actuating the \disr{} routing operation.
 
 	\item \textbf{Packager:}
 	Essentially is a set of registers and multiplexers. Starting from
@@ -106,9 +106,9 @@ following building elements:
 
 \end{itemize}
 
-While the elements mentioned above are part of the DiSR circuitry,
+While the elements mentioned above are part of the \disr{} circuitry,
 the other devices depicted in Fig.~\ref{fig:implementation} like the
-multiplexer and demultiplexer are implemented outside DiSR. In
+multiplexer and demultiplexer are implemented outside \disr{}. In
 particular, such components will be inside the switch matrix  (refers
 to the Fig~\ref{fig:node_structure}).
 
@@ -122,7 +122,7 @@ to the Fig~\ref{fig:node_structure}).
 \begin{figure}
   \centering
   \includegraphics[width=0.40\textwidth]{pictures/pipeline.eps}
-  \caption{Pipeline description of DiSR operations}
+  \caption{Pipeline description of \disr{} operations}
  \label{fig:pipeline}
 \end{figure}
 
@@ -132,7 +132,7 @@ also present to restore all registers to their default values. When
 this signal is set, the DBS state machines for each network
 node are set as \emph{Free}.  
 In Fig.~\ref{fig:pipeline} is described the pipeline structure of the
-DiSR architecture. The packets incoming from the neighbours node, or
+\disr{} architecture. The packets incoming from the neighbours node, or
 locally generated will be send to the DBS state machine in order to te
 ensure the status commutation. While the DBS updates its state,  in the
 next clock cycle the control circuitry will update the Led status and
@@ -145,14 +145,14 @@ As discussed above, one of the main design challenge of DNA Self-
 Assembled systems is the limited number of resources available to implement both
 computations and routing decisions for each node. Assuming a budget of
 $10^4$ CNFETs for each network's node~\cite{liu_jetcs}  we estimated
-the required resources to implement the entire DiSR block. The RTL
+the required resources to implement the entire \disr{} block. The RTL
 description of the circuitry described in the last section (with an
-hardware description language)  of the DiSR circuitry has been written
+hardware description language)  of the \disr{} circuitry has been written
 and synthesized at gate-level using \emph{Synopsys Design Compiler} with 
 a generic technology library (GTECH).
 Considering the specific layout of each single logic elements  (NAND,
 full-adder, latch etc.), it has been possible to get a rough estimate
-of the number of transistors necessary to implement the DiSR logic.
+of the number of transistors necessary to implement the \disr{} logic.
 Figure~\ref{fig:synthesys} shows the results of synthesis in terms of
 number of devices (CNFETs) versus the number of network nodes while
 the network scales up from $10\times10$ to $100\times100$ nodes.
@@ -161,7 +161,7 @@ the network scales up from $10\times10$ to $100\times100$ nodes.
   \centering
   \includegraphics[width=0.50\textwidth]{pictures/synthesis.eps}
   \caption{Number of network's node (N) vs number of CNFETs necassary to implement
-  the DiSR circuitry.}
+  the \disr{} circuitry.}
  \label{fig:synthesys}
 \end{figure}
 
@@ -170,9 +170,9 @@ pointed out that the proposed implementation occupies about 17,5\% of
 the node budget. In particular the main contribution is due to the
 controller circuitry followed by LED registers. Further, more than the
 absolute number of devices itself, it is interesting to observe that
-the circuitry complexity which implements the DiSR algorithm increases
+the circuitry complexity which implements the \disr{} algorithm increases
 with a slowly growing trend.   An intuitive explanation of this is the
-relatively simple logic of DiSR, whose behaviour is almost code on
+relatively simple logic of \disr{}, whose behaviour is almost code on
 scalable storage structures. For example, the number of registers
 implementing the \emph{link\_visited[]} and \emph{link\_tvisited[]}
 table follow the logarithmic function $N_{reg}=N_{port} \cdot
@@ -184,8 +184,8 @@ the implemented circuitry, timing results can be obtained from a gate-
 level netlist. Since a complete technology library usefull for
 commercial synthesis tool (like Design Compiler) doesn't exist for 
 this particular technology (at the best that we know), we have
-synthesized the RTL description of DiSR with a standard 32nm CMOS
-library obtaining  a delay of about $\mathrm{\tau_{DiSR}=10} FO4$
+synthesized the RTL description of \disr{} with a standard 32nm CMOS
+library obtaining  a delay of about $\mathrm{\tau_{\disr{}}=10} FO4$
 (fan-out of four). Considering the results obtained
 in~\cite{deng_isscc07}, wich reports the ratio in therms of FO4
 between a standard 32nm CMOS technology and a carbon nanotube ones, 
@@ -198,16 +198,16 @@ Considering that F04 CMOS is about 30 ps, and the results of last
 equation, a FO4 for the CNFET case is equal to about 15 ps, and
 then the working frequency can be computed as:
 \begin{equation}
-\mathrm{f_{clk}=\frac{1}{T_{max}}=\frac{1}{\tau_{DiSR} \cdot FO4_{CNFET}}}=
+\mathrm{f_{clk}=\frac{1}{T_{max}}=\frac{1}{\tau_{\disr{}} \cdot FO4_{CNFET}}}=
 \frac{1}{10\cdot 15 \cdot 10^{-12}}=6,6 GHz
 \end{equation}
-where $\mathrm{\tau_{DiSR}}$ was expressed in therms of FO4.
+where $\mathrm{\tau_{\disr{}}}$ was expressed in therms of FO4.
 
-Regards the power consumption of the entire DiSR devices, 
+Regards the power consumption of the entire \disr{} devices, 
 an accurate power analysis with the switch activity
-annotation can be avoided because the DiSR circuitry will be active 
+annotation can be avoided because the \disr{} circuitry will be active 
 only once at the system startup. Indeed, after the setup phase, when all segments
-are mapped in to the network, the DiSR block will stop its activity
+are mapped in to the network, the \disr{} block will stop its activity
 giving as output the fixed status of segments to the routing
 algorithm. For this reason the dynamic power will going  to zero and
 the only cosumption will be eventually only due to the leackage
