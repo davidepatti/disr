@@ -43,7 +43,52 @@ segments.
 \item Draining of remaining packet due timeouts
 \end{enumerate}
 
-\section{Detailed Description of \disr{}}
+\subsection{\disr{} Data Structures}
+\label{ssec:disr_data}
+
+We distinct between two different kind of data stored at each node:
+\emph{Dynamic Behaviour Status} (\emph{DBS}) and \emph{Local
+Environment Data} (\emph{LED}).
+
+The \emph{DBS} stores information in order to capture the dynamic
+behaviour of the node  in the context of the whole
+\disr{} execution phased. The \emph{DBS} can have the following values:
+
+\begin{itemize}
+\item{\emph{Free}}: a node that has  not been yet considered  by the \disr{} algorithm.
+\item{\emph{Bootstrap}}: a node which has been explicitly set as bootstrap node from
+an upper layer via. 
+\item{\emph{ActiveSearching}}: a node from which a find process of new segments has
+been started and not yet cancelled or confirmed. 
+\item{\emph{Candidate}}: a node currently candidate for belonging to some segment
+, but not being itself the node from which the find process was started. 
+\item{\emph{CandidateStarting}}: same as above, but the node is currently being considered as candidate
+for starting segment. 
+\item{\emph{Assigned}}: a node for which the segment has been determined.  
+\end{itemize}
+
+The \emph{LED} are like a instanst snapshot of the \disr{} algorithm at each node,
+consisting in the following variables:
+\begin{itemize}
+\item{\emph{segID}}:a value used to specify the segment to which the
+node has been assigned or is candidate for being assigned.
+\item{\emph{visited}}: a boolean value. When \emph{true}
+then a \emph{segID} different from \texttt{NULL} specifies the segment 
+to which the node has been assigned. 
+\item{\emph{tvisited}}: a boolean value. If \emph{true}, the node is
+being considered as candidate for a segment, and the \emph{segID} value
+specifies the segment id for which the node is candidate. 
+\item{\emph{link\_visited[]}}: an array
+of values representing information about attached links, that is, the
+segID of the segment owning each link. When \texttt{NULL}, the corresponding link has not yet been
+assigned.
+\item{\emph{link\_tvisited[]}}: an array of
+values representing information about attached links, that is, the \emph{segID} of
+the segment for which the link is candidate. When \texttt{NULL}, the link is
+not candidate for any segment, i.e. maybe already assigned
+or free.
+\end{itemize}
+
 \subsection{Message Types Required}
 
 The \disr{} approach works with a distributed mechanism which is build
@@ -67,91 +112,8 @@ first)
 specific link.
 \end{itemize}
 
-
-\subsection{\disr{} Data Structures}
-\label{ssec:disr_dstruct}
-
-We distinct between two different kind of data stored at each node:
-\emph{Local Environment Data} (\emph{LED}) and \emph{Dynamic Behaviour
-Status} (\emph{DBS}).
-
-The \emph{LED} is like a snapshot of the \disr{} algorithm at each node,
-consisting in the following variables:
-\begin{itemize}
-\item{\emph{segID}}:a value used to specify the segment to which the
-node has been assigned or is candidate for being assigned.
-\item{\emph{visited}}: a boolean value. When \emph{true}
-a \emph{segID} different from \texttt{NULL} specifies the segment 
-to which the node has been assigned. 
-% TODO: the following is true, but complicates things at this stage
-%Note that a value different from \emph{NULL} does not
-%necessarily mean the node has been assigned to some segment (e.g. when
-%searching starting segment is set \emph{visited} by default even if not yet
-%assigned to any segment). 
-\item{\emph{tvisited}}: a boolean value. If \emph{true}, the node is
-being considered as candidate for a segment, and the \emph{segID} value
-specifies the segment id for which the node is candidate. 
-\item{\emph{link\_visited[]}}: an array
-of values representing information about attached links, that is, the
-segID of the segment owning each link. When \texttt{NULL}, the corresponding link has not yet been
-assigned.
-%TDB: do we need to introduce some value for the
-%“bridge” status ? (e.g. a node connecting the terminal node of a
-%subnet with the starting one of another) 
-\item{\emph{link\_tvisited[]}}: an array of
-values representing information about attached links, that is, the \emph{segID} of
-the segment for which the link is candidate. When \texttt{NULL}, the link is
-currently not \emph{tvisited}.  
-\end{itemize}
-%\item{\emph{starting}}: boolean, \emph{true} if the node is a
-%starting node from which the whole process was initiated.
-%\end{itemize}
-
-In addition to the \emph{LED} variables described above, further
-information should be stored in order to capture the current dynamic
-behaviour of the node. This is represented by \emph{DBS} variable,
-which strictly depends on the \emph{LED} data and the events occurring
-at the node. The \emph{DBS} can have the following values:
-
-\begin{itemize}
-\item{\emph{Free}}: a node that has  not been yet considered  by the \disr{} algorithm.
-\item{\emph{Bootstrap}}: a node which has been explicitly set as bootstrap node from
-an upper layer via. 
-\item{\emph{ActiveSearching}}: a node from which a find process of new segments has
-been started and not yet cancelled or confirmed. 
-%This happens when all
-%the following conditions are matched: the node is marked as \emph{visited},
-%that is \emph{visited} = TRUE 
-%TODO: \emph{segID} is set to some value reflecting
-%the segment request sent there is a link that is being investigated by
-%the node, that is a tvisited\_link marked with the same id of the node 
-\item{\emph{Candidate}}: a node currently candidate for belonging to some segment
-, but not being itself the node from which the find process was started. 
-
-%The following conditions should be matched: \emph{tvisited} =
-%true, with segID=X different from node's id.  Two links set as
-%\emph{link\_tvisited} with id X. Let’s refer them as  links 'i' and 'j'. Then
-%link\_tvisited[i] was set = X when the find process from an adjacent
-%node reached the current node, while link\_tvisited[j] has been set to
-%X when the node itself started to investigate its free links for the
-%segment request with id X. Note that while investigating its attached
-%links, if the find process fails along path 'j', the current node can
-%investigate another free node 'k' if suitable.  
-\item{\emph{CandidateStarting}}: same as above, but the node is currently being considered as candidate
-for starting segment. 
-%Two main differences: Can confirm
-%\texttt{STARTING\_SEGMENT\_CONFIRM} with the same \emph{segID} when receiving a normal
-%\texttt{SEGMENT\_REQUEST}: Overwrites its status setting it to \emph{Candidate} for the
-%segID frees the links previously set as \emph{tvisited} during flooding
-\item{\emph{Assigned}}: a node for which the segment has been determined.  
-%The \emph{visited} value is \emph{true} NOTE: an \emph{Assigned} state is a quick temporary
-%state, since it becomes \emph{ActiveSearching} if a not (\emph{visited}/tvisited)
-%link is suitable for searching new segments (see next\_visited
-%procedure on paper) 
-\end{itemize}
-
-A quantitative analysis of the resources needed to implement these
-fields is presented in Section~\ref{sec:implementation} when
+A quantitative analysis of the resources needed to implement and
+manage these structures is presented in Section~\ref{sec:implementation} when
 discussing the impact of the \disr{} control logic and storage on
 hardware implementation of the node.
 
@@ -260,68 +222,61 @@ is already \emph{Candidate} with another segment id, i.e. another find
 process.  In all these cases the node
 sends back a \texttt{SEGMENT\_CANCEL} along the incoming link (see at
 the bottom of Figure~\ref{fig:disr_events}).
-%Each of the subsequent nodes will forward this \texttt{SEGMENT\_CANCEL}
-%only if no more free links can be explored starting from them.
 \end{itemize}
-
-
-
-% TODO: FIX and RE-enable in long paper
 
 
 \section{Detailed Node behaviour Model}
 \label{sec:execution_model}
 
-The \emph{LED} variables at each node are are initially set so the node and
-each of its links is set as free. The only node that makes exception
-is the bootstrap node, initialized in the \emph{Bootstrap} status. All
-the subsequent events happening at each node are the consequence of
-its current dynamic status (DBS) and the packets received.
+In this Section we provide further details about \disr{}
+execution model, describing the internal behavior implemented at
+each node. Note that this also corresponds exactly to what should be
+implemented from the node-hardware perspective, as discussed in
+Section~\ref{sec:implementation}.
 
-
-%TODO: add state machines
-
-% TODO: fix, move elsewhere or delete
-%Assumption: when discussing of visited/\emph{tvisited} nodes, we are assuming
-%with an id corresponding to the same subnet. Nodes involved in other
-%subnet processes can simply ignore these packets. (TBD: formalize more
-%clearly in which cases inter-subnet packets must be ignored, probably
-%this happens most of the times, but in some cases, e.g. when a
-%terminal node is found, some kind of communication packets are needed
-%in order to crearte the bridge between two subnets.) 
+The \emph{LED} variables at each node
+($segID$,$visited$,$tvisited$,\emph{link\_visited[]},\emph{link\_tvisited[]})
+are initially set as \texttt{NULL}, so the node and each of its links
+are considered as free.
+The only node that makes exception is the bootstrap node, initialized
+in the \emph{Bootstrap} status. All the subsequent events happening at
+each node are the consequence of its current dynamic status (DBS), the
+packets received and the internal status represented by the
+\emph{LED}. Note that in the following, when using expression like
+``has a free link'' or ``free node'' we will assume the relationship beetween 
+$LED$ and $DBS$ discussed in Section~\ref{sec:disr_data}. Further, for
+each packet type all the cases not explicitly listed can simply be
+ignored since are associated to invalid/inconsistent events of the
+\disr{} execution model. A complete list of these cases can be checked
+in the environment simulator source code at~\ref{nanoxim}.
 
 \subsection{Receiving a \texttt{STARTING\_SEGMENT\_REQUEST}}
 
 The request for the first segment should be managed differently since
-all nodes (except the starting one) must forward the packet using a
-flooding mechanism. This is necessary since the request packet must
+all nodes (except the bootstrap one) must forward the packet using a
+broadcasting mechanism. This is necessary since the request packet must
 return the bootstrap node.
 When a node receives a \texttt{STARTING\_SEGMENT\_REQUEST}, the
 following cases can happen:
 
 \begin{itemize}
-\item The node is not candidate or assigned: it should set itself as
-\emph{Candidate} and forward the packet along its free links, using
-flooding.  
-\item The node is \emph{Candidate} with the same
-\emph{segID} and \emph{src\_id} is equal to node id: this means the
-node was the initiator of the request, so a starting segment was found and
-should be confirmed sending back a \texttt{STARTING\_SEGMENT\_CONFIRM}
+\item The node is $Free$: it should set itself as
+\emph{CandidateStarting} and forward the packet along its free links, using
+broadcasting and marking these links as $tvisited$ with $segID$ found
+in the packet.
+\item The node is \emph{CandidateStarting} with the same
+\emph{segID} and \emph{src\_id} of the packet is equal to node id:
+this means that the node was the initiator of the request, thus a starting segment has
+just been found and should be confirmed sending back a \texttt{STARTING\_SEGMENT\_CONFIRM}
 packet.  
-\item The node is \emph{Candidate}, with the same \emph{segID} of the
-packet but \emph{src\_id} is different from node id: due
-the flooding mechanism, another starting segment packet reached a node
-which was previously marked as \emph{Candidate} from the same starting segment
-search process. Since the node is candidate with the same id, it means
-that it already accomplished in the task of propagating that kind
+\item The node is \emph{CandidateStarting}, with the same \emph{segID} of the
+packet but the \emph{src\_id} field is different from node id: since the node is candidate with the same id, it means
+that it already accomplished the task of propagating that kind of
 packets, thus can simply ignore the event thrashing the packet.  
-%TBD: how the status should be changed ? depend on the flooding mechanism. Note
-%that these links do not include the link from which the request was
-%received.  
 \item The node is \emph{Candidate}, with a different \emph{segID}: 
-this simply means that the starting segment received is deprecated,
-because the node has already accepted non-starting segment requests
-originated from other \emph{Assigned} nodes.
+this simply means that the starting segment request just received is deprecated,
+because the node has already accepted a non-starting segment request
+that originated from another \emph{Assigned} nodes.
 \item The node is \emph{Assigned}, with a different \emph{segID}:
 same as the previous case. 
 
@@ -343,20 +298,21 @@ same as the previous case.
 When a node receives a \texttt{SEGMENT\_REQUEST}, the are the following cases:
 
 \begin{itemize}
-\item The node is \emph{Assigned}: a segment was
-found and it should be confirmed sending back a \texttt{SEGMENT\_CONFIRM}
-packet.  
+\item The node is \emph{Assigned}: a segment should be confirmed
+sending back a \texttt{SEGMENT\_CONFIRM} packet.
 \item The node is \emph{Candidate}: it should discard the packet sending
 back a \texttt{SEGMENT\_CANCEL} 
-\item The node is not \emph{Assigned} or \emph{Candidate} and has free
+\item The node is \emph{Free} and has free
 links: it marks itself as \emph{Candidate} and forwards the \texttt{SEGMENT\_REQUEST}
-to one of its free links, according to some internal ordering
+to one of its free links, according to some internal ordering.
+\item The node is \emph{CandidateStarting}: same as being $Free$,
+since a segment request circulating in the network indicates that the
+starting segment process has been completed.
 \end{itemize}
 
-NOTE: the main difference between confirming a \texttt{STARTING\_SEGMENT\_REQUEST}
+Note that the main difference between confirming a \texttt{STARTING\_SEGMENT\_REQUEST}
 and confirming a \texttt{SEGMENT\_REQUEST} is that in the first case the node
-itself is included in the segment , while in the second case the
-receiving node does not belong to the segment found. 
+itself is included in the segment.
 
 %The motivation is
 %that in the second case the node was already marked as \emph{visited} because
@@ -368,40 +324,25 @@ receiving node does not belong to the segment found.
 %starting node. 
 
 \subsection{Receiving a \texttt{SEGMENT\_CONFIRM}}
-When received, if the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
-the packet, the node learns to belong to the segment associated to the
-id. Further, it should forward this packet to the link where the
+When the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
+the packet: the node set itself as $Assigned$ to the segment $SegID$. Further, it should forward this packet to the link where the
 original \texttt{SEGMENT\_REQUEST} packet came from, so that all candidate nodes
-can learn the segment id they belong to.  \emph{LED} shoud be
-updated from \emph{tvisited} to \emph{visited}.  the
-\emph{link\_tvisited} previously set with the \emph{segID} should be invalidated the
-\emph{link\_visited} variable associated to the incoming confirm should be set
-as segID. Note that if the request was flooded across different links,
-the \emph{link\_visited} variable associated to the other paths should not be
-set.  the \emph{link\_visited} variable associated to the link from which the
-request was originated should be set segID
+can learn the segment id they belong to. \emph{LED} shoud be
+updated from \emph{tvisited} to \emph{visited}.
 
 \subsection{Receiving a \texttt{SEGMENT\_CANCEL}}
-When a node receives a \texttt{SEGMENT\_CANCEL} packet it means that searching
-for a segment along that path was unsuccessful. But if the node still
-has other free links to try, it should forward a \texttt{SEGMENT\_REQUEST} to
-the next link (next according to some internal ordering). So a node
-forwards back the \texttt{SEGMENT\_CANCEL} packet along the link that originated
-the \texttt{SEGMENT\_REQUEST} packet only when there are no more free links to
-try. If this is the case, the node modifies its status from
-\emph{Candidate} to \emph{Free} and forwards the \texttt{SEGMENT\_CANCEL} packet to the link from which
-the request was received. The process stops when the \texttt{SEGMENT\_CANCEL}
-packet reach the starting node that originated the request.
+When a node receives a \texttt{SEGMENT\_CANCEL} packet it means that
+searching for a segment along that path was unsuccessful. But if the
+node still has some other free link to try, it should forward a
+\texttt{SEGMENT\_REQUEST} to the that link. So a node forwards back
+the \texttt{SEGMENT\_CANCEL} packet along the link that originated the
+\texttt{SEGMENT\_REQUEST} packet $only$ when there are no more free
+links to try. If this is the case, the node modifies its status from
+\emph{Candidate} to \emph{Free} and forwards the
+\texttt{SEGMENT\_CANCEL} packet to the link from which the request was
+received. The process stops when the \texttt{SEGMENT\_CANCEL} packet
+reach the starting node that originated the request.
 
-%TODO REPEAT!!
-%When a node discovers that the path that includes
-%the node itself is no more suitable, a \texttt{SEGMENT\_CANCEL} is sent back
-%across the link from which the \texttt{SEGMENT\_REQUEST} was received.  Possible
-%reasons for that: The node it’s already candidate for another segment
-%The node it’s free but can’t find a free link (according the
-%cyclelinks timeout) The node it’s \emph{tvisited} for the same request id,
-%previously forwarded that request along some free direction, but now
-%it’s receiving a a cancel request and has no more free links
 \subsection{Intra-node vs Inter-node parallelism}
 In the processes described above, we assumed that each node in the
 \emph{Assigned} status can start a find segment process by injecting a
