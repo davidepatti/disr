@@ -1,15 +1,54 @@
-\documentclass[final,journal]{IEEEtran}
+%\documentclass[final,journal]{IEEEtran}
 %\IEEEoverridecommandlockouts
 
+% Elsevier specific styles
 %------------------------------------------------------------------------------
+\documentclass[a4]{article}
+%\documentclass[review]{elsarticle}
+\usepackage{lineno,hyperref}
 
-\usepackage{cite}
+\modulolinenumbers[5]
+
+\journal{Journal of \LaTeX\ Templates}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------------------------------------------------
+%\usepackage{cite}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{url}
-\usepackage{cite}
 \usepackage{balance}
 \usepackage{float}
 \usepackage{threeparttable}
@@ -47,16 +86,25 @@
 
 \begin{document}
 
+\begin{frontmatter}
 %------------------------------------------------------------------------------
 
 \title{Distributed Topology Discovery in Self-Assembled Nano Networks}
 
-\author{Vincenzo~Catania, Andrea Mineo, Salvatore Monteleone~and~Davide~Patti% 
-\thanks{The authors are with the Dipartimento di Ingegneria
-Elettrica, Elettronica ed Informatica, Universit\`a di Catania, Italy
-(email: \{vincenzo.catania,amineo,salvatore.monteleone,davide.patti\}@dieei.unict.it).}}
+%% Group authors per affiliation:
+\author{Elsevier\fnref{myfootnote}}
+\address{Radarweg 29, Amsterdam}
+\fntext[myfootnote]{Since 1880.}
 
-\maketitle
+%% or include affiliations in footnotes:
+%\author[mymainaddress,mysecondaryaddress]{Elsevier Inc}
+%\ead[url]{www.elsevier.com}
+
+
+%\author{Vincenzo~Catania, Andrea Mineo, Salvatore Monteleone~and~Davide~Patti% 
+%\thanks{The authors are with the Dipartimento di Ingegneria
+%Elettrica, Elettronica ed Informatica, Universit\`a di Catania, Italy
+%(email: \{vincenzo.catania,amineo,salvatore.monteleone,davide.patti\}@dieei.unict.it).}}
 
 %------------------------------------------------------------------------------
 
@@ -81,11 +129,10 @@ for each node.
 \end{abstract}
 
 %------------------------------------------------------------------------------
-%\IEEEkeywords{...}
-
-\begin{IEEEkeywords}
-Nanotechnology, DNA, Self-assembly, Routing, Deadlock
-\end{IEEEkeywords}
+\begin{keyword}
+Nanotechnology \sep DNA \sep Self-assembly \sep Routing \sep Deadlock
+\end{keyword}
+\end{frontmatter}
 %------------------------------------------------------------------------------
 
 \input{introduction.tex}
@@ -112,11 +159,14 @@ DNA grid using the appropriate nano devices models.
 
 %------------------------------------------------------------------------------
 
-\balance
+%\balance
+%
+%\bibliographystyle{IEEEtran} 
+%\bibliography{bibliography}
 
-\bibliographystyle{IEEEtran} 
+%\bibliographystyle{elsarticle-num}
+\section*{References}
 \bibliography{bibliography}
-
 %------------------------------------------------------------------------------
 
 \end{document}
