@@ -3,7 +3,7 @@
 \label{sec:simulation}
 
 In this section we will test the proposed \disr{} approach to demonstrate
-its effectiveness and compare it against topology agnostic approach
+its effectiveness and compare it against a topology agnostic approach
 based on spanning trees and
 broadcasting~\cite{Patwardhan05evaluatingthe}, to measure how \disr{}
 performs in covering the network structure.
@@ -15,14 +15,14 @@ performs in covering the network structure.
 
 In order to quantitatively and qualitatively evaluate the proposed approach a
 specific simulation environment has been developed, resulting in
-the open source and freely available project called
+the open-source and freely available project called
 Nanoxim~\cite{nanoxim}.
-Nanoxim is a SystemC tool based on a almost rewritten
+Nanoxim is a SystemC tool based on an almost rewritten
 version of the Noxim Network-on-Chip simulator~\cite{noxim}. While some
 complex features have been removed (e.g. wormhole, congestion/topology
 aware routing and selection strategies) new features specifically
 tailored for the nanoscale scenario were introduced, e.g. the ability to simulate a random
-network, the implementation of the \disr{} to obtain the segment topology
+network, the implementation of \disr{} to obtain the segment topology
 and the support for defective links and nodes.
 
 %------------------------------------------------------------------------------
@@ -36,10 +36,10 @@ performing the \disr{} simulation:
 %disconnected or not present, from 0 the amount that yields
 %no more segments.
 \item {\emph{\% defective nodes}}: the probability that a node is not
-working, thus having all its links cannot be utilized during \disr{} setup.  
+working, thus having all its links not able to be utilized during \disr{} setup.  
 %Same range as defective links parameter.
-\item {\emph{Bootstrap node}}: the node used from upper layer 
-to inject the \disr{} process. When not explicitly investigating the
+\item {\emph{Bootstrap node}}: the node from upper layer that
+injects the \disr{} process. When not explicitly investigating the
 impact of each single bootstrap choice, a set representative regions have been
 considered, e.g. the central part of the network and the edge corners.
 \end{itemize}
@@ -51,7 +51,7 @@ nodes should be assigned, so this metric is useful to show how some
 disconnected regions can negatively impact on the whole \disr{}
 effectiveness.
 \item{\emph{Latency}}: this measures how the cycles required to complete the
-segment assignment scales for increasing network sizes and defect rates
+segment assignment scale for increasing network sizes and defect rates.
 \item{\emph{Bootstrap node effect}}: this evaluates the impact of the chosen
 bootstrap node on the node coverage.
 \end{itemize}
@@ -75,8 +75,8 @@ required in order to obtain statistically significant results.
 \label{sec:results}
 
 In this section we analyze the results in terms of node
-coverage and latency at different network sizes, defect rates and
-bootstrap injection points.  In particular
+coverage and latency with different network sizes, defect rates and
+bootstrap injection points. In particular
 Figure~\ref{fig:results_coverage} shows
 node coverage for \disr{} and RPF tree based approach respectively. While
 the first aim of \disr{} is not to reach the optimal coverage, we still
@@ -84,13 +84,13 @@ can observe a quite good performance as compared to the tree based
 approach. Note that defect rates beyond 25\% lead to many disconnected
 regions of nodes that \disr{} currently cannot handle.
 For example Figure~\ref{fig:net} show a 30x30 network with a 25\%
-defect in which the bottom-left part cannot be reached due
-disconnected regions. Note that remaining defective nodes belonging to
+defect in which the bottom-left part cannot be reached due to
+disconnected regions. Note that the remaining defective nodes belonging to
 connected regions are successfully surrounded by \disr{} coverage; in any
 case, these defect levels should be considered as worst case scenarios, so the
 achieved coverage of $0.5$ is a satisfying result for this first
 version of \disr{}. On the other hand, the network size seems to have a
-limited impact when defect rate do not introduce too much disconnected
+limited impact when defect rate does not introduce too many disconnected
 regions. 
 \begin{figure*}
 \centering
@@ -106,7 +106,7 @@ regions.
 \begin{figure*}
 \centering
 \includegraphics[width=0.70\textwidth]{pictures/net.ps}
-\caption{Covered regions in a 30x30 network with 25\% defects}
+\caption{Covered regions in a 30x30 network with 25\% of defects}
 \label{fig:net}
 \end{figure*}
 
@@ -122,36 +122,36 @@ regions.
 \end{figure*}
 
 The number of cycles required to complete segment mapping process
-is shown in Figure~\ref{fig:results_latency}. In this case comparison
-against tree-based shows better (lower) values at different defect
-rates.  Rather than the absolute numbers, what it's more interesting
+is shown in Figure~\ref{fig:results_latency}. In this case the comparison
+against the tree-based approach shows better (lower) values at different defect
+rates. Rather than the absolute numbers, what is more interesting
 to observe is how \disr{} latency scales with network size. For example,
 going from 900 to 2500 nodes, at the medium defect rate of $0.15$,
 leads to an increase from 3000 to 4500 cycles. It should be noticed
 also how the effect of defect rate is increasing until the threshold
-of $0.25$ is reached, meaning that until that limit \disr{} finds it more
-and more difficult to complete the process due increasing defective
-paths, but still discover new segments when let running for a more
+of $0.25$ is reached, meaning that until that limit \disr{} finds 
+the completion of the process more and more difficult due to the increasing defective
+paths, but it still discover new segments if it runs for an
 extended amount of cycles. This behavior is not reported in the RPF
-based approach, meaning that a tree based approach, although starting
+based approach, meaning that a tree-based approach, although starting
 from higher values, is less affected by defect rates (when low rates
 are considered).
-After the $0.25$ threshold, the impact of entire disconnected regions
+After the $0.25$ threshold, the impact of disconnected regions
 becomes predominant and both approaches become faster in completing
 the covering process, since far less nodes can be actually reached. 
 
-Finally, Figure~\ref{fig:results_bootstrap} visually represents  the
-stability of the approach against choices of a different bootstrap
-node in a 10x10 network.  This is an important aspect to evaluate when
+Finally, Figure~\ref{fig:results_bootstrap} visually represents the
+stability of the approach against a different bootstrap node choice
+in a 10x10 network. This is an important aspect to evaluate 
 considering that one of the main advantages of \disr{} against all the
-tree based approaches should be the ability of choosing whatever
+tree-based approaches is the possibility of choosing whatever
 bootstrap node, without having to care about the role assumed in the
-future by the chosen root node.  In other words, after segments have
+future by the chosen root node. In other words, after the segments have
 been established, the bootstrap node is like every other node, i.e. it
 is not center of a structure, and it is not an hotspot for the traffic
-distribution. The results in terms of coverage,  shown for low, medium
+distribution. The results in terms of coverage, shown for low, medium
 and high defect profiles, demonstrate a relatively limited
-impact of the bootstrap choice in the low/medium scenarios, while a
+impact of the bootstrap node choice in the low/medium scenarios, while a
 $30\%$ instability is found for very high defect rates. This also
 sounds acceptable, since when a lot of defective nodes are present, the
 particular position of the bootstrap node could lead to a completely
@@ -167,25 +167,24 @@ different evolution in the \disr{} setup process.
 % TODO: long paper
 \subsection{Other Optimizations}
 Some optimization parameters, which demonstrated to improve the \disr{}
-results have been fixed to some good values, but are not subject to
-further investigation; once again the focus here is not the
-optimal set of segments, but just demonstrating a working approach. 
-These are optimizations are:
+results, have been fixed to some good values and are not subject to
+further investigation in this paper; once again the focus here is not the
+optimal setup of segments, but just demonstrating a working approach. 
+These parameters are:
 \begin{itemize}
 \item \emph{cycle\_links}: max number of retries across the set of links of
-each node. While searching for a free link due an incoming segment request,
-the same request is cancelled after a given number of tries. This
-gives to the preceding node receives a segment cancel and has the
-chance of testing a different path instead of waiting indefinitely.
-Default is set to 1, i.e. each link is tried one time.
-\item \emph{time to live (TTL}: when a segment request is cancelled
-along a certain path (using a segment cancel), a TTL field is
+each node. While searching for a free link due to an incoming \texttt{SEGMENT\_REQUEST},
+the request itself is cancelled after a given number of tries. \hl{This
+gives to the preceding node, that receives a \texttt{SEGMENT\_CANCEL}, the
+chance to test a different path instead of waiting indefinitely.}
+Default value is set to 1, i.e. each link is tried one time.
+\item \emph{time to live (TTL)}: when a segment request is cancelled
+along a certain path (using a \texttt{SEGMENT\_CANCEL}), a TTL field is
 decreased in the request packet, so that requests that have been
-denied too much times can desist, even if free links for going on are
-available. This is not only a optimisation for shortening 
-requests processes, but also solves some critical situations in which
-request packets looped in a particular path without neither succeeding
-nor failing.
+denied too much times can desist, even if free links are
+available. This is not only an optimization to shorten
+requests' processes, but also solves some critical situations in which
+request packets are blocked in routing loops in a particular path.
 \item \emph{bootstrap\_timeout}: number of time units that a bootstrap node
 should wait before assuming that a livelock in the starting segment
 process has occurred. In the worst case, we can imagine that longest
@@ -195,12 +194,12 @@ situation, a good upper limit can be safely be set to $N \times N$.
 \item \emph{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
 setup process, a bootstrap node should not have defective links.
 Enabling this optimization, a bootstrap node is immune to defects.
-We may think of a pre-bootstrap phase that properly selects (from upper
+We may think about a pre-bootstrap phase that properly selects (from upper
 layer via) a bootstrap node which is tested as properly connected. We
-enabled this optimization, however empirical tests showed us that only
+enabled this optimization, however empirical tests have shown us that only
 simulations using bootstrap nodes placed on edges would be heavily
-affected, since these are nodes starting with a lower number of links,
-e.g. corner nodes could only have two connected direction, so even a
-defective link could prevent starting segment packet to return to
-bootstrap to close the loop a create the segment.
+affected by similar issues since these nodes start with a lower number of links,
+e.g. corner nodes could only have two connected direction, so even a \hl{single}
+defective link could prevent a starting segment packet from coming back to the
+bootstrap node to close the loop and create the \hl{first} segment.
 \end{itemize}
