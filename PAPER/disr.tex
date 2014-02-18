@@ -11,7 +11,7 @@ a different segment $S_x$ and ending with a link attached to a
 node of another segment $S_z$. In other words, a segment
 a path between connecting two other different segments. The example
 in Figure~\ref{fig:segments} shows the segment with id $1.4$, starting
-with a link connected to the node $9$, the going trought nodes
+with a link connected to the node $9$, the going through nodes
 $4$,$3$,$2$ and ending with the link connected to the node $1$. Other
 segments depicted are $9.2$ (link,node $10$,link) and $9.3$
 (link from $9$ ,$8$,link,$7$,link,$6$,link,$5$,link to the $1$). Note
@@ -39,7 +39,7 @@ node}
 \item Broadcasting and confirmation to create the first segment of the subnet
 \item Parallel requests starting from assigned node to discover other
 segments. 
-\item Turn proibition in each confirmed segment.
+\item Turn prohibition in each confirmed segment.
 \item Draining of remaining packet due timeouts
 \end{enumerate}
 
@@ -47,11 +47,11 @@ segments.
 \label{ssec:disr_data}
 
 We distinct between two different kind of data stored at each node:
-\emph{Dynamic Behaviour Status} (\emph{DBS}) and \emph{Local
+\emph{Dynamic Behavior Status} (\emph{DBS}) and \emph{Local
 Environment Data} (\emph{LED}).
 
 The \emph{DBS} stores information in order to capture the dynamic
-behaviour of the node  in the context of the whole
+behavior of the node  in the context of the whole
 \disr{} execution phased. The \emph{DBS} can have the following values:
 
 \begin{itemize}
@@ -67,7 +67,7 @@ for starting segment.
 \item{\emph{Assigned}}: a node for which the segment has been determined.  
 \end{itemize}
 
-The \emph{LED} are like a instanst snapshot of the \disr{} algorithm at each node,
+The \emph{LED} are like an instant snapshot of the \disr{} algorithm at each node,
 consisting in the following variables:
 \begin{itemize}
 \item{\emph{segID}}:a value used to specify the segment to which the
@@ -150,7 +150,7 @@ represented in~\ref{fig:disr_events}.
 \includegraphics[width=0.23\textwidth]{pictures/seq08.eps} \\
 (e) & (f) & (g) & (h) \\
 \end{tabular}
-\caption{Example of \disr{} segment setup: Nodes status are labeled as CandidateStarting($Cs$), Candidate ($C$), Free ($F$), Assigned ($A$) and Boostrap ($B$)}
+\caption{Example of \disr{} segment setup: Nodes status are labeled as CandidateStarting($Cs$), Candidate ($C$), Free ($F$), Assigned ($A$) and Bootstrap ($B$)}
 \label{fig:disr_events}
 \end{figure*}
 
@@ -172,7 +172,7 @@ associated to the request. Note that a node that has already received a
 associated to the same request, having already contributed to the
 flooding (Figure~\ref{fig:disr_events}-b).
 %Note also that each of these packets has a max\_segment\_hops
-%field to prevent packets from travelling undefinitively.  
+%field to prevent packets from traveling undefinitively.  
 
 \item{\textbf{Confirming the Starting Segment}}: when a \texttt{STARTING\_SEGMENT\_REQUEST} packet reaches
 the bootstrap node (from a different link, of course), the starting
@@ -187,7 +187,7 @@ node to node and the starting segment is created (Figure~\ref{fig:disr_events}-d
 %What happens to nodes not receiving these segment request?
 %they simply remain \emph{tvisited} and after a timeout reset their
 %state as free. But they could also remain \emph{tvisited} for the
-%starting segment, since this doesn’t affect their behaviour for future
+%starting segment, since this does not affect their behavior for future
 %segment requests.  
 
 %failure: TODO should we handle this case ? i.e.  marking as terminal ?
@@ -199,7 +199,7 @@ Figure~\ref{fig:disr_events}-e).
 Note that each \emph{Assigned} note can inject the request just after
 becoming assigned, i.e. it is not needed that the whole confirmation
 process in completed (Figure~\ref{disr_events}-f).
-Note also that nodes previosly set as \emph{CandidateStarting}, when receiving 
+Note also that nodes previously set as \emph{CandidateStarting}, when receiving 
 a \texttt{SEGMENT\_REQUEST} can simply cancel their
 status and set as $Candidate$ for that request, since this new
 request means that the first starting segment has already been found $(h)$. 
@@ -225,7 +225,7 @@ the bottom of Figure~\ref{fig:disr_events}).
 \end{itemize}
 
 
-\section{Detailed Node behaviour Model}
+\section{Detailed Node behavior Model}
 \label{sec:execution_model}
 
 In this Section we provide further details about \disr{}
@@ -243,7 +243,7 @@ in the \emph{Bootstrap} status. All the subsequent events happening at
 each node are the consequence of its current dynamic status (DBS), the
 packets received and the internal status represented by the
 \emph{LED}. Note that in the following, when using expression like
-``has a free link'' or ``free node'' we will assume the relationship beetween 
+``has a free link'' or ``free node'' we will assume the relationship between 
 $LED$ and $DBS$ discussed in Section~\ref{sec:disr_data}. Further, for
 each packet type all the cases not explicitly listed can simply be
 ignored since are associated to invalid/inconsistent events of the
@@ -327,7 +327,7 @@ itself is included in the segment.
 When the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
 the packet: the node set itself as $Assigned$ to the segment $SegID$. Further, it should forward this packet to the link where the
 original \texttt{SEGMENT\_REQUEST} packet came from, so that all candidate nodes
-can learn the segment id they belong to. \emph{LED} shoud be
+can learn the segment id they belong to. \emph{LED} should be
 updated from \emph{tvisited} to \emph{visited}.
 
 \subsection{Receiving a \texttt{SEGMENT\_CANCEL}}
@@ -351,7 +351,7 @@ defining \disr{} should be made in order to decide whether or not the
 node must actually perform this action.  The point above is is
 strictly related to the general question: which level of “parallelism”
 should we allow in \disr{} ? The adopted approach is that, although
-the nature of \disr{} itself is intrinsicly parallel, the use of
+the nature of \disr{} itself is intrinsically parallel, the use of
 parallelism makes things work in a more complex way. In other words,
 \disr{} is parallel when needed, but it does not exploit parallelism
 as an “improving feature”. When not needed, things should be

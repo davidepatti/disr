@@ -2,7 +2,7 @@
 \section{Introduction and Motivation}
 
 Exploring long term alternatives to the CMOS technology is gaining
-more and more revelance as the scaling trend of such devices keeps
+more and more relevance as the scaling trend of such devices keeps
 introducing new challenges: power density, defect tolerance, testing
 costs and wire delays are only a few of the many critical aspects
 involved~\cite{itrs13}. 
@@ -13,14 +13,14 @@ eventually need even more radical architectural modifications and new
 paradigms in order to address the Computer Design challenges of the next
 decades.
 
-In the last years, Self-assembled nanoscale architectures~\cite{yan2003}
+In the last years, self-assembled nanoscale architectures~\cite{yan2003}
 emerged as a promising technology due their tera/peta scale of
 integration, defect tolerance and huge potential computing
 capabilities. These technologies are certainly still at
 their early stage of development, however different laboratory demos and
 prof-of-concepts architectures have been presented~\cite{patwardhan2004, patwardhan2006_1, pistol2009}.
 %, patwardhan2006
-The main idea behind this approach is to exploit the physical regularity and
+The main idea behind this approach is exploiting the physical regularity and
 stability of DNA structures in order to create a scaffold onto which
 nano-devices (e.g. nanowires and CNFETs~\cite{bachtold2001, tans1998, cui2001}) can be
 attached. This can be achieved by designing appropriate complementary DNA tags for
@@ -43,7 +43,7 @@ different tags means having more control on component placement. Ideally, by spe
 and unique tag for each nano transistor terminal, we could exactly
 choose where each component would be placed. But the number of DNA
 symbols forming the DNA sequence is limited (sequence of 4 nucleobases
-G,A,T,C) and so creating many different tags (of a given lenght) would
+G,A,T,C) and so creating many different tags (of a given length) would
 mean make them more similar to each other, increasing the probability
 of incorrect/partial matching. To avoid this problem we should limit
 the number of unique tags, thus limiting the complexity at each node.
@@ -59,8 +59,8 @@ connected to a fixed number of neighbors, having a determined
 orientation and so on.
 
 Finally, \emph{defect rates}: while they are very hardly tolerated in mask
-based top down design , the same nature of a bottom up self
-assembled process cannot assume such a deterministic device placement
+based top down design, the same nature of a bottom up self-assembly
+ process cannot assume such a deterministic device placement
 process, thus defect tolerance is something like a design requirement
 more than an exception to be avoided.
 
@@ -71,10 +71,10 @@ more than an exception to be avoided.
     \includegraphics[width=0.40\textwidth]{pictures/dna1_complex2.eps} \\
  (a) & (b)
  \end{tabular}
-  \caption{(a) DNA tag matching and (b) resulting trregualr topology}
+  \caption{(a) DNA tag matching and (b) resulting irregular topology}
   \label{fig:nana}
 \end{figure*}
-These aspects of a DNA-self assembly process lead to some important
+These aspects of a DNA self-assembly process lead to some important
 implications to be addressed when approaching to the design of
 a computer architecture: computational model should be based on a
 distributed network of small processing and storage nodes, randomly
@@ -82,7 +82,7 @@ placed and interconnected (see Figure~\ref{fig:nana}-b).
 Proof-of-concept of such architectures can be found for
 example in~\cite{patwardhan2006_1}, where instruction and data
 operands are move around the network in order to be processed.
-Indepentedly from the particular policy chosen for routing packets,
+Independently from the particular policy chosen for routing packets,
 such networks must be able to guarantee deadlock freedom without any
 prior assumption on topology.
 
@@ -96,7 +96,7 @@ execution.  So the \disr{} approach is not intended to discover the
 the topology graph) but just to demonstrate a concrete model that can
 fit into such complex, irregular and large sized networks.
 It is important to
-underline that, altougth we can assume an architecture similar to the
+underline that, although we can assume an architecture similar to the
 one depicted in Figure~\ref{fig:nana} as background, the topology discovery
 problem faced in this work is more general and not strictly dependent on any of the
 underlying computing architecture.
@@ -105,7 +105,7 @@ The paper is organized as follows: in Section~\ref{sec:related_works}
 we summarize the main approaches to topology agnostic routing. Next in
 Section~\ref{sec:disr_concepts} are described the main elements and
 the execution model of the proposed approach.  In Section~\ref{sec:simulation}
-simulations are carried out with the opensource tool Nanoxim to
+simulations are carried out with the open-source tool Nanoxim to
 demonstrate how \disr{} preserves some of the main segment-based
 properties and how compares to the tree-based approaches. Finally a
 draft of a architectural implementation is shown in
@@ -114,7 +114,7 @@ approach in terms of node complexity.
 
 \section{Background and Contribution}
 \label{sec:related_works}
-Several worksaddressed the problem of topology agnostic deadlock
+Several works addressed the problem of topology agnostic deadlock
 freedom introducing virtual channels~\cite{sancho2002, skeie2002,
 skeie2004, koibuchi2003}, but while they show interesting
 performances, the low resources deadlock makes them not suitable for
