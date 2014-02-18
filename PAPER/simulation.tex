@@ -45,7 +45,7 @@ considered, e.g. the central part of the network and the edge corners.
 \end{itemize}
 To present the results, the following evaluation metrics have been adopted:
 \begin{itemize}
-\item{Node coverage}: this is the fraction of nodes that
+\item{\emph{Node coverage}}: this is the fraction of nodes that
 are assigned to a segment. In the ideal case, all the non defective
 nodes should be assigned, so this metric is useful to show how some
 disconnected regions can negatively impact on the whole \disr{}
@@ -173,15 +173,25 @@ optimal set of segments, but just demonstrating a working approach.
 These are optimizations are:
 \begin{itemize}
 \item \emph{cycle\_links}: max number of retries across the set of links of
-each node. While searching for a free link due an incoming request,
+each node. While searching for a free link due an incoming segment request,
 the same request is cancelled after a given number of tries. This
-gives to preceding node change to test a different paths. Default is set to 1.
+gives to the preceding node receives a segment cancel and has the
+chance of testing a different path instead of waiting indefinitely.
+Default is set to 1, i.e. each link is tried one time.
+\item \emph{time to live (TTL}: when a segment request is cancelled
+along a certain path (using a segment cancel), a TTL field is
+decreased in the request packet, so that requests that have been
+denied too much times can desist, even if free links for going on are
+available. This is not only a optimisation for shortening 
+requests processes, but also solves some critical situations in which
+request packets looped in a particular path without neither succeeding
+nor failing.
 \item \emph{bootstrap\_timeout}: number of time units that a bootstrap node
 should wait before assuming that a livelock in the starting segment
 process has occurred. In the worst case, we can imagine that longest
 path required is the one returning to the bootstrap node after having
 traveled across all the links. So, although this is just an extreme
-situation, a good upper limit can be safely be set to NxN.
+situation, a good upper limit can be safely be set to $N \times N$.
 \item \emph{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
 setup process, a bootstrap node should not have defective links.
 Enabling this optimization, a bootstrap node is immune to defects.
