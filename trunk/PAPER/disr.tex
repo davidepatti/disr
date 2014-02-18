@@ -11,10 +11,10 @@ a different segment $S_x$ and ending with a link attached to a
 node of another segment $S_z$. In other words, a segment
 a path between connecting two other different segments. The example
 in Figure~\ref{fig:segments} shows the segment with id $1.4$, starting
-with a link connected to the node $9$, the going through nodes
-$4$,$3$,$2$ and ending with the link connected to the node $1$. Other
+with a link connected to the node $9$, traversing nodes
+$4$, $3$, $2$ and ending with the link connected to the node $1$. Other
 segments depicted are $9.2$ (link,node $10$,link) and $9.3$
-(link from $9$ ,$8$,link,$7$,link,$6$,link,$5$,link to the $1$). Note
+(link from $9$, node $8$, link, node $7$, link, node $6$, link, node $5$, link to the $1$). Note
 also that start/ending link can coincide and a segment can also be
 formed by one single link (e.g. in $7.2$ or $5.4$).
 An exception to the rule that a segment must connect two other
@@ -227,7 +227,7 @@ the bottom of Figure~\ref{fig:disr_events}).
 \end{itemize}
 
 
-\section{Detailed Node behavior Model}
+\section{Detailed Node Behavior Model}
 \label{sec:execution_model}
 
 In this Section we provide further details about \disr{}
@@ -246,14 +246,13 @@ each node are the consequence of its current dynamic status (DBS), the
 packets received and the internal status represented by the
 \emph{LED}. Note that in the following, when using expression like
 ``has a free link'' or ``free node'' we will assume the relationship between 
-$LED$ and $DBS$ discussed in Section~\ref{sec:disr_data}. Further, for
+$LED$ and $DBS$ discussed in Section~\ref{ssec:disr_data}. Further, for
 each packet type all the cases not explicitly listed can simply be
 ignored since are associated to invalid/inconsistent events of the
 \disr{} execution model. A complete list of these cases can be checked
-in the environment simulator source code at~\ref{nanoxim}.
+in the environment simulator source code at~\cite{nanoxim}.
 
 \subsection{Receiving a \texttt{STARTING\_SEGMENT\_REQUEST}}
-
 The request for the first segment should be managed differently since
 all nodes (except the bootstrap one) must forward the packet using a
 broadcasting mechanism. This is necessary since the request packet must
@@ -351,12 +350,12 @@ In the processes described above, we assumed that each node in the
 \texttt{SEGMENT\_REQUEST}. However, a more accurate decision when
 defining \disr{} should be made in order to decide whether or not the
 node must actually perform this action.  The point above is is
-strictly related to the general question: which level of “parallelism”
-should we allow in \disr{} ? The adopted approach is that, although
+strictly related to the general question: which level of
+parallelism should we allow in \disr{}? The adopted approach is that, although
 the nature of \disr{} itself is intrinsically parallel, the use of
 parallelism makes things work in a more complex way. In other words,
 \disr{} is parallel when needed, but it does not exploit parallelism
-as an “improving feature”. When not needed, things should be
+as an ``improving feature''. When not needed, things should be
 serialized. For example: when a node is “ready searching” could start
 several find segment process associated to the same segment, one for
 each free link. But serializing this by investigating the free links
