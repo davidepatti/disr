@@ -22,4 +22,4 @@ showpdf: paper.pdf
 	open paper.pdf&
 
 clean:
-	rm -f *.pdf *.aux *.bbl *.log *.blg *.dvi *.ps
+	rm -f *.pdf *.aux *.bbl *.log *.blg *.dvi *.ps *.spl *.out *.bak
