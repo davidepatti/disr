@@ -117,21 +117,21 @@ approach in terms of node complexity.
 Several works addressed the problem of topology agnostic deadlock
 freedom introducing virtual channels~\cite{sancho2002, skeie2002,
 skeie2004, koibuchi2003}, but while they show interesting
-performances, the low resources deadlock makes them not suitable for
-the specific DNA self assembled networks we are assuming as
-background.
+performances, the low resources available to prevent deadlocks makes them not suitable for
+the DNA self-assembled networks we are assuming as
+scenario.
 Other topology independent algorithms~\cite{schroeder1991,
-koibuchi2001, cherkasova1996} do not require any virtual channels but
+koibuchi2001, cherkasova1996} do not require any virtual channel but
 exploit the concept of ``turn prohibition''.
-In particular, authors of~\cite{Patwardhan05evaluatingthe} exploits the creation of a spanning tree of the
-topology, placing bidirectional restrictions by avoiding a packet
-to traverse the same link in both up and down directions.
+In particular, authors of~\cite{Patwardhan05evaluatingthe} exploit the creation of a spanning tree of the
+topology, placing bidirectional restrictions \hl{by avoiding a packet
+to traverse the same link in both up and down directions}.
 The hierarchical nature of this approach can lead to uneven traffic
 distribution, with many packets traversing upper links (near to the
 root), but this is quite acceptable in classical wide area networks
 topologies with a limited number of nodes. Other approaches such as
 FX~\cite{sancho2000} mitigate this
-issue, but the set of turn restrictions is still prefixed,
+issue, but the set of turn restrictions is still prefixed
 strictly depending on the particular tree root selected. 
 Other solutions try to approach the issue of irregular
 topologies by limiting the number~\cite{duato1997, gomez2004, koibuchi2008} or the
@@ -141,20 +141,20 @@ DNA self-assembled networks scenario. For the same reason, we also
 avoid considering solutions based on hardware-redundancy to
 dynamically recover defects as in~\cite{constantinides2006, kohler2010,  park2006, ebrahimi2013}. 
 
-In~\cite{mejia_ipdps06} authors present an approach the solves these
-limitations by allowing turn restrictions to be placed locally,
+In~\cite{mejia_ipdps06} authors present an approach that solves these
+limitations setting turn restrictions locally,
 independently from other restrictions. The whole network is
 partitioned into segments, and a bidirectional turn
 restriction can be freely chosen within a segment in order to guarantee
 deadlock freedom while preserving network connectivity. This \emph{locality
-independence} property, avoiding the requirement of any particular tree/root
-choice, would make it the best choice for the given scenario;
+independence} property, removing the requirement of choosing a particular tree/root,
+would make this approach the best choice for the given scenario;
 however, it still requires the knowledge of the
-whole network graph in order to find the segments. 
+whole network graph in order to find the segments.
 
-The \disr{} approach presented in this work is a first attempt of
-achieving the same goals of a segment based turn prohibition  without
-requiring any topology graph or centralized execution. In particular
+The \disr{} approach presented in this work is a first attempt to
+achieve the same goals of a segment based turn prohibition without
+requiring neither the knowledge of a topology graph nor centralized execution. In particular
 \disr{} implements segment discovery and turn prohibition using a
 completely different mechanism, based on a distributed exchange of
 small setup packets requiring on average $15\%$ of the available
@@ -168,8 +168,8 @@ collectively distributed among the nodes
 thus, the topology has to be discovered \emph{while} segments are
 created
 \item At the end of the execution, no segment list is created or
-stored anywhere: each node is only aware of belonging to some segment,
-ignoring the presence of other nodes in the same segment and even the
+stored anywhere: each node is only aware of belonging to \hl{a segment | some segments},
+ignoring the presence of other nodes in the same segment and also the
 presence of other segments in the network
 \end{itemize}
 
