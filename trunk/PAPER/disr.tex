@@ -193,12 +193,14 @@ node to node and the starting segment is created (Figure~\ref{fig:disr_events}-d
 %failure: TODO should we handle this case ? i.e.  marking as terminal ?
 
 \item{\textbf{Injecting Segment Requests}}: Each node in the
-\emph{Assigned} status can initiate a search for a segment, by sending
-a \texttt{SEGMENT\_REQUEST} across one of its free links $(c)$ (see
+\emph{Assigned} status can potentially initiate a new segment request.
+So it check its links and if a free link is found it changes its
+status to $ActiveSearching$ $(c)$, then sending
+a \texttt{SEGMENT\_REQUEST} across the link $(c)$ (see
 Figure~\ref{fig:disr_events}-e). 
-Note that each \emph{Assigned} note can inject the request just after
+Note that each \emph{Assigned} node can inject the request just after
 becoming assigned, i.e. it is not needed that the whole confirmation
-process in completed (Figure~\ref{disr_events}-f).
+process in completed (Figure~\ref{fig:disr_events}-f).
 Note also that nodes previously set as \emph{CandidateStarting}, when receiving 
 a \texttt{SEGMENT\_REQUEST} can simply cancel their
 status and set as $Candidate$ for that request, since this new
