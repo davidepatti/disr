@@ -1,4 +1,4 @@
-all: paper.pdf
+all: clean paper.pdf
 
 paper.pdf: paper.ps
 	ps2pdf paper.ps
