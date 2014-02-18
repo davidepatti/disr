@@ -81,13 +81,13 @@ distributed network of small processing and storage nodes, randomly
 placed and interconnected (see Figure~\ref{fig:nana}-b).
 Proof-of-concept of such architectures can be found for
 example in~\cite{patwardhan2006_1}, where instruction and data
-operands are move around the network in order to be processed.
-Independently from the particular policy chosen for routing packets,
+operands are moved around the network in order to be processed.
+Independently of the particular policy chosen to route packets,
 such networks must be able to guarantee deadlock freedom without any
 prior assumption on topology.
 
-In this work we introduce \disr{}, a Distributed Segment-based approach
-to deadlock freedom in large scale DNA self assembled networks. Our
+In this work, we introduce \disr{}, a Distributed Segment-based approach
+to deadlock freedom in large scale DNA self-assembled networks. Our
 contribution aims to achieve the classical properties of a
 segment-based approach~\cite{mejia_ipdps06} without requiring any
 topology graph, external defect map or centralized algorithm
@@ -99,16 +99,16 @@ It is important to
 underline that, although we can assume an architecture similar to the
 one depicted in Figure~\ref{fig:nana} as background, the topology discovery
 problem faced in this work is more general and not strictly dependent on any of the
-underlying computing architecture.
+underlying computing architectures.
 
 The paper is organized as follows: in Section~\ref{sec:related_works}
-we summarize the main approaches to topology agnostic routing. Next in
+we summarize the main approaches for topology agnostic routing. Next, in
 Section~\ref{sec:disr_concepts} are described the main elements and
-the execution model of the proposed approach.  In Section~\ref{sec:simulation}
+the execution model of the proposed approach. In Section~\ref{sec:simulation},
 simulations are carried out with the open-source tool Nanoxim to
 demonstrate how \disr{} preserves some of the main segment-based
 properties and how compares to the tree-based approaches. Finally a
-draft of a architectural implementation is shown in
+draft of an architectural implementation is shown in
 Section~\ref{sec:implementation} to evaluate the feasibility of the
 approach in terms of node complexity.
 
