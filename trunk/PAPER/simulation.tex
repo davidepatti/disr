@@ -21,7 +21,7 @@ Nanoxim is a SystemC tool based on a almost rewritten
 version of the Noxim Network-on-Chip simulator~\cite{noxim}. While some
 complex features have been removed (e.g. wormhole, congestion/topology
 aware routing and selection strategies) new features specifically
-taylored for the nanoscale scenario were introduced, e.g. the ability to simulate a random
+tailored for the nanoscale scenario were introduced, e.g. the ability to simulate a random
 network, the implementation of the \disr{} to obtain the segment topology
 and the support for defective links and nodes.
 
@@ -33,7 +33,7 @@ performing the \disr{} simulation:
 \item {\emph{Size of the network}}: number of nodes, on a range from
 10x10 to 100x100 sized networks. 
 %\item {\% defective links}: the probability that each link is
-%disconnected or not present, from 0 the amount that yelds
+%disconnected or not present, from 0 the amount that yields
 %no more segments.
 \item {\emph{\% defective nodes}}: the probability that a node is not
 working, thus having all its links cannot be utilized during \disr{} setup.  
@@ -59,7 +59,7 @@ bootstrap node on the node coverage.
 %Further, to evaluate how \disr{} compares against the centralized segment
 %based algorithm, the following metrics have been adopted:
 %\begin{itemize}
-%%\item {Average Path Lenght}:
+%%\item {Average Path Length}:
 %%\item {Average Link Weight}:
 %\item {Unidirectional restrictions:}
 %\item {Number of Segments}:
@@ -165,12 +165,12 @@ different evolution in the \disr{} setup process.
 \end{figure}
 
 % TODO: long paper
-\subsection{Other Optimisations}
-Some optimisation parameters, which demostrated to improve the \disr{}
+\subsection{Other Optimizations}
+Some optimization parameters, which demonstrated to improve the \disr{}
 results have been fixed to some good values, but are not subject to
 further investigation; once again the focus here is not the
-optimal set of segments, but just demostrating a working approach. 
-These are optimisations are:
+optimal set of segments, but just demonstrating a working approach. 
+These are optimizations are:
 \begin{itemize}
 \item \emph{cycle\_links}: max number of retries across the set of links of
 each node. While searching for a free link due an incoming request,
@@ -180,14 +180,14 @@ gives to preceding node change to test a different paths. Default is set to 1.
 should wait before assuming that a livelock in the starting segment
 process has occurred. In the worst case, we can imagine that longest
 path required is the one returning to the bootstrap node after having
-travelled across all the links. So, althought this is just an extreme
+traveled across all the links. So, although this is just an extreme
 situation, a good upper limit can be safely be set to NxN.
 \item \emph{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
 setup process, a bootstrap node should not have defective links.
-Enabling this optimisation, a bootstrap node is immune to defects.
+Enabling this optimization, a bootstrap node is immune to defects.
 We may think of a pre-bootstrap phase that properly selects (from upper
 layer via) a bootstrap node which is tested as properly connected. We
-enabled this optimisation, however empirical tests showed us that only
+enabled this optimization, however empirical tests showed us that only
 simulations using bootstrap nodes placed on edges would be heavily
 affected, since these are nodes starting with a lower number of links,
 e.g. corner nodes could only have two connected direction, so even a
