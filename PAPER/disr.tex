@@ -120,8 +120,8 @@ node's hardware implementation.
 \label{sub:phases}
 
 The \disr{} control packets described in the previous subsection trigger
-node events, which \hl{eventually} change $DBS$ status according to the
-current value of $LED$ variables and the type of packet received.
+node events, which \hl{eventually} change \emph{DBS} status according to the
+current value of \emph{LED} variables and the type of packet received.
 The main \disr{} phases, together with a reference to the particular
 status transition involved are described in the following. As a
 convention, we used single letters to refer to one of the \emph{DBS} transitions in
@@ -149,7 +149,7 @@ represented in~\ref{fig:disr_events}.
 \includegraphics[width=0.23\textwidth]{pictures/seq08.eps} \\
 (e) & (f) & (g) & (h) \\
 \end{tabular}
-\caption{Example of \disr{} segment setup: Nodes' status is labeled as CandidateStarting($Cs$), Candidate ($C$), Free ($F$), Assigned ($A$) or Bootstrap ($B$)}
+\caption{Example of \disr{} segment setup: Nodes' status is labeled as \emph{CandidateStarting} (\emph{Cs}), \emph{Candidate} (\emph{C}), \emph{Free} (\emph{F}), \emph{Assigned} (\emph{A}) or \emph{Bootstrap} (\emph{B})}
 \label{fig:disr_events}
 \end{figure*}
 
@@ -157,14 +157,14 @@ represented in~\ref{fig:disr_events}.
 \item{\textbf{Injecting bootstrap request}}: all nodes have an initial
 \emph{DBS} status set to \emph{Free}, except for a
  node with status \emph{Bootstrap}, set by some control signal from an
-upper layer via $(a)$. When starting, this bootstrap node 
-changes its status to \emph{CandidateStarting} $(b)$, injecting a
+upper layer via \emph{(a)}. When starting, this bootstrap node 
+changes its status to \emph{CandidateStarting} \emph{(b)}, injecting a
 \texttt{STARTING\_SEGMENT\_REQUEST} across one of its free links
 (Figure~\ref{fig:disr_events}-a). 
 
 \item{\textbf{Bootnode Broadcasting}}: Each node receiving a \texttt{STARTING\_SEGMENT\_REQUEST},
-when $Free$, forwards it to its free links using a flooding mechanism and
-becoming $CandidateStarting$ $(g)$.
+when \emph{Free}, forwards it to its free links using a flooding mechanism and
+becoming \emph{CandidateStarting} \emph{(g)}.
 Each of its free links is then marked as \emph{tvisited} with the segment id
 associated to the request. Note that a node that has already received a
 \texttt{STARTING\_SEGMENT\_REQUEST} packet can simply ignore further packets
@@ -177,7 +177,7 @@ flooding (Figure~\ref{fig:disr_events}-b).
 the bootstrap node (from a different link, of course), the starting
 segment is found. Then the bootstrap node sends back a \texttt{STARTING\_SEGMENT\_CONFIRM}
 packet along the link from which it received the
-\texttt{STARTING\_SEGMENT\_REQUEST} and becomes \emph{Assigned} $(l)$. Each
+\texttt{STARTING\_SEGMENT\_REQUEST} and becomes \emph{Assigned} \emph{(l)}. Each
 node receiving the confirmation does the same by changing its own status
 to \emph{Assigned}(Figure~\ref{fig:disr_events}-c). So the confirmation packet is sent back from
 node to node and the starting segment is created (Figure~\ref{fig:disr_events}-d). 
@@ -194,30 +194,30 @@ node to node and the starting segment is created (Figure~\ref{fig:disr_events}-d
 \item{\textbf{Injecting Segment Requests}}: Each node in the
 \emph{Assigned} status can potentially initiate a new segment request.
 So it check its links and if a free link is found it changes its
-status to $ActiveSearching$ $(c)$ and then sends
-a \texttt{SEGMENT\_REQUEST} across the free link $(c)$ (see
+status to \emph{ActiveSearching} \emph{(c)} and then sends
+a \texttt{SEGMENT\_REQUEST} across the free link \emph{(c)} (see
 Figure~\ref{fig:disr_events}-e). 
 Note that each \emph{Assigned} node can inject the request just after
 becoming \emph{Assigned}, i.e. it is not needed that the whole confirmation
 process in completed (Figure~\ref{fig:disr_events}-f).
 Note also that nodes previously set as \emph{CandidateStarting}, when receive
 a \texttt{SEGMENT\_REQUEST} can simply cancel their
-status and set themselves as $Candidate$ for that request, since this new
-request means that the first starting segment has already been found $(h)$. 
+status and set themselves as \emph{Candidate} for that request, since this new
+request means that the first starting segment has already been found \emph{(h)}. 
 \item{\textbf{Segment Confirmation}}: The segment searching process is successful
 when an already \emph{Assigned} node receives the
 \texttt{SEGMENT\_REQUEST} packet. Then, a \texttt{SEGMENT\_CONFIRM} is
 sent back along the path that originated the request
 (Figure~\ref{fig:disr_events}-g), while the
-node remains $Assigned$ \hl{(since it could confirm more segments)}. Each node
-previously set as $Candidate$ for that segment id, when receives a confirmation packet changes its status to \emph{Assigned} $(m)$ and send back
+node remains \emph{Assigned} \hl{(since it could confirm more segments)}. Each node
+previously set as \emph{Candidate} for that segment id, when receives a confirmation packet changes its status to \emph{Assigned} \emph{(m)} and send back
 the same confirmation until it reaches the initiator of the request,
-which then changes from $ActiveSearching$ to $Assigned$ $(d)$.
+which then changes from \emph{ActiveSearching} to \emph{Assigned} \emph{(d)}.
 
 \item{\textbf{Failing while searching a segment}}: this happen when a node receives a \texttt{SEGMENT\_REQUEST} packet but
-matches one of two the following conditions: the node is $Free$ but has no
+matches one of two the following conditions: the node is \emph{Free} but has no
 more suitable free links (thus can’t forward the
-\texttt{SEGMENT\_REQUEST})$(f)$; the node
+\texttt{SEGMENT\_REQUEST})\emph{(f)}; the node
 is already \emph{Candidate} with another segment id, i.e. is part of another searching process. In all these cases the node
 sends back a \texttt{SEGMENT\_CANCEL} along the incoming link (see at
 the bottom of Figure~\ref{fig:disr_events}).
@@ -234,7 +234,7 @@ implemented from the \hl{node-hardware} perspective, as discussed in
 Section~\ref{sec:implementation}.
 
 The \emph{LED} variables in each node
-($segID$, $visited$, $tvisited$, \emph{link\_visited[]}, \emph{link\_tvisited[]})
+(\emph{segID}, \emph{visited}, \emph{tvisited}, \emph{link\_visited[]}, \emph{link\_tvisited[]})
 are initially set as \texttt{NULL}, so the node and all its links
 are considered as \emph{Free}.
 The only node that makes an exception is the bootstrap node, initialized
@@ -243,7 +243,7 @@ each node are the consequence of its current dynamic status (DBS), the
 packets received and the internal status represented by the
 \emph{LED}. Note that in the following, when using expression like
 ``has a free link'' or ``free node'' we will assume the relationship between 
-$LED$ and $DBS$ discussed in Section~\ref{ssec:disr_data}. Further, for
+\emph{LED} and \emph{DBS} discussed in Section~\ref{ssec:disr_data}. Further, for
 each packet type all the cases not explicitly listed can simply be
 ignored since are associated to invalid/inconsistent events of the
 \disr{} execution model. A complete list of these cases can be checked
@@ -258,9 +258,9 @@ When a node receives a \texttt{STARTING\_SEGMENT\_REQUEST}, the
 following cases can happen:
 
 \begin{itemize}
-\item The node is $Free$: it should set itself as
+\item The node is \emph{Free}: it should set itself as
 \emph{CandidateStarting} and forward the packet along its free links, using
-broadcasting and marking these links as $tvisited$ with $segID$ found
+broadcasting and marking these links as \emph{tvisited} with \emph{segID} found
 in the packet.
 \item The node is \emph{CandidateStarting} with the same
 \emph{segID} and \emph{src\_id} of the packet is equal to the node id:
@@ -302,7 +302,7 @@ back a \texttt{SEGMENT\_CANCEL}.
 \item The node is \emph{Free} and has free
 links: it marks itself as \emph{Candidate} and forwards the \texttt{SEGMENT\_REQUEST}
 to one of its free links, according to some internal ordering.
-\item The node is \emph{CandidateStarting}: same as being $Free$,
+\item The node is \emph{CandidateStarting}: same as being \emph{Free},
 since a segment request circulating in the network indicates that the
 starting segment process has been completed.
 \end{itemize}
@@ -322,7 +322,7 @@ itself is included in the segment.
 
 \subsection{Receiving a \texttt{SEGMENT\_CONFIRM}}
 When the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
-the packet: the node set itself as $Assigned$ to the segment $segID$. Further, it should forward this packet to the link where the
+the packet: the node set itself as \emph{Assigned} to the segment \emph{segID}. Further, it should forward this packet to the link where the
 original \texttt{SEGMENT\_REQUEST} packet came from, so that all candidate nodes
 can learn the id of the segment they belong to. Then, \emph{LED} should be
 updated from \emph{tvisited} to \emph{visited}.
@@ -333,7 +333,7 @@ for a segment along that path was unsuccessful. But if the
 node still has some other free link to try, it should forward a
 \texttt{SEGMENT\_REQUEST} to the those links. So a node forwards back
 the \texttt{SEGMENT\_CANCEL} packet along the link that originated the
-\texttt{SEGMENT\_REQUEST} packet $only$ when there are no more free
+\texttt{SEGMENT\_REQUEST} packet \emph{only} when there are no more free
 links to try. If this is the case, the node modifies its status from
 \emph{Candidate} to \emph{Free} and forwards the
 \texttt{SEGMENT\_CANCEL} packet to the link from which the request was
