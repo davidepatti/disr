@@ -174,9 +174,9 @@ These parameters are:
 \begin{itemize}
 \item \emph{cycle\_links}: max number of retries across the set of links of
 each node. While searching for a free link due to an incoming \texttt{SEGMENT\_REQUEST},
-the request itself is cancelled after a given number of tries. \hl{This
-gives to the preceding node, that receives a \texttt{SEGMENT\_CANCEL}, the
-chance to test a different path instead of waiting indefinitely.}
+the request itself is cancelled after a given number of tries. This
+gives to the preceding node on the path the
+chance to test a different route instead of waiting indefinitely.
 Default value is set to 1, i.e. each link is tried one time.
 \item \emph{time to live (TTL)}: when a segment request is cancelled
 along a certain path (using a \texttt{SEGMENT\_CANCEL}), a TTL field is
@@ -199,7 +199,7 @@ layer via) a bootstrap node which is tested as properly connected. We
 enabled this optimization, however empirical tests have shown us that only
 simulations using bootstrap nodes placed on edges would be heavily
 affected by similar issues since these nodes start with a lower number of links,
-e.g. corner nodes could only have two connected direction, so even a \hl{single}
+e.g. corner nodes could only have two connected direction, so even a single
 defective link could prevent a starting segment packet from coming back to the
-bootstrap node to close the loop and create the \hl{first} segment.
+bootstrap node to close the loop and create the first segment.
 \end{itemize}

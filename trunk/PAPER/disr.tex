@@ -49,9 +49,8 @@ We distinct between two different kinds of data stored in each node:
 \emph{Dynamic Behavior Status} (\emph{DBS}) and \emph{Local
 Environment Data} (\emph{LED}).
 
-\hl{The \emph{DBS} stores information in order to capture the dynamic
-behavior of the node in the context of the whole
-\disr{} execution phased.| \emph{DBS} information represent node's status and are related to the current execution phase}. 
+\emph{DBS} information represent node status and is related to its
+current execution phase in the context of \disr{}.
 The \emph{DBS} can have the following values:
 
 \begin{itemize}
@@ -91,21 +90,22 @@ not candidate for any segment, i.e. it has already been assigned or it is free.
 \subsection{Message Types Required}
 
 The \disr{} approach works with a distributed mechanism which is build
-upon an exchange of small packets containing the following fields:
+upon an exchange of small control packets containing the following fields:
 \begin{itemize}
 \item \emph{packet\_type}: encodes the meaning of the control packet.
-\item \emph{seg\_ID}: \hl{the id of the segment associated to the \disr{} control message}.
-\item \emph{src\_id}: the id of the node that originated the packet.
+\item \emph{seg\_ID}: the id of the segment targeted by the \disr{} control message.
+\item \emph{src\_ID}: the id of the node that originated the packet.
+\item \emph{TTL}: a counter which makes the packet expire after a
+given number of retries.
 \end{itemize}
 
-For what concerns\emph{packet\_type} field, we can have the following control packets types:
+As regards the \emph{packet\_type} field, we can have the following control packets types:
 \begin{itemize}
 \item{\texttt{STARTING\_SEGMENT\_REQUEST}}: Injected by the bootstrap
 node when searching the first segment. 
 \item{\texttt{STARTING\_SEGMENT\_CONFIRM}}: used when establishing
 the starting segment. 
-\item{\texttt{SEGMENT\_REQUEST}}: used to search candidates for a segment (\hl{which is} not the
-first).
+\item{\texttt{SEGMENT\_REQUEST}}: used to search candidates for a segment (not the first).
 \item{\texttt{SEGMENT\_CONFIRM}}: used to establish a segment. 
 \item{\texttt{SEGMENT\_CANCEL}}: used to cancel the process of searching a segment along a
 specific link.
@@ -120,7 +120,7 @@ node's hardware implementation.
 \label{sub:phases}
 
 The \disr{} control packets described in the previous subsection trigger
-node events, which \hl{eventually} change \emph{DBS} status according to the
+node events, which change \emph{DBS} according to the
 current value of \emph{LED} variables and the type of packet received.
 The main \disr{} phases, together with a reference to the particular
 status transition involved are described in the following. As a
@@ -209,7 +209,7 @@ when an already \emph{Assigned} node receives the
 \texttt{SEGMENT\_REQUEST} packet. Then, a \texttt{SEGMENT\_CONFIRM} is
 sent back along the path that originated the request
 (Figure~\ref{fig:disr_events}-g), while the
-node remains \emph{Assigned} \hl{(since it could confirm more segments)}. Each node
+node remains \emph{Assigned} (since it could confirm other segments). Each node
 previously set as \emph{Candidate} for that segment id, when receives a confirmation packet changes its status to \emph{Assigned} \emph{(m)} and send back
 the same confirmation until it reaches the initiator of the request,
 which then changes from \emph{ActiveSearching} to \emph{Assigned} \emph{(d)}.
@@ -230,7 +230,7 @@ the bottom of Figure~\ref{fig:disr_events}).
 In this Section we provide further details about \disr{}
 execution model, describing the internal behavior implemented in
 each node. Note that this also corresponds exactly to what should be
-implemented from the \hl{node-hardware} perspective, as discussed in
+implemented from the hardware perspective, as discussed in
 Section~\ref{sec:implementation}.
 
 The \emph{LED} variables in each node
