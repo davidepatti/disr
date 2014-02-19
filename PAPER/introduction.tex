@@ -124,8 +124,8 @@ Other topology independent algorithms~\cite{schroeder1991,
 koibuchi2001, cherkasova1996} do not require any virtual channel but
 exploit the concept of ``turn prohibition''.
 In particular, authors of~\cite{Patwardhan05evaluatingthe} exploit the creation of a spanning tree of the
-topology, placing bidirectional restrictions \hl{by avoiding a packet
-to traverse the same link in both up and down directions}.
+topology, placing bidirectional restrictions to avoid that a packet
+can traverse a given link in both up and down directions.
 The hierarchical nature of this approach can lead to uneven traffic
 distribution, with many packets traversing upper links (near to the
 root), but this is quite acceptable in classical wide area networks
@@ -168,7 +168,7 @@ collectively distributed among the nodes.
 thus, the topology has to be discovered \emph{while} segments are
 created.
 \item At the end of the execution, no segment list is created or
-stored anywhere: each node is only aware of belonging to \hl{a segment | some segments},
+stored anywhere: each node is only aware of belonging to a segment,
 ignoring the presence of other nodes in the same segment and also the
 presence of other segments in the network.
 \end{itemize}
