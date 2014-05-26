@@ -135,7 +135,7 @@ next clock cycle the control circuitry will update LED registers status and
 will drive the \emph{Switch Matrix} in order to send eventually the packets to
 the right output buffer.
 %--------------------------------------------------------------------
-\subsection{Synthesis results}
+\subsection{Synthesis results: Timing, Area and Power consumption considerations}
 
 As discussed above, one of the main design challenges of DNA Self-
 Assembled systems is the limited number of resources available to implement both
@@ -207,4 +207,6 @@ when all segments are mapped, the \disr{} block will stop its activity
 passing all the information related to segments to the routing
 algorithm. For this reason the dynamic power falls to zero and
 the only consumption could be due to the leakage
-consumption.
+consumption. Finally with the reported results a coparison between 
+RPF configuration circuits and the proposed circuits could be performed.
+in particular, the state of the art implementation for the RPF algorithm has been shown in~\cite{Patwardhan_nanoarch06}. In this work, as reported,  the implementation of the RPF requires an overhead of about 1692 CNFET for a $100\times\100$ network. Furthemore, regarding the power consumption, this last implementation require a setup phase beyond which, the consumptions tends to zero. Starting from these results, an appreciable discrepancy in terms of transistors cost and power consumption can not be noted.
