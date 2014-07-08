@@ -2,11 +2,25 @@
 \section{Simulation and Results}
 \label{sec:simulation}
 
-In this section we will test the proposed \disr{} approach to demonstrate
-its effectiveness and compare it against a topology agnostic approach
-based on spanning trees and
+In this section we will test the proposed \disr{} approach to
+demonstrate its effectiveness and compare it against a topology
+agnostic approach based on spanning trees and
 broadcasting~\cite{Patwardhan05evaluatingthe}, to measure how \disr{}
-performs in covering the network structure.
+performs in covering the network structure. Note that a direct
+comparison against the SR segment-based approach is not addressed
+here, since how described in Section~\ref{sec:introduction} our
+scenario assumes the non-feasibility of a centralized approach:
+however, all the properties of the centralized approach should be
+considered as preserved for all the nodes reached by the distributed
+segment coverage of \disr{}. Thus, the main points that remain to be
+addressed are:
+\begin{itemize}
+\item how \disr{} compares against state-of-art of tree based approach
+applied to equivalent scenario
+\item how \disr{} scales on large networks
+\item the real feasibility of the required hardware on the limited
+node size assumed
+\end{itemize}
 
 %\item Against the centralized segment based approach (SR), to evaluate
 %if and how its known properties are still preserved in the new nano-scale distributed scenario
@@ -78,12 +92,12 @@ In this section we analyze the results in terms of node
 coverage and latency with different network sizes, defect rates and
 bootstrap injection points. In particular
 Figure~\ref{fig:results_coverage} shows
-node coverage for \disr{} and RPF tree based approach respectively. While
+node coverage for \disr{} and Reverse Path Forwarding (RPF) tree based approach respectively. While
 the first aim of \disr{} is not to reach the optimal coverage, we still
 can observe a quite good performance as compared to the tree based
 approach. Note that defect rates beyond 25\% lead to many disconnected
 regions of nodes that \disr{} currently cannot handle.
-For example Figure~\ref{fig:net} show a 30x30 network with a 25\%
+For example Figure~\ref{fig:net} shows a 30x30 network with a 25\%
 defect in which the bottom-left part cannot be reached due to
 disconnected regions. Note that the remaining defective nodes belonging to
 connected regions are successfully surrounded by \disr{} coverage; in any
