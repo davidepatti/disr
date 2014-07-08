@@ -4,7 +4,7 @@
 A possible hardware implementation of \disr{} algorithm will be
 described in this section. Figure~\ref{fig:node_structure} depicts the general
 structure of a node in the particular scenario of DNA nano Network-On-Chip. In particular such a node
-is composed by the following fundamental elements:
+is composed of the following fundamental elements:
 
 \begin{itemize}%----Start Itemize------
 
@@ -57,7 +57,7 @@ is composed by the following fundamental elements:
 To give a basic estimate of the overhead needed we focus on \disr{}-
 specific components namely the control logic and configuration
 registers needed to implement \disr{}. Figure~\ref{fig:implementation}
-shows an architecture sketch, which mainly consist in the
+shows an architecture sketch, which mainly consists in the
 following building elements:
 
 \begin{itemize}
@@ -98,7 +98,7 @@ following building elements:
 	driven by the controller, will select information incoming from an internal 
     node such as the \emph{source\_ID}. In this situation the 
 	TTL field should be reset to its initial value and the \emph{segment\_ID}
-	is composed by the node ID and by the output port identification 
+	is composed of the node ID and by the output port identification 
 	number.
 
 \end{itemize}
@@ -127,7 +127,7 @@ the \emph{clock signal}. An asynchronous system \emph{reset} signal is
 also present to restore all registers to their default values. When
 this signal is set, DBS state machines for each network
 node are set as \emph{Free}.  
-Figure~\ref{fig:pipeline} is shows the pipeline structure of the
+Figure~\ref{fig:pipeline} shows the pipeline structure of the
 \disr{} architecture. Packets incoming from neighbor nodes (or
 generated locally) are sent to the DBS state machine in order to
 ensure the status commutation. While DBS updates its state, in the

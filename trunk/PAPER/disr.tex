@@ -5,10 +5,10 @@
 
 \label{sec:disr_concepts}
 The main concept behind the kind of turn prohibition we want to
-achieve is the \emph{segment}. A segment $S_y$ is basically a path of consecutive
+achieve is the \emph{segment}. A segment $S_b$ is basically a path of consecutive
 nodes and links, starting with a link attached to a node belonging to
-a different segment $S_x$ and ending with a link attached to a
-node of another segment $S_z$. In other words, a segment is
+a different segment $S_a$ and ending with a link attached to a
+node of another segment $S_c$. In other words, a segment is
 a path connecting two other different segments. The example
 in Figure~\ref{fig:segments} shows the segment with id $1.4$, starting
 with a link connected to the node $9$, traversing nodes
@@ -24,7 +24,7 @@ node.
 
 \begin{figure}
 \centering
-    \includegraphics[width=0.25\textwidth]{pictures/network_slice.eps}
+    \includegraphics[width=0.45\textwidth]{pictures/network_slice.eps}
   \caption{Example of Segments}
   \label{fig:segments}
 \end{figure}
@@ -36,11 +36,26 @@ Subsection~\ref{sub:phases}. Roughly speaking, the execution phases consist of:
 \item Injection of the \disr{} process from an upper layer to set a \emph{bootstrap
 node}.
 \item Broadcasting and confirmation to create the first segment of the subnet.
-\item Parallel requests starting from assigned node to discover other
+\item Parallel segment requests starting from assigned nodes to discover other
 segments. 
+\item Resulting segment confirmation/cancel packets are processed.
 \item Turn prohibition in each confirmed segment.
-\item Draining of remaining packet due to timeouts.
 \end{enumerate}
+
+This first work is explicitly focused on demostrating
+the feasibility and scalability of \disr{} in the particular scenario
+assumed; for this reason we will not investigate the further degree of
+freedom that the last of the above steps introduces, i.e. choosing
+\emph{where} actually placing the restriction in the context of the
+segment. This choice would striclty depend on the particular routing
+strategy that will be used and could result in some interesting
+improvements. However, the scope of this work is understading how \disr{} can
+implement a distributed topology discovery, mapping defects and
+creating a segment partitioning that will be exploited in a second
+design phase which includes choosing and implementing a routing strategy. For this
+reason, the last two phases will be addressed as one, since we can
+safely assume that a random turn (e.g. the first) will be phohibited
+once each segment has been confirmed.
 
 \subsection{\disr{} Data Structures}
 \label{ssec:disr_data}
@@ -130,7 +145,7 @@ represented in~\ref{fig:disr_events}.
 
 \begin{figure}
   \centering
-    \includegraphics[width=0.25\textwidth]{pictures/dbs_updated.eps}
+    \includegraphics[width=0.45\textwidth]{pictures/dbs_updated.eps}
   \caption{\disr{} node execution model}
   \label{fig:state_machine}
 \end{figure}
@@ -149,7 +164,7 @@ represented in~\ref{fig:disr_events}.
 \includegraphics[width=0.23\textwidth]{pictures/seq08.eps} \\
 (e) & (f) & (g) & (h) \\
 \end{tabular}
-\caption{Example of \disr{} segment setup: Nodes' status is labeled as \emph{CandidateStarting} (\emph{Cs}), \emph{Candidate} (\emph{C}), \emph{Free} (\emph{F}), \emph{Assigned} (\emph{A}) or \emph{Bootstrap} (\emph{B})}
+\caption{Example of \disr{} segment setup: Nodes status is labeled as \emph{CandidateStarting} (\emph{Cs}), \emph{Candidate} (\emph{C}), \emph{Free} (\emph{F}), \emph{Assigned} (\emph{A}) or \emph{Bootstrap} (\emph{B})}
 \label{fig:disr_events}
 \end{figure*}
 
@@ -204,15 +219,18 @@ Note also that nodes previously set as \emph{CandidateStarting}, when receive
 a \texttt{SEGMENT\_REQUEST} can simply cancel their
 status and set themselves as \emph{Candidate} for that request, since this new
 request means that the first starting segment has already been found \emph{(h)}. 
-\item{\textbf{Segment Confirmation}}: The segment searching process is successful
-when an already \emph{Assigned} node receives the
+
+\item{\textbf{Segment Confirmation}}: The segment searching process is
+successful when an already \emph{Assigned} node receives the
 \texttt{SEGMENT\_REQUEST} packet. Then, a \texttt{SEGMENT\_CONFIRM} is
 sent back along the path that originated the request
-(Figure~\ref{fig:disr_events}-g), while the
-node remains \emph{Assigned} (since it could confirm other segments). Each node
-previously set as \emph{Candidate} for that segment id, when receives a confirmation packet changes its status to \emph{Assigned} \emph{(m)} and send back
-the same confirmation until it reaches the initiator of the request,
-which then changes from \emph{ActiveSearching} to \emph{Assigned} \emph{(d)}.
+(Figure~\ref{fig:disr_events}-g), while the node remains
+\emph{Assigned} (since it could confirm other segments). Each node
+previously set as \emph{Candidate} for that segment id, when receives
+a confirmation packet changes its status to \emph{Assigned} \emph{(m)}
+and send back the same confirmation until it reaches the initiator of
+the request, which then changes from \emph{ActiveSearching} to
+\emph{Assigned} \emph{(d)}.
 
 \item{\textbf{Failing while searching a segment}}: this happen when a node receives a \texttt{SEGMENT\_REQUEST} packet but
 matches one of two the following conditions: the node is \emph{Free} but has no
@@ -342,25 +360,25 @@ reach the starting node that originated the request.
 
 \subsection{Intra-node vs Inter-node parallelism}
 In the processes described above, we assumed that each node in the
-\emph{Assigned} status can start a segment searching process by injecting a
-\texttt{SEGMENT\_REQUEST}. However, a more accurate decision when
-defining \disr{} should be made in order to decide whether or not the
-node must actually perform this action. The point above is
-strictly related to a general question: which level of
-parallelism should we allow in \disr{}? The adopted approach, although
-the nature of \disr{} itself is intrinsically parallel, is that the use of
-parallelism makes things working in a more complex way. In other words,
-\disr{} is parallel when needed, but it does not exploit parallelism
-as an ``improving feature''. When not needed, things should be
-serialized. For example: when a node is ``ready to search'' it could start
-several segment searching processes associated to the same segment, one for
-each free link. But serializing this operation, by investigating the free links
-in order, could be a simpler solution. We refer to this saying that we
-avoid intra-node parallelism.  Note that while intra-node parallelism
-can be avoided, trying to avoid inter-node parallelism could be more
-complex than allowing the parallelism itself. Imagine for example the
-effort generated trying to coordinate nodes so that an unique segment searching
-process is actually running in the whole subnet. Thus, in contrast to
-the intra-node parallelism, the inter-node parallelism is a structural
-property of the \disr{} algorithm and should not be avoided.
+\emph{Assigned} status can start a segment searching process by
+injecting a \texttt{SEGMENT\_REQUEST}. However, different choices
+could have been made when defining \disr{}, strictly related to which
+kind and level of parallelism should be supported. The approach adopted
+currently is that, although the nature of \disr{} is intrinsically
+parallel, the use of parallelism should not make things work in a too
+complex/uncontrollable way. In other words, \disr{} is parallel when
+needed, but it does not exploit parallelism as an ``improving
+feature''. Thus, when not needed, things should be serialized. For
+example: a node with free links could start several segment requests
+associated to the same \emph{segID}, one for each free link. But
+serializing this operation, by investigating the free links in order,
+could be a simpler solution. We refer to this \disr{} design choice
+saying that we avoid \emph{intra-node parallelism}.  Note that,
+conversely, avoiding \emph{inter-node parallelism} could be more
+complex than allowing it: for example, we can imagine the effort
+generated when trying to coordinate nodes so that a unique segment
+searching process is actually running in the whole subnet. Thus, in
+contrast to the \emph{intra-node parallelism}, the \emph{inter-node
+parallelism} is a structural property of the \disr{} algorithm and
+should not be avoided.
 %------------------------------------------------------------------------------

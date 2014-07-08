@@ -1,5 +1,6 @@
 
 \section{Introduction and Motivation}
+\label{sec:introduction}
 
 Exploring long term alternatives to the CMOS technology is gaining
 more and more relevance as the scaling trend of such devices keeps
@@ -7,49 +8,56 @@ introducing new challenges: power density, defect tolerance, testing
 costs and wire delays are only a few of the many critical aspects
 involved~\cite{itrs13}. 
 While software parallelism and multicore
-approaches~\cite{horowitz2004} and \cite{powell2009} are partially mitigating the impact of such
-constraints on performances, it is likely that the growing computing demand will
-eventually need even more radical architectural modifications and new
-paradigms in order to address the Computer Design challenges of the next
+approaches~\cite{horowitz2004,powell2009} are partially mitigating the impact of such
+constraints on performances, it is likely that a growing computing demand will
+eventually need even more radical architectural modifications and 
+paradigms to address the Computer Design challenges of the next
 decades.
 
-In the last years, self-assembled nanoscale architectures~\cite{yan2003}
-emerged as a promising technology due their tera/peta scale of
-integration, defect tolerance and huge potential computing
-capabilities. These technologies are certainly still at
-their early stage of development, however different laboratory demos and
-prof-of-concepts architectures have been presented~\cite{patwardhan2004, patwardhan2006_1, pistol2009}.
+In the last years, self-assembled nanoscale
+architectures~\cite{yan2003} emerged as a promising technology due
+their tera/peta scale of integration, defect tolerance and huge
+potential computing capabilities. These technologies are certainly
+still at their early stage of development, however different
+laboratory demos and proof-of-concepts have been
+presented~\cite{patwardhan2004, patwardhan2006, patwardhan2006_1,
+pistol2009}. For a complete survey on self-assembled architectures and
+how they compare against classical many-core systems in terms of
+ technologies, fault tolerance, performance and software tools see
+ also~\cite{Future}.
 %, patwardhan2006
-The main idea behind this approach is exploiting the physical regularity and
-stability of DNA structures in order to create a scaffold onto which
-nano-devices (e.g. nanowires and CNFETs~\cite{bachtold2001, tans1998, cui2001}) can be
-attached. This can be achieved by designing appropriate complementary DNA tags for
+The main idea behind this approach is exploiting the physical
+regularity and stability of DNA structures in order to create a
+scaffold onto which nano-devices (e.g. nanowires and
+CNFETs~\cite{bachtold2001, tans1998, cui2001}) can be attached. This
+can be achieved by designing appropriate complementary DNA tags for
 each terminal to be placed, so that a nano device will be attached
 only where its own DNA tag matches a complementary tag on the DNA grid
-scaffold (see Figure~\ref{fig:nana}-a).
-A detailed description of the chemical properties involved is far
-beyond the scope of this paper (see also~\cite{braun1998, seeman1999}), so we will focus on
-the three main challenges that this new fabrication process introduces
-in Computer Design: \emph{(i) limited node complexity}, \emph{(ii) large scale
-randomness} and \emph{(iii) high defect rates}.  
+scaffold (see Figure~\ref{fig:nana}-a).  Of course, a detailed
+description of the chemical properties involved is far beyond the
+scope of this paper (see also~\cite{braun1998, seeman1999}). 
 
+In this work we present \disr{} (Distributed Segment Routing), a distributed
+approach focused on addressing the three main challenges that this new fabrication process introduces
+in nanoscale Network-on-Chip Design: \emph{(i) limited node complexity}, \emph{(ii) large scale
+randomness} and \emph{(iii) high defect rates}.  
 The \emph{limited node complexity} aspect is directly
 related to the use of complementary DNA tags in order to place circuit
-components. In a traditional CMOS process the complexity is introduced
-using a photolithography mask, so that larger (more complex) circuits
-only require larger masks; conversely, self-assembly achieves
+components. Traditional CMOS process introduces complexity 
+with larger photolithography mask: more complex (larger) circuits
+will only require larger masks. Conversely, self-assembly achieves
 complexity by increasing the number of unique DNA tags, since more
 different tags means having more control on component placement. Ideally, by specifying a single
-and unique tag for each nano transistor terminal, we could exactly
-choose where each component would be placed. But the number of DNA
+and unique tag for each nano device terminal, we could exactly
+choose where each component would be placed in the design. But the number of DNA
 symbols forming the DNA sequence is limited (sequence of 4 nucleobases
-G,A,T,C) and so creating many different tags (of a given length) would
+G,A,T,C) and so creating many different tags (of a prefixed length) would
 mean make them more similar to each other, increasing the probability
-of incorrect/partial matching. To avoid this problem we should limit
-the number of unique tags, thus limiting the complexity at each node.
-In particular, a budget of about $10,000$ CNFETs per node has been
-estimated in~\cite{liu_jetcs}.
-
+of incorrect/partial matching. To avoid this problem 
+the number of unique tags must be limited, thus limiting the
+complexity available at each node.
+In particular, in this work a budget of about $10,000$ CNFETs per node
+has been assumed , as estimated in~\cite{liu_jetcs}.
 \emph{Large scale randomness} is the other fundamental condition of
 self-assembled technology: DNA tags allow a control placement inside
 node grid, but there is no control of where each of these  grids will
@@ -57,7 +65,6 @@ be placed on the whole network. As a consequence, other typical
 properties of regular networks cannot be guaranteed, e.g. being
 connected to a fixed number of neighbors, having a determined
 orientation and so on.
-
 Finally, \emph{defect rates}: while they are very hardly tolerated in mask
 based top down design, the same nature of a bottom up self-assembly
  process cannot assume such a deterministic device placement
@@ -67,42 +74,45 @@ more than an exception to be avoided.
 \begin{figure*}
 \centering
 \begin{tabular}{cc}
-    \includegraphics[width=0.40\textwidth]{pictures/dna2b.eps} &
-    \includegraphics[width=0.40\textwidth]{pictures/dna1_complex2.eps} \\
+    \includegraphics[width=0.45\textwidth]{pictures/dna2b.eps} &
+    \includegraphics[width=0.45\textwidth]{pictures/dna1_complex2.eps} \\
  (a) & (b)
  \end{tabular}
-  \caption{(a) DNA tag matching and (b) resulting irregular topology}
+  \caption{(a) Strands of complementary DNA tags self assemble to
+  generate larger structures (b) The resulting irregular topology of
+  processing(P) and storage(M) elements }
   \label{fig:nana}
 \end{figure*}
 These aspects of a DNA self-assembly process lead to some important
 implications to be addressed when approaching to the design of
-a computer architecture: computational model should be based on a
+a nanoscale Network-on-Chip architecture: computational model should be based on a
 distributed network of small processing and storage nodes, randomly
 placed and interconnected (see Figure~\ref{fig:nana}-b).
 Proof-of-concept of such architectures can be found for
 example in~\cite{patwardhan2006_1}, where instruction and data
 operands are moved around the network in order to be processed.
-Independently of the particular policy chosen to route packets,
-such networks must be able to guarantee deadlock freedom without any
+In addition, independently of the particular policy chosen to route instruction and
+data packets, such networks must be able to guarantee deadlock freedom without any
 prior assumption on topology.
 
-In this work, we introduce \disr{}, a Distributed Segment-based approach
-to deadlock freedom in large scale DNA self-assembled networks. Our
-contribution aims to achieve the classical properties of a
-segment-based approach~\cite{mejia_ipdps06} without requiring any
-topology graph, external defect map or centralized algorithm
-execution.  So the \disr{} approach is not intended to discover the
-``optimal'' segment choice (ideally reachable with the knowledge of
-the topology graph) but just to demonstrate a concrete model that can
-fit into such complex, irregular and large sized networks.
-It is important to
-underline that, although we can assume an architecture similar to the
-one depicted in Figure~\ref{fig:nana} as background, the topology discovery
-problem faced in this work is more general and not strictly dependent on any of the
-underlying computing architectures.
+In this work, we introduce \disr{}, a Distributed Segment-based
+approach to topology discovery and deadlock freedom in large scale DNA
+self-assembled on chip networks. Our contribution aims to achieve the
+classical properties of a segment-based approach~\cite{mejia_ipdps06}
+without requiring any topology graph, external defect map or
+centralized algorithm execution.  So the \disr{} approach is not
+intended to discover the ``optimal'' segment choice (ideally reachable
+with the knowledge of the topology graph) but just to demonstrate a
+concrete model that can fit into such complex, irregular and large
+sized networks.  It is important to underline that, although we can
+assume an architecture similar to the one depicted in
+Figure~\ref{fig:nana} as background, the \disr{} topology discovery
+approach presented this work is more general and not strictly
+dependent on any underlying computational model adopted.
 
 The paper is organized as follows: in Section~\ref{sec:related_works}
-we summarize the main approaches for topology agnostic routing. Next, in
+we summarize the main approaches for topology agnostic deadlock
+freedom. Next, in
 Section~\ref{sec:disr_concepts} are described the main elements and
 the execution model of the proposed approach. In Section~\ref{sec:simulation},
 simulations are carried out with the open-source tool Nanoxim to
@@ -157,7 +167,7 @@ achieve the same goals of a segment based turn prohibition without
 requiring neither the knowledge of a topology graph nor centralized execution. In particular
 \disr{} implements segment discovery and turn prohibition using a
 completely different mechanism, based on a distributed exchange of
-small setup packets requiring on average $15\%$ of the available
+small setup packets requiring a limited and scalable portion of the available
 resource budget. The following main features distinguish \disr{}
 from classic approaches to segment partitioning: 
 \begin{itemize}
