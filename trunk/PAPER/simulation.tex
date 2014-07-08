@@ -88,17 +88,28 @@ required in order to obtain statistically significant results.
 \subsection{Results}
 \label{sec:results}
 
-In this section we analyze the results in terms of node
-coverage and latency with different network sizes, defect rates and
-bootstrap injection points. In particular
-Figure~\ref{fig:results_coverage} shows
-node coverage for \disr{} and Reverse Path Forwarding (RPF) tree based approach respectively. While
-the first aim of \disr{} is not to reach the optimal coverage, we still
-can observe a quite good performance as compared to the tree based
-approach. Note that defect rates beyond 25\% lead to many disconnected
-regions of nodes that \disr{} currently cannot handle.
-For example Figure~\ref{fig:net} shows a 30x30 network with a 25\%
-defect in which the bottom-left part cannot be reached due to
+In this section we analyze the results in terms of node coverage and
+latency with different network sizes, defect rates and bootstrap
+injection points. In particular Figure~\ref{fig:results_coverage}
+shows node coverage for \disr{} and Reverse Path Forwarding (RPF) tree
+based approach respectively. While the first aim of \disr{} is not to
+reach the optimal coverage, we still can observe a quite good
+performance as compared to the tree based approach. For low defect
+rates, i.e. below 10\%, both approaches reach near ideal coverage for
+each of the tested network sizes. Higher defect rates seems to show
+more variance for \disr{}. For example at the high 20\% rate \disr{}
+ranges from 60\% to 75\% while RPF remains stable at 75\%. However we
+can consider this coverage sensibility at higher defect rates as still acceptable
+for this first, not yet optimized version of the proposed approach.
+Note that defect rates beyond 25\% lead to many disconnected
+regions of nodes that \disr{} currently cannot handle. This threshold can be
+intuitively related to the fact that in the topologies simulated a
+node has (on average) a cardinality of 4 connections to other nodes. This means
+that with a defect rate bigger than 25\% a node has at least one of its four
+paths as not-working, and this applies (on average) for each node,
+thus leading to increased probability of consecutive disconnected
+nodes, which eventually create disconnected regions. For example Figure~\ref{fig:net} shows a 30x30 network with a 25\%
+defect rate in which the bottom-left part cannot be reached due to
 disconnected regions. Note that the remaining defective nodes belonging to
 connected regions are successfully surrounded by \disr{} coverage; in any
 case, these defect levels should be considered as worst case scenarios, so the
@@ -135,21 +146,21 @@ regions.
 \label{fig:results_latency}
 \end{figure*}
 
-The number of cycles required to complete segment mapping process
-is shown in Figure~\ref{fig:results_latency}. In this case the comparison
-against the tree-based approach shows better (lower) values at different defect
-rates. Rather than the absolute numbers, what is more interesting
-to observe is how \disr{} latency scales with network size. For example,
-going from 900 to 2500 nodes, at the medium defect rate of $0.15$,
-leads to an increase from 3000 to 4500 cycles. It should be noticed
-also how the effect of defect rate is increasing until the threshold
-of $0.25$ is reached, meaning that until that limit \disr{} finds 
-the completion of the process more and more difficult due to the increasing defective
-paths, but it still discover new segments if it runs for an
-extended amount of cycles. This behavior is not reported in the RPF
-based approach, meaning that a tree-based approach, although starting
-from higher values, is less affected by defect rates (when low rates
-are considered).
+The number of cycles required to complete segment mapping process is
+shown in Figure~\ref{fig:results_latency}. In this case the comparison
+against the tree-based approach shows better (lower) values at
+different defect rates. Rather than the absolute numbers, what is more
+interesting to observe is how \disr{} latency scales with network
+size. For example, going from 900 to 2500 nodes, at the medium defect
+rate of $0.15$, leads to an increase from 3000 to 4500 cycles. It
+should be noticed also how for \disr{} latency is increasing until the
+threshold of $0.25$ is reached, meaning that the completion of the
+process is more and more difficult due to the missing paths, but
+\disr{} is still able to finish the segment discovery using the retry/cancel mechanisms
+described in the previous section. This initial behavior is not reported in
+the RPF based approach, leading to higher latency values and not using
+the same retry/cancel approach as \disr{}.
+
 After the $0.25$ threshold, the impact of disconnected regions
 becomes predominant and both approaches become faster in completing
 the covering process, since far less nodes can be actually reached. 
@@ -181,7 +192,7 @@ different evolution in the \disr{} setup process.
 % TODO: long paper
 \subsection{Other Optimizations}
 Some optimization parameters, which demonstrated to improve the \disr{}
-results, have been fixed to some good values and are not subject to
+results, have been fixed to some reasonable default values (see below) and are not subject to
 further investigation in this paper; once again the focus here is not the
 optimal setup of segments, but just demonstrating a working approach. 
 These parameters are:
