@@ -8,17 +8,17 @@ agnostic approach based on spanning trees and
 broadcasting~\cite{Patwardhan05evaluatingthe}, to measure how \disr{}
 performs in covering the network structure. Note that a direct
 comparison against the SR segment-based approach is not addressed
-here, since how described in Section~\ref{sec:introduction} our
-scenario assumes the non-feasibility of a centralized approach:
-however, all the properties of the centralized approach should be
+here since, how described in Section~\ref{sec:introduction}, our
+scenario assumes the non-feasibility of a centralized approach. 
+However, all the properties of the centralized approach should be
 considered as preserved for all the nodes reached by the distributed
-segment coverage of \disr{}. Thus, the main points that remain to be
-addressed are:
+segment coverage of \disr{}. 
+The main points that remain to be addressed are:
 \begin{itemize}
-\item how \disr{} compares against state-of-art of tree based approach
-applied to equivalent scenario
-\item how \disr{} scales on large networks
-\item the real feasibility of the required hardware on the limited
+\item how \disr{} compares against the state-of-art tree based approach
+applied to an equivalent scenario
+\item how \disr{} scales with large networks
+\item the feasibility of actual implementation of the required hardware on the limited
 node size assumed
 \end{itemize}
 
@@ -41,7 +41,7 @@ and the support for defective links and nodes.
 
 %------------------------------------------------------------------------------
 \subsection{Experimental setup}
-The following parameters have been taken into account when
+The following parameters have been taken into account while
 performing the \disr{} simulation:
 \begin{itemize}
 \item {\emph{Size of the network}}: number of nodes, on a range from
@@ -52,10 +52,10 @@ performing the \disr{} simulation:
 \item {\emph{\% defective nodes}}: the probability that a node is not
 working, thus having all its links not able to be utilized during \disr{} setup.  
 %Same range as defective links parameter.
-\item {\emph{Bootstrap node}}: the node from upper layer that
+\item {\emph{Bootstrap node}}: the node, from upper layer, that
 injects the \disr{} process. When not explicitly investigating the
 impact of each single bootstrap choice, a set representative regions have been
-considered, e.g. the central part of the network and the edge corners.
+considered, e.g. the central part of the network and the corners.
 \end{itemize}
 To present the results, the following evaluation metrics have been adopted:
 \begin{itemize}
@@ -92,22 +92,23 @@ In this section we analyze the results in terms of node coverage and
 latency with different network sizes, defect rates and bootstrap
 injection points. In particular Figure~\ref{fig:results_coverage}
 shows node coverage for \disr{} and Reverse Path Forwarding (RPF) tree
-based approach (as adapted in \cite{patwardhan_nanoarch06}) respectively. While the first aim of \disr{} is not to
-reach the optimal coverage, we still can observe a quite good
-performance as compared to the tree based approach. For low defect
+based approach (as adapted in \cite{patwardhan_nanoarch06}) respectively. 
+While the first aim of \disr{} is not to
+reach the optimal coverage, we still can observe quite good
+performances as compared to the tree based approach. For low defect
 rates, i.e. below 10\%, both approaches reach near ideal coverage for
 each of the tested network sizes. Higher defect rates seems to show
-more variance for \disr{}. For example at the high 20\% rate \disr{}
-ranges from 60\% to 75\% while RPF remains stable at 75\%. However we
+more variance for \disr{}. For examplei, at the high 20\% rate \disr{}
+ranges from 60\% to 75\% while RPF remains stable at 75\%. However, we
 can consider this coverage sensibility at higher defect rates as still acceptable
 for this first, not yet optimized version of the proposed approach.
 Note that defect rates beyond 25\% lead to many disconnected
 regions of nodes that \disr{} currently cannot handle. This threshold can be
-intuitively related to the fact that in the topologies simulated a
+intuitively related to the fact that, in the topologies simulated, a
 node has (on average) a cardinality of 4 connections to other nodes. This means
 that with a defect rate bigger than 25\% a node has at least one of its four
 paths as not-working, and this applies (on average) for each node,
-thus leading to increased probability of consecutive disconnected
+leading to higher probability of consecutive disconnected
 nodes, which eventually create disconnected regions. For example Figure~\ref{fig:net} shows a 30x30 network with a 25\%
 defect rate in which the bottom-left part cannot be reached due to
 disconnected regions. Note that the remaining defective nodes belonging to
@@ -151,15 +152,15 @@ shown in Figure~\ref{fig:results_latency}. In this case the comparison
 against the tree-based approach shows better (lower) values at
 different defect rates. Rather than the absolute numbers, what is more
 interesting to observe is how \disr{} latency scales with network
-size. For example, going from 900 to 2500 nodes, at the medium defect
-rate of $0.15$, leads to an increase from 3000 to 4500 cycles. It
+size. For example, moving from 900 to 2500 nodes, at an average defect
+rate of $0.15$, leads to an increase of latency from 3000 to 4500 cycles. It
 should be noticed also how for \disr{} latency is increasing until the
 threshold of $0.25$ is reached, meaning that the completion of the
 process is more and more difficult due to the missing paths, but
 \disr{} is still able to finish the segment discovery using the retry/cancel mechanisms
 described in the previous section. This initial behavior is not reported in
-the RPF based approach, leading to higher latency values and not using
-the same retry/cancel approach as \disr{}.
+the RPF based approach, which does not use
+the same retry/cancel approach as \disr{} and then suffers higher latency values.
 
 After the $0.25$ threshold, the impact of disconnected regions
 becomes predominant and both approaches become faster in completing
@@ -171,7 +172,7 @@ in a 10x10 network. This is an important aspect to evaluate
 considering that one of the main advantages of \disr{} against all the
 tree-based approaches is the possibility of choosing whatever
 bootstrap node, without having to care about the role assumed in the
-future by the chosen root node. In other words, after the segments have
+future by the chosen root node. In other words, after that the segments have
 been established, the bootstrap node is like every other node, i.e. it
 is not center of a structure, and it is not an hotspot for the traffic
 distribution. The results in terms of coverage, shown for low, medium
@@ -193,7 +194,7 @@ different evolution in the \disr{} setup process.
 \subsection{Other Optimizations}
 Some optimization parameters, which demonstrated to improve the \disr{}
 results, have been fixed to some reasonable default values (see below) and are not subject to
-further investigation in this paper; once again the focus here is not the
+further investigations in this paper; once again the focus here is not the
 optimal setup of segments, but just demonstrating a working approach. 
 These parameters are:
 \begin{itemize}
@@ -206,14 +207,14 @@ Default value is set to 1, i.e. each link is tried one time.
 \item \emph{time to live (TTL)}: when a segment request is cancelled
 along a certain path (using a \texttt{SEGMENT\_CANCEL}), a TTL field is
 decreased in the request packet, so that requests that have been
-denied too much times can desist, even if free links are
+denied too much times are canceled, even if free links are
 available. This is not only an optimization to shorten
 requests' processes, but also solves some critical situations in which
 request packets are blocked in routing loops in a particular path.
 \item \emph{bootstrap\_timeout}: number of time units that a bootstrap node
 should wait before assuming that a livelock in the starting segment
-process has occurred. In the worst case, we can imagine that longest
-path required is the one returning to the bootstrap node after having
+process has occurred. In the worst case, we can imagine that the longest
+path required is the one returning to bootstrap node after having
 traveled across all the links. So, although this is just an extreme
 situation, a good upper limit can be safely be set to $N \times N$.
 \item \emph{bootstrap\_immunity}: in order to avoid the failure of the whole \disr{}
@@ -224,7 +225,7 @@ layer via) a bootstrap node which is tested as properly connected. We
 enabled this optimization, however empirical tests have shown us that only
 simulations using bootstrap nodes placed on edges would be heavily
 affected by similar issues since these nodes start with a lower number of links,
-e.g. corner nodes could only have two connected direction, so even a single
-defective link could prevent a starting segment packet from coming back to the
+e.g. corner nodes could only have two connected directions, so even a single
+defective link could prevent a \texttt{STARTING\_SEGMENT} packet from coming back to the
 bootstrap node to close the loop and create the first segment.
 \end{itemize}

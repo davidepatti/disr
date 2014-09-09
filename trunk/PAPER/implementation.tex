@@ -3,24 +3,24 @@
 
 A possible hardware implementation of \disr{} algorithm will be
 described in this section. Figure~\ref{fig:node_structure} depicts the general
-structure of a node in the particular scenario of DNA nano Network-On-Chip. In particular such a node
+structure of a node in the particular scenario of DNA nano Network-On-Chip. In particular, such a node
 is composed of the following fundamental elements:
 
 \begin{itemize}%----Start Itemize------
 
 	\item \textbf{I/O Buffers-Transceivers:} These elements, one for
-	each port,  are responsible for data transmission with neighbors
+	each port, are responsible for data transmission with neighbors
 	nodes. The packets received or sent are stored in specific buffers
 	named input and output buffers respectively.
 
-	\item \textbf{Switch Matrix:} Driven by a switch controller, it enables the
+	\item \textbf{Switch Matrix:} Driven by a switch controller, it enables
 	reciprocal connections among devices inside the node. Before segments'
 	creation, this controller receives information from
 	\disr{} block. After this phase, the switch controller will be driven by
 	the block implementing the routing algorithm. The \emph{Switch Matrix} is
 	essentially composed of a series of multiplexers and demultiplexers.
 
-	\item  \textbf{Processing Element (PE):} Is strictly related to the
+	\item  \textbf{Processing Element (PE):} It is strictly related to the
 	functionality and role that the node cover inside a given network (e.g. being a
 	computation or storage node).
 
@@ -54,7 +54,7 @@ is composed of the following fundamental elements:
  \label{fig:implementation}
 \end{figure}
 
-To give a basic estimate of the overhead needed we focus on \disr{}-
+To give a basic estimate of the overhead needed, we focus on \disr{}-
 specific components namely the control logic and configuration
 registers needed to implement \disr{}. Figure~\ref{fig:implementation}
 shows an architecture sketch, which mainly consists in the
@@ -65,14 +65,14 @@ following building elements:
 	\item \textbf{DBS block:}
 
 	It takes trace of the DBS state machine, consisting of a 3-bit
-	register (to cover six DBS values) and the  required combinational
+	register (to cover six DBS values) and the required combinational
 	logic. This block receives signals from  stored packets  in order
 	to decode the packet type, and from  the control circuitry to
 	change its status. The bootstrap node is selected by setting the
 	boot signal to high during the initialization phase.
 
 	\item \textbf{LED registers:}
-	A set of registers store the \emph{LED} defined in
+	A set of registers stores the \emph{LED} defined in
 	section~\ref{sec:disr_concepts}.  In the
 	link\_visited[] table, we defined two specific registers named
 	\emph{tflag} and \emph{busy}. While the first one indicates
@@ -92,12 +92,12 @@ following building elements:
 	content before retransmission to a destination
 	node.  In some cases, this circuitry builds the packet from
 	scratch e.g. when a node is bootstrap and for
-	the first time it should inject a \emph{starting\_segment\_request}. 
+	the first time it should inject a \emph{STARTING\_SEGMENT\_REQUEST}. 
 	Figure~\ref{fig:packager} depicts the architecture of this
 	block. When a packet is created for the first time, the multiplexers 
 	driven by the controller, will select information incoming from an internal 
-    node such as the \emph{source\_ID}. In this situation the 
-	TTL field should be reset to its initial value and the \emph{segment\_ID}
+    node such as the \emph{src\_id}. In this situation the 
+	TTL field should be reset to its initial value and the \emph{segID}
 	is composed of the node ID and by the output port identification 
 	number.
 
@@ -122,7 +122,7 @@ particular, such components will be inside the \emph{Switch Matrix} (see Figure~
  \label{fig:pipeline}
 \end{figure}
 
-All the blocks described above, reacts with the rising edge of
+All the blocks described above, react with the rising edge of
 the \emph{clock signal}. An asynchronous system \emph{reset} signal is
 also present to restore all registers to their default values. When
 this signal is set, DBS state machines for each network
@@ -132,7 +132,7 @@ Figure~\ref{fig:pipeline} shows the pipeline structure of the
 generated locally) are sent to the DBS state machine in order to
 ensure the status commutation. While DBS updates its state, in the
 next clock cycle the control circuitry will update LED registers status and
-will drive the \emph{Switch Matrix} in order to send eventually the packets to
+will drive the \emph{Switch Matrix} in order to send the packets to
 the right output buffer.
 %--------------------------------------------------------------------
 \subsection{Synthesis results: Timing, Area and Power consumption considerations}
@@ -141,13 +141,13 @@ As discussed above, one of the main design challenges of DNA Self-
 Assembled systems is the limited number of resources available to implement both
 computations and routing decisions for each node. Assuming a budget of
 $10^4$ CNFETs for each network's node~\cite{liu_jetcs}  we estimated
-the required resources to implement the entire \disr{} block. The RTL
+the resources required to implement the entire \disr{} block. The RTL
 description of the circuitry described in the last section (with an
-hardware description language)  of the \disr{} circuitry has been written
+hardware description language) has been written
 and synthesized at gate-level using \emph{Synopsys Design Compiler} with 
 a generic technology library (GTECH).
-Considering the specific layout of each single logic elements  (NAND,
-full-adder, latch etc.), it has been possible to get a rough estimate
+Considering the specific layout of each single logic element (NAND,
+full-adder, latch etc.), it has been possible to get a rough estimation
 of the number of transistors necessary to implement \disr{} logic.
 Figure~\ref{fig:synthesys} shows the results of synthesis in terms of
 number of devices (CNFETs) versus the number of network nodes while
@@ -162,13 +162,13 @@ the network scales up from $10\times10$ to $100\times100$ nodes.
 \end{figure}
 
 In particular, Figure~\ref{fig:synthesys} shows that the proposed 
-implementation occupies about 17,5\% of our node budget. 
+implementation occupies about 17,5\% of the node budget. 
 The main contribution is due to the controller circuitry followed by LED registers. 
 Further, more than the
 absolute number of devices itself, it is interesting to observe that
-the circuitry complexity which implements \disr{} algorithm increases
-with a slowly growing trend. An intuitive explanation of this is the
-relatively simple logic of \disr{}, whose behavior is almost coded on
+the complexity of the circuitry necessary to implement \disr{} increases
+with a slowly growing trend. This is due to the
+relatively simple logic of \disr{} which is almost coded with
 scalable storage structures. For example, the number of registers
 implementing the \emph{link\_visited[]} and \emph{link\_tvisited[]}
 table follow the logarithmic function $N_{reg}=N_{port} \cdot
@@ -184,8 +184,8 @@ synthesized the RTL description of \disr{}, with a standard 32~nm CMOS
 library, obtaining a delay of about $\mathrm{\tau_{\disr{}}=10} \ FO4$
 (fan-out of four). Considering the results obtained
 in~\cite{deng_isscc07}, which reports the ratio in terms of FO4
-between a standard 32~nm CMOS technology and a carbon nanotube ones, 
-rough delay estimation can be obtained. In particular in such work 
+between a standard 32~nm CMOS technology and a carbon nanotube one, 
+a rough delay estimation can be calculated. In particular in such work 
 has been reported a ratio of:  
 \begin{equation}
 \mathrm{\frac{FO4_{CMOS}}{FO4_{CNFET}}=2}  
@@ -199,14 +199,18 @@ frequency can be computed as:
 \end{equation}
 where $\mathrm{\tau_{\disr{}}}$ is expressed in terms of FO4.
 
-Regarding the power consumption of whole \disr{} devices, 
-we avoided an accurate power analysis with the switch activity
-annotation due to the fact that \disr{} circuitry will be active 
-only once during system startup. Indeed, after the setup phase, 
+With regard to the power consumption of the whole set of \disr{} devices: 
+due to the fact that \disr{} circuitry will be active 
+only once during system startup, an accurate power analisys related to switching 
+activity is not provided in this work. After the setup phase, 
 when all segments are mapped, the \disr{} block will stop its activity 
 passing all the information related to segments to the routing
 algorithm. For this reason the dynamic power falls to zero and
-the only consumption could be due to the leakage
-consumption. Finally, with the reported results, a comparison between 
-RPF configuration circuits and the proposed circuits could be performed.
-In particular, the state of the art implementation for the RPF algorithm has been shown in~\cite{patwardhan_nanoarch06}. As reported in this work,  the implemented hardware requires an overhead of about 1692 CNFET for a $100 \times 100$ network. Furthermore, regarding the power consumption, the RPF approach has a setup phase beyond which, the consumptions tends to zero. Starting from these results, an appreciable discrepancy in terms of transistors cost and power consumption cannot be noted.
+the only consumption is due to leakage effects. A comparison between 
+the proposed circuitry and the state of the art implementation for the RPF 
+algorithm, presented in~\cite{patwardhan_nanoarch06}, can show that there 
+is not an appreciable discrepancy in terms of transistors cost and power 
+consumption. In facts, RPF requires an overhead of about 1692 CNFET for a 
+$100 \times 100$ network. Furthermore, regarding the power consumption, 
+also the RPF approach has a setup phase beyond which, the consumption tends 
+to zero. 
