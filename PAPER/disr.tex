@@ -4,18 +4,18 @@
 %------------------------------------------------------------------------------
 
 \label{sec:disr_concepts}
-The main concept behind the kind of turn prohibition we want to
-achieve is the \emph{segment}. A segment $S_b$ is basically a path of consecutive
+The main concept behind the turn prohibition method we propose in this work
+is the \emph{segment}. A segment $S_b$ is basically a path of consecutive
 nodes and links, starting with a link attached to a node belonging to
 a different segment $S_a$ and ending with a link attached to a
 node of another segment $S_c$. In other words, a segment is
 a path connecting two other different segments. The example
 in Figure~\ref{fig:segments} shows the segment with id $1.4$, starting
 with a link connected to the node $9$, traversing nodes
-$4$, $3$, $2$ and ending with the link connected to the node $1$. Other
+$4$, $3$, $2$ and ending with the link connected to node $1$. Other
 segments depicted are, for example, $9.2$ (link from $9$, node $10$, link to node $3$) and $9.3$
 (link from $9$, node $8$, link, node $7$, link, node $6$, link, node $5$, link to node $1$). Note
-also that start/ending links can coincide and a segment can also be
+also that starting/ending links can coincide and a segment can also be
 formed by one single link (e.g. the case of $7.2$ and $5.4$).
 An exception to the rule that a segment must connect two other
 segments is the first segment established in the network, called
@@ -38,24 +38,24 @@ node}.
 \item Broadcasting and confirmation to create the first segment of the subnet.
 \item Parallel segment requests starting from assigned nodes to discover other
 segments. 
-\item Resulting segment confirmation/cancel packets are processed.
+\item Processing of resulting segment confirmation/cancel packets.
 \item Turn prohibition in each confirmed segment.
 \end{enumerate}
 
 This first work is explicitly focused on demonstrating
 the feasibility and scalability of \disr{} in the particular scenario
-assumed; for this reason we will not investigate the further degree of
+assumed; for this reason we will not investigate the degree of
 freedom that the last of the above steps introduces, i.e. choosing
-\emph{where} actually placing the restriction in the context of the
+\emph{where} to place the restriction in the context of a
 segment. This choice would strictly depend on the particular routing
 strategy that will be used and could result in some interesting
-improvements. However, the scope of this work is understanding how \disr{} can
+improvements. The scope of this work is understanding how \disr{} can
 implement a distributed topology discovery, mapping defects and
 creating a segment partitioning that will be exploited in a second
-design phase which includes choosing and implementing a routing strategy. For this
-reason, the last two phases will be addressed as one, since we can
-safely assume that a random turn (e.g. the first) will be prohibited
-once each segment has been confirmed.
+design phase which includes choosing and implementing a routing strategy. 
+For this reason, since we can safely assume that a random turn (e.g. 
+the first) can be prohibited once each segment has been confirmed, the 
+last two execution phases will be addressed as one.
 
 \subsection{\disr{} Data Structures}
 \label{ssec:disr_data}
@@ -69,18 +69,19 @@ current execution phase in the context of \disr{}.
 The \emph{DBS} can have the following values:
 
 \begin{itemize}
-\item{\emph{Free}}: a node that has  not been yet considered  by the \disr{} algorithm.
+\item{\emph{Free}}: a node that has not been yet considered by the \disr{} algorithm.
 \item{\emph{Bootstrap}}: a node which has been explicitly set as bootstrap node from
 an upper layer via. 
 \item{\emph{ActiveSearching}}: a node from which a new segments searching process has
 been started and not yet cancelled or confirmed. 
-\item{\emph{Candidate}}: a node currently candidate to be part of a segment, but not being itself the node from which the searching process was started. 
-\item{\emph{CandidateStarting}}: same as above, but the node is currently being considered as candidate
-for starting segment. 
-\item{\emph{Assigned}}: a node for which the segment has been determined.  
+\item{\emph{Candidate}}: a node currently candidate to be part of a segment, but not 
+being itself the node from which the searching process was started. 
+\item{\emph{CandidateStarting}}: same as above, but with the node considered as candidate
+for starting a segment. 
+\item{\emph{Assigned}}: a node for which the segment has been determined.
 \end{itemize}
 
-The \emph{LED} are a kind of instant snapshot of the execution of \disr{} algorithm, taken in each node,
+\emph{LED} variables are a kind of instant snapshot of the execution of \disr{} algorithm
 consisting in the following variables:
 
 \begin{itemize}
@@ -91,14 +92,14 @@ then a \emph{segID} different from \texttt{NULL} specifies the segment
 to which the node has been assigned. 
 \item{\emph{tvisited}}: a boolean value. If \emph{true}, the node is
 being considered as candidate for a segment, and the \emph{segID} value
-specifies the segment id for which the node is candidate. 
+specifies the segment ID for which the node is candidate. 
 \item{\emph{link\_visited[]}}: an array
-of values representing information about attached links, that is, the
-segID of the segment owning each link. When \texttt{NULL}, the corresponding link has not yet been
+of values containing information about attached links (\emph{segID} of the segment 
+owning each link). When \texttt{NULL}, the corresponding link has not yet been
 assigned.
 \item{\emph{link\_tvisited[]}}: an array of
-values representing information about attached links, that is, the \emph{segID} of
-the segment for which the link is candidate. When \texttt{NULL}, the link is
+values representing information about attached links (\emph{segID} of
+the segment for which the link is candidate). When \texttt{NULL}, the link is
 not candidate for any segment, i.e. it has already been assigned or it is free.
 \end{itemize}
 
@@ -114,7 +115,7 @@ upon an exchange of small control packets containing the following fields:
 given number of retries.
 \end{itemize}
 
-As regards the \emph{packet\_type} field, we can have the following control packets types:
+With regard to the \emph{packet\_type} field, we can have the following control packets types:
 \begin{itemize}
 \item{\texttt{STARTING\_SEGMENT\_REQUEST}}: Injected by the bootstrap
 node when searching the first segment. 
@@ -127,14 +128,14 @@ specific link.
 \end{itemize}
 
 A quantitative analysis of the resources needed to implement and
-manage these structures is presented in Section~\ref{sec:implementation} where is discussed 
+manage these structures is presented in Section~\ref{sec:implementation} where it is discussed 
 the impact of \disr{} control logic and storage on the
 node's hardware implementation.
 
 \subsection{Execution Model}
 \label{sub:phases}
 
-The \disr{} control packets described in the previous subsection trigger
+\disr{} control packets described in the previous subsection trigger
 node events, which change \emph{DBS} according to the
 current value of \emph{LED} variables and the type of packet received.
 The main \disr{} phases, together with a reference to the particular
@@ -173,7 +174,7 @@ represented in~\ref{fig:disr_events}.
 \emph{DBS} status set to \emph{Free}, except for a
  node with status \emph{Bootstrap}, set by some control signal from an
 upper layer via \emph{(a)}. When starting, this bootstrap node 
-changes its status to \emph{CandidateStarting} \emph{(b)}, injecting a
+changes its status to \emph{CandidateStarting} \emph{(b)}, and injects a
 \texttt{STARTING\_SEGMENT\_REQUEST} across one of its free links
 (Figure~\ref{fig:disr_events}-a). 
 
@@ -215,9 +216,9 @@ Figure~\ref{fig:disr_events}-e).
 Note that each \emph{Assigned} node can inject the request just after
 becoming \emph{Assigned}, i.e. it is not needed that the whole confirmation
 process in completed (Figure~\ref{fig:disr_events}-f).
-Note also that nodes previously set as \emph{CandidateStarting}, when receive
+Note also that nodes previously set to \emph{CandidateStarting}, when receive
 a \texttt{SEGMENT\_REQUEST} can simply cancel their
-status and set themselves as \emph{Candidate} for that request, since this new
+status and set themselves to \emph{Candidate} for that request, since this new
 request means that the first starting segment has already been found \emph{(h)}. 
 
 \item{\textbf{Segment Confirmation}}: The segment searching process is
@@ -226,15 +227,15 @@ successful when an already \emph{Assigned} node receives the
 sent back along the path that originated the request
 (Figure~\ref{fig:disr_events}-g), while the node remains
 \emph{Assigned} (since it could confirm other segments). Each node
-previously set as \emph{Candidate} for that segment id, when receives
+previously set to \emph{Candidate} for that segment id, when receives
 a confirmation packet changes its status to \emph{Assigned} \emph{(m)}
-and send back the same confirmation until it reaches the initiator of
-the request, which then changes from \emph{ActiveSearching} to
+and send back the same confirmation. When this confirmation reaches the initiator of
+the request it changes its status from \emph{ActiveSearching} to
 \emph{Assigned} \emph{(d)}.
 
 \item{\textbf{Failing while searching a segment}}: this happen when a node receives a \texttt{SEGMENT\_REQUEST} packet but
 matches one of two the following conditions: the node is \emph{Free} but has no
-more suitable free links (thus can’t forward the
+more suitable free links (thus cannot forward the
 \texttt{SEGMENT\_REQUEST})\emph{(f)}; the node
 is already \emph{Candidate} with another segment id, i.e. is part of another searching process. In all these cases the node
 sends back a \texttt{SEGMENT\_CANCEL} along the incoming link (see at
@@ -245,27 +246,27 @@ the bottom of Figure~\ref{fig:disr_events}).
 \section{Detailed Node Behavior Model}
 \label{sec:execution_model}
 
-In this Section we provide further details about \disr{}
+In this Section, we provide further details about \disr{}
 execution model, describing the internal behavior implemented in
 each node. Note that this also corresponds exactly to what should be
 implemented from the hardware perspective, as discussed in
 Section~\ref{sec:implementation}.
 
-The \emph{LED} variables in each node
-(\emph{segID}, \emph{visited}, \emph{tvisited}, \emph{link\_visited[]}, \emph{link\_tvisited[]})
-are initially set as \texttt{NULL}, so the node and all its links
+The \emph{LED} variables 
+(\emph{segID}, \emph{visited}, \emph{tvisited}, \emph{link\_visited[]}, \emph{link\_tvisited[]}),
+stored in each node, are initially set to \texttt{NULL}, so the node and all its links
 are considered as \emph{Free}.
 The only node that makes an exception is the bootstrap node, initialized
 in the \emph{Bootstrap} status. All the subsequent events happening at
-each node are the consequence of its current dynamic status (DBS), the
-packets received and the internal status represented by the
-\emph{LED}. Note that in the following, when using expression like
+each node are consequence of its current dynamic status (DBS), 
+packets received and internal status (represented by the
+\emph{LED}). Note that in the following, when using expression like
 ``has a free link'' or ``free node'' we will assume the relationship between 
-\emph{LED} and \emph{DBS} discussed in Section~\ref{ssec:disr_data}. Further, for
+\emph{LED} and \emph{DBS} discussed in Section~\ref{ssec:disr_data}. Furthermore, for
 each packet type all the cases not explicitly listed can simply be
-ignored since are associated to invalid/inconsistent events of the
-\disr{} execution model. A complete list of these cases can be checked
-in the environment simulator source code at~\cite{nanoxim}.
+ignored since associated to invalid/inconsistent events of the
+\disr{} execution model. A complete list of these cases is 
+described in the simulator source code available at~\cite{nanoxim}.
 
 \subsection{Receiving a \texttt{STARTING\_SEGMENT\_REQUEST}}
 The request for the first segment should be managed differently since
@@ -276,7 +277,7 @@ When a node receives a \texttt{STARTING\_SEGMENT\_REQUEST}, the
 following cases can happen:
 
 \begin{itemize}
-\item The node is \emph{Free}: it should set itself as
+\item The node is \emph{Free}: it should set itself to
 \emph{CandidateStarting} and forward the packet along its free links, using
 broadcasting and marking these links as \emph{tvisited} with \emph{segID} found
 in the packet.
@@ -340,16 +341,17 @@ itself is included in the segment.
 
 \subsection{Receiving a \texttt{SEGMENT\_CONFIRM}}
 When the node status is \emph{Candidate} with a \emph{segID} corresponding to the one indicated in
-the packet: the node set itself as \emph{Assigned} to the segment \emph{segID}. Further, it should forward this packet to the link where the
+the packet, the node set itself to \emph{Assigned} to the segment \emph{segID}. 
+Further, it should forward this packet to the link where the
 original \texttt{SEGMENT\_REQUEST} packet came from, so that all candidate nodes
 can learn the id of the segment they belong to. Then, \emph{LED} should be
 updated from \emph{tvisited} to \emph{visited}.
 
 \subsection{Receiving a \texttt{SEGMENT\_CANCEL}}
 When a node receives a \texttt{SEGMENT\_CANCEL} packet it means that the research
-for a segment along that path was unsuccessful. But if the
+for a segment along that path was unsuccessful. If the
 node still has some other free link to try, it should forward a
-\texttt{SEGMENT\_REQUEST} to the those links. So a node forwards back
+\texttt{SEGMENT\_REQUEST} to the those links. A node forwards back
 the \texttt{SEGMENT\_CANCEL} packet along the link that originated the
 \texttt{SEGMENT\_REQUEST} packet \emph{only} when there are no more free
 links to try. If this is the case, the node modifies its status from
@@ -362,7 +364,7 @@ reach the starting node that originated the request.
 In the processes described above, we assumed that each node in the
 \emph{Assigned} status can start a segment searching process by
 injecting a \texttt{SEGMENT\_REQUEST}. However, different choices
-could have been made when defining \disr{}, strictly related to which
+could have been made when defining \disr{}, these choices are strictly related to which
 kind and level of parallelism should be supported. The approach adopted
 currently is that, although the nature of \disr{} is intrinsically
 parallel, the use of parallelism should not make things work in a too
@@ -370,7 +372,7 @@ complex/uncontrollable way. In other words, \disr{} is parallel when
 needed, but it does not exploit parallelism as an ``improving
 feature''. Thus, when not needed, things should be serialized. For
 example: a node with free links could start several segment requests
-associated to the same \emph{segID}, one for each free link. But
+associated to the same \emph{segID}, one for each free link, but
 serializing this operation, by investigating the free links in order,
 could be a simpler solution. We refer to this \disr{} design choice
 saying that we avoid \emph{intra-node parallelism}.  Note that,
