@@ -8,7 +8,8 @@ introducing new challenges: power density, defect tolerance, testing
 costs and wire delays are only a few of the many critical aspects
 involved~\cite{itrs13}. 
 While software parallelism and multicore
-approaches~\cite{horowitz2004,powell2009} are partially mitigating the impact of such
+approaches~\cite{Kavi2012243,Sibai2011958} are partially mitigating the impact of such
+%approaches~\cite{horowitz2004,powell2009} are partially mitigating the impact of such
 constraints on performances, it is likely that a growing computing demand will
 eventually need even more radical architectural modifications and 
 paradigms to address the Computer Design challenges of the next
@@ -20,8 +21,8 @@ their tera/peta scale of integration, defect tolerance and huge
 potential computing capabilities. These technologies are certainly
 still at their early stage of development, however different
 laboratory demos and proof-of-concepts have been
-presented~\cite{patwardhan2004, patwardhan2006, patwardhan2006_1,
-pistol2009}. For a complete survey on self-assembled architectures and
+presented~\cite{patwardhan2006_1, pistol2009}. For a complete survey on self-assembled architectures and
+%presented~\cite{patwardhan2004, patwardhan2006, patwardhan2006_1, pistol2009}. For a complete survey on self-assembled architectures and
 how they compare against classical many-core systems in terms of
  technologies, fault tolerance, performance and software tools see
  also~\cite{Future}.
@@ -29,13 +30,14 @@ how they compare against classical many-core systems in terms of
 The main idea behind this approach is exploiting the physical
 regularity and stability of DNA structures in order to create a
 scaffold onto which nano-devices (e.g. nanowires and
-CNFETs~\cite{bachtold2001, tans1998, cui2001}) can be attached. This
+CNFETs~\cite{bachtold2001, cui2001}) can be attached. This
+%CNFETs~\cite{bachtold2001, tans1998, cui2001}) can be attached. This
 can be achieved by designing appropriate complementary DNA tags for
 each terminal to be placed, so that a nano device will be attached
 only where its own DNA tag matches a complementary tag on the DNA grid
 scaffold (see Figure~\ref{fig:nana}-a).  Of course, a detailed
 description of the chemical properties involved is far beyond the
-scope of this paper (see also~\cite{braun1998, seeman1999}). 
+scope of this paper (see also~\cite{seeman1999}). 
 
 In this work, we present \disr{} (Distributed Segment Routing), a distributed
 approach focused on addressing the three main challenges that this new fabrication process introduces
@@ -127,13 +129,12 @@ approach in terms of node complexity.
 \section{Background and Contribution}
 \label{sec:related_works}
 Several works addressed the problem of topology agnostic deadlock
-freedom introducing virtual channels~\cite{sancho2002, skeie2002,
-skeie2004, koibuchi2003}, but while they show interesting
+freedom introducing virtual channels~\cite{Abbas2014, skeie2004, koibuchi2003}, but while they show interesting
+%freedom introducing virtual channels~\cite{sancho2002, skeie2002, skeie2004, koibuchi2003}, but while they show interesting
 performances, the low resources available to prevent deadlocks makes them not suitable for
 the DNA self-assembled networks we are assuming as
 scenario.
-Other topology independent algorithms~\cite{schroeder1991,
-koibuchi2001, cherkasova1996} do not require any virtual channel but
+Other topology independent algorithms do not require any virtual channel but
 exploit the concept of ``turn prohibition''.
 In particular, authors of~\cite{Patwardhan05evaluatingthe} exploit the creation of a spanning tree of the
 topology, placing bidirectional restrictions to avoid that a packet
@@ -146,12 +147,14 @@ FX~\cite{sancho2000} mitigate this
 issue, but the set of turn restrictions is still prefixed
 strictly depending on the particular tree root selected. 
 Other solutions try to approach the issue of irregular
-topologies by limiting the number~\cite{duato1997, gomez2004, koibuchi2008} or the
-location~\cite{zhang2008, flich2008, liu2011} of missing links. This
+%topologies by limiting the number~\cite{duato1997, gomez2004, koibuchi2008} or the
+topologies by limiting the number~\cite{ gomez2004, koibuchi2008} or the
+location~\cite{flich2008, liu2011} of missing links. This
 restriction is clearly unacceptable given the hight-defect rates of
 DNA self-assembled networks scenario. For the same reason, we also
 avoid considering solutions based on hardware-redundancy to
-dynamically recover defects as in~\cite{constantinides2006, kohler2010,  park2006, ebrahimi2013}. 
+%dynamically recover defects as in~\cite{constantinides2006, kohler2010,  park2006, ebrahimi2013}. 
+dynamically recover defects as in~\cite{ebrahimi2013}. 
 
 In~\cite{mejia_ipdps06} authors present an approach that solves these
 limitations setting turn restrictions locally,
