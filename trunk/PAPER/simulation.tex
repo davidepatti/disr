@@ -200,11 +200,11 @@ These parameters are:
 \begin{itemize}
 \item \emph{cycle\_links}: max number of retries across the set of links of
 each node. While searching for a free link due to an incoming \texttt{SEGMENT\_REQUEST},
-the request itself is cancelled after a given number of tries. This
+the request itself is canceled after a given number of tries. This
 gives to the preceding node on the path the
 chance to test a different route instead of waiting indefinitely.
 Default value is set to 1, i.e. each link is tried one time.
-\item \emph{time to live (TTL)}: when a segment request is cancelled
+\item \emph{time to live (TTL)}: when a segment request is canceled
 along a certain path (using a \texttt{SEGMENT\_CANCEL}), a TTL field is
 decreased in the request packet, so that requests that have been
 denied too much times are canceled, even if free links are
