@@ -2,7 +2,7 @@
 \section{Introduction and Motivation}
 \label{sec:introduction}
 
-Exploring long term alternatives to the CMOS technology is gaining
+Exploring long-term alternatives to the CMOS technology is gaining
 more and more relevance as the scaling trend of such devices keeps
 introducing new challenges: power density, defect tolerance, testing
 costs and wire delays are only a few of the many critical aspects
@@ -12,15 +12,15 @@ approaches~\cite{Kavi2012243,Sibai2011958} are partially mitigating the impact o
 %approaches~\cite{horowitz2004,powell2009} are partially mitigating the impact of such
 constraints on performances, it is likely that a growing computing demand will
 eventually need even more radical architectural modifications and 
-paradigms to address the Computer Design challenges of the next
+paradigm shifts to address the Computer Design challenges of the upcoming
 decades.
 
-In the last years, self-assembled nanoscale
+In recent years, self-assembled nanoscale
 architectures~\cite{yan2003} emerged as a promising technology due
 their tera/peta scale of integration, defect tolerance and huge
 potential computing capabilities. These technologies are certainly
-still at their early stage of development, however different
-laboratory demos and proof-of-concepts have been
+still at their early stage of development; however, different
+laboratory demos and proofs-of-concept have been
 presented~\cite{patwardhan2006_1, pistol2009}. For a complete survey on self-assembled architectures and
 %presented~\cite{patwardhan2004, patwardhan2006, patwardhan2006_1, pistol2009}. For a complete survey on self-assembled architectures and
 how they compare against classical many-core systems in terms of
@@ -53,22 +53,22 @@ different tags means having more control on component placement. Ideally, by spe
 and unique tag for each nano device terminal, we could exactly
 choose where each component would be placed in the design, but the number of DNA
 symbols forming the DNA sequence is limited (sequence of 4 nucleobases
-G,A,T,C) and so creating many different tags (of a prefixed length) would
-mean make them more similar to each other, increasing the probability
+G,A,T,C) and so creating many different tags (of a predetermined length) would
+mean making them more similar to each other, increasing the probability
 of incorrect/partial matching. To avoid this problem 
-the number of unique tags must be limited, this limits also the
+the number of unique tags must be limited, which limits also the
 complexity available at each node.
-In this work a budget of about $10,000$ CNFETs per node
+In this work, a budget of about $10,000$ CNFETs per node
 has been assumed, as estimated in~\cite{liu_jetcs}.
 \emph{Large scale randomness} is the other fundamental condition of
-self-assembled technology: DNA tags allow control placement inside the
+self-assembled technology: DNA tags allow controlled placement inside the
 node grid, but there is no control over the placement of these grids
 in the whole network. As a consequence, other typical
 properties of regular networks cannot be guaranteed, e.g. being
 connected to a fixed number of neighbors, having a determined
 orientation and so on.
-Finally, \emph{defect rates}: while they are very hardly tolerated in mask
-based top-down design, the same nature of a bottom-up self-assembly
+Finally, \emph{defect rates}: while they are hardly tolerated in 
+mask-based top-down design, the same nature of a bottom-up self-assembly
  process cannot assume such a deterministic device placement
 process, thus defect tolerance is more a design requirement
 than an exception to be avoided.
